@@ -17,7 +17,6 @@ const Performance = ( data ) => {
         return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
     }, [])
 
-
     return <section className={styles.performance}>
         <div className={styles.performance__container}>
             <div className={styles.performance__container__topContent}>

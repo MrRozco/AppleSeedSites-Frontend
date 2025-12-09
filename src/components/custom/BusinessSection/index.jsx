@@ -2,7 +2,7 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useCallback  } from "react";
+import { useContext, useCallback } from "react";
 import { ThemeContext } from "@/lib/context/ThemeContext";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -16,11 +16,10 @@ const BusinessSection = (data) => {
     const { title, body, tag, bulletPoint, sliderImages, imageRight, button } = data.data;
     const { theme } = useContext(ThemeContext);
 
-
     const buildImageSrc = useCallback((url) => {
-            if(!url) return '';
-            return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
-        }, [])
+        if(!url) return '';
+        return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
+    }, [])
 
     return (
         <section id={tag} className={styles.businessSection}>

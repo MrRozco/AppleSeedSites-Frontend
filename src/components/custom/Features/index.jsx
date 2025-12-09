@@ -11,7 +11,6 @@ const Features = (content) => {
 
     const { eyebrow, title, body, featuresCard, button} = content.data || {};
 
-
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
         return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@/lib/context/ThemeContext";
 
 const Navbar = (content) => {
+  console.log ('Navbar content prop:', content);
   const { lightLogo, darkLogo, NavbarItems } = content?.content || {};
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,9 +22,9 @@ const Navbar = (content) => {
 
 
   const buildImageSrc = useCallback((url) => {
-    if (!url) return '';
-    return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
-  }, []);
+        if(!url) return '';
+        return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
+    }, [])
 
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const Navbar = (content) => {
           <Link href="/">
             {lightLogo?.url ? (
               <Image
-                src={theme === 'light' ? buildImageSrc(lightLogo.url) : buildImageSrc(darkLogo.url)}
+                src={buildImageSrc((theme === 'light' || lightLogo?.url) ? lightLogo.url : darkLogo.url)}
                 alt="Logo"
                 width={100}
                 height={80}

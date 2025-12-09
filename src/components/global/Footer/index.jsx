@@ -2,8 +2,7 @@
 import styles from './styles.module.scss'
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCallback } from 'react';
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import { ThemeContext } from '@/lib/context/ThemeContext';
 
 const Footer = ( content ) => {
@@ -14,8 +13,6 @@ const Footer = ( content ) => {
         if(!url) return '';
         return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
     }, [])
-
-   
 
     const { logo, description, cta, footerLink, contactLink, menuHeader, contactHeader } = content.data || {};
 

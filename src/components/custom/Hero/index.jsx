@@ -1,16 +1,14 @@
 import styles from './styles.module.scss';
 import Image from 'next/image';
-import { useCallback } from 'react';
 
 const Hero = (content) => {
 
     const { eyebrow, header, text, heroImage } = content.data;
 
-    const buildImageSrc = useCallback((url) => {
+    const buildImageSrc = (url) => {
         if(!url) return '';
         return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
-    }, [])
-
+    }
 
     return (
         <section className={styles.hero}>

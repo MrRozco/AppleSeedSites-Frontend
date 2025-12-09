@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeContext } from "@/lib/context/ThemeContext";
-import { useCallback, useContext } from "react";
+import { useContext, useCallback } from "react";
 
 const Testimonials = (content) => {
 

@@ -113,7 +113,7 @@
   display: none;
   position: fixed;
   left: 50%; // Align to the left
-  top: calc(50px + 6rem);
+  top: calc(50px + 8rem);
   transform: translateX(-50%);
   width: 70vw; // 60% of viewport width
   background-color: var(--background);
@@ -149,7 +149,7 @@
 
 &__navDropdownHeading {
   
-    font-size: var('body-lg');
+    font-size: 1.125rem; // body-lg
     font-weight: 600;
     color: var(--text);
     text-align: center ;
@@ -183,7 +183,7 @@
 &__navDropdownLinkName {
 
   color: var(--text);  
-  font-size: var('body-xl');
+  font-size: 1.25rem; // body-xl
   font-weight: 600;
 
   @include component.desktop-up {
@@ -193,7 +193,7 @@
 }
 
 &__navDropdownLinkDescription {
-    font-size: var('body-base');
+    font-size: 1rem; // body-base
     color: var(--text);/* Lighter color for description */
     display: block;
     margin-top: 0.25rem;
@@ -329,8 +329,8 @@
   border-radius: 0;
   width: 100%;
   max-width: 100%;
-}
 
-.navScrolled .nav__navDropdownWrapper {
-  top: 5rem; // Only navbar height when scrolled
+  .nav__navDropdownWrapper {
+    top: 8rem; // Adjust this value to change the position when scrolled
+  }
 }
