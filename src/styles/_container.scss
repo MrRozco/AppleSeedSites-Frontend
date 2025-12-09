@@ -1,0 +1,31 @@
+@use './_mixins.scss' as mixins;
+
+@mixin container {
+  box-sizing: border-box; /* include padding in width */
+  width: 100%;
+  padding: 5rem 0;
+  max-width: 1440px;
+  margin: 0 auto;
+
+
+    @include mixins.mobile-up {
+        min-width: 90%;
+        padding: 0 1rem;
+    }
+
+    @include mixins.tablet-up {
+        min-width: 85%;
+        padding: 2rem 1.5rem;
+    }
+
+    @include mixins.desktop-up {
+        min-width: 90%;
+        padding: 2rem 2rem;
+    }
+
+    @include mixins.large-desktop-up {
+        min-width: 90%;
+        padding: 2rem 3rem;
+    }
+
+}

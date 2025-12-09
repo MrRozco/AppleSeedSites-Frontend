@@ -1,0 +1,41 @@
+@use 'sass:map';
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+@mixin font-style($font-family, $font-size, $font-weight, $line-height, $color: #000) {
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  @if $color != #000 {
+    color: $color;
+  }
+}
+
+$typography-styles: (
+  'display-1': (font-size: 3.5rem, font-weight: 700, line-height: 1.2), /* Was 4rem ≈ 64px, now 56px for balance */
+  'display-2': (font-size: 2.875rem, font-weight: 700, line-height: 1.2), /* Was 3rem ≈ 48px, now 40px for proportionality */
+  'display-3': (font-size: 2.25rem, font-weight: 700, line-height: 1.3), /* Was 2rem ≈ 32px, kept for consistency */
+  'heading-1': (font-size: 2rem, font-weight: 600, line-height: 1.4), /* Was 1.25rem ≈ 20px, now 28px for impact */
+  'heading-2': (font-size: 1.75rem, font-weight: 600, line-height: 1.4), /* Was 1rem ≈ 16px, now 24px for hierarchy */
+  'heading-3': (font-size: 1.5rem, font-weight: 600, line-height: 1.4), /* Was 0.75rem ≈ 12px, now 20px for readability */
+  'body-xl': (font-size: 1.25rem, font-weight: 500, line-height: 1.6), /* Was 1.125rem ≈ 18px, kept as standard */
+  'body-lg': (font-size: 1.125rem, font-weight: 500, line-height: 1.6), /* Was 1rem ≈ 16px, kept as base */
+  'body-base': (font-size: 1rem, font-weight: 400, line-height: 1.6), /* Was 0.875rem ≈ 14px, now 15px for legibility */
+  'body-sm': (font-size: 0.875rem, font-weight: 400, line-height: 1.6), /* Was 0.75rem ≈ 12px, now 14px for accessibility */
+  'body-xs': (font-size: 0.75rem, font-weight: 400, line-height: 1.6) /* Was 0.625rem ≈ 10px, now 12px for clarity */
+);
+
+@mixin typography($style, $color: #000) {
+  $settings: map.get($typography-styles, $style);
+  @if $settings {
+    @include font-style(
+      (Roboto, Arial, sans-serif),
+      map.get($settings, 'font-size'),
+      map.get($settings, 'font-weight'),
+      map.get($settings, 'line-height'),
+      $color
+    );
+  } @else {
+    @error "Unknown typography style: #{$style}";
+  }
+}

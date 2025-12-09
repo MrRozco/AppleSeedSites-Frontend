@@ -1,0 +1,27 @@
+import Hero from "./custom/Hero";
+import Features from "./custom/Features";
+import BusinessSection from "./custom/BusinessSection";
+import OurWork from "./custom/OurWork";
+import Performance from "./custom/Performance";
+import Testimonials from "./custom/Testimonials";
+import AboutSection from "./custom/AboutSection";
+
+const componentMap = {
+    'custom.hero': Hero,
+    'custom.features': Features,
+    'custom.business-section': BusinessSection,
+    'custom.our-work': OurWork,
+    'custom.performance': Performance,
+    'custom.testimonials': Testimonials,
+    'custom.about-section': AboutSection,
+};
+
+
+export default function ComponentRenderer({ component }) {
+    const Component = componentMap[component.__component];
+    if (!Component) {
+        console.warn(`No component found for ${component.__component}`);
+        return null; // or some fallback UI
+    }
+    return <Component data={component} />;
+    }

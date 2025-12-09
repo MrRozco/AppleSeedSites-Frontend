@@ -1,0 +1,9 @@
+@use '../styles/component.scss' as component;
+
+.page {
+    position: relative;      /* allow absolute hero inside but keep page in flow */
+  min-height: 100vh;       /* ensure full viewport minimum while allowing growth */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

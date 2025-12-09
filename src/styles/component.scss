@@ -1,0 +1,62 @@
+@use './_buttons.scss' as buttons;
+@use './_typography.scss' as typography;
+@use './container.scss' as container;
+@use './_mixins.scss' as mixins;
+
+/* export mixins for component use */
+
+@mixin container {
+  @include container.container;
+}
+
+@mixin button {
+    @include buttons.button;
+}
+
+@mixin button-small {
+    @include buttons.button-small;
+}
+
+@mixin button-large {
+    @include buttons.button-large;
+}
+
+@mixin button-secondary {
+    @include buttons.button-secondary;
+}
+
+@mixin button-secondary-small {
+    @include buttons.button-secondary-small;
+}
+
+@mixin button-secondary-large {
+    @include buttons.button-secondary-large;
+}
+
+@mixin typography($style, $color: #000) {
+  @include typography.typography($style, $color);
+}
+
+@mixin mobile-up {
+    @include mixins.mobile-up {
+        @content;
+    }
+}
+
+@mixin tablet-up {
+    @include mixins.tablet-up {
+        @content;
+    }
+}
+
+@mixin desktop-up {
+    @include mixins.desktop-up {
+        @content;
+    }
+}
+
+@mixin large-desktop-up {
+    @include mixins.large-desktop-up {
+        @content;
+    }
+}

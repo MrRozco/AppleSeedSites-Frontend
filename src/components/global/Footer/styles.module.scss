@@ -1,0 +1,147 @@
+@use '../../../styles/component.scss' as component;
+
+.footer {
+    
+    // Wave decoration
+    &__wave {
+        display: block;
+        width: 100%;
+        height: auto;
+        fill: var(--footerBackground);
+    }
+
+    // Main content wrapper
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 6rem;
+        background-color: var(--footerBackground);
+
+        @include component.tablet-up {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-center;
+            gap: 2rem;
+        }
+    }
+
+    // Brand section (logo + CTA)
+    &__brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+
+        @include component.tablet-up {
+            align-items: flex-start;
+            text-align: left;
+            width: 30%;
+        }
+    }
+
+    &__logo {
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+    &__cta {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__description {
+        @include component.typography('body-lg', var(--text));
+        line-height: 1.6;
+    }
+
+    &__ctaButton {
+        @include component.button;
+        text-align: center;
+    }
+
+    // Navigation links section
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        margin-bottom: 2rem;
+
+        @include component.tablet-up {
+            text-align: left;
+        }
+    }
+
+    &__navList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    &__navLink {
+        @include component.typography('body-lg', var(--text));
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
+    }
+
+    // Contact section
+    &__contact {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        margin-bottom: 2rem;
+
+        @include component.tablet-up {
+            text-align: left;
+        }
+    }
+
+    &__contactList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    &__contactItem {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        justify-content: center;
+
+        @include component.tablet-up {
+            justify-content: flex-start;
+        }
+    }
+
+    &__contactIcon {
+        flex-shrink: 0;
+    }
+
+    &__contactLink {
+        @include component.typography('body-lg', var(--text));
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
+    }
+
+    // Shared heading styles
+    &__heading {
+        @include component.typography('body-lg', var(--text));
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+    }
+}

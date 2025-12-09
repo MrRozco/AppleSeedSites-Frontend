@@ -1,0 +1,91 @@
+:root[data-theme='light'] {
+  --background: #F8FAFC; /* Soft blue-tinted white: Clean, professional, inviting */
+  --menuDPhover: #E0E7FF; /* Light indigo: Subtle modern hover */
+  --text: #1E293B; /* Deep slate: High-contrast readability */
+  --primary: #4c7eeb; /* Vibrant blue: Trustworthy tech core for backgrounds/accents */
+  --primary-dark: #2f4c9e; /* Darker blue variant for depth */
+  --secondary: #F97316; /* Warm orange: Energetic, approachable for headings/icons */
+  --buttons: #2563EB; /* Blue buttons: Cohesive and reliable */
+  --buttons-hover: #1D4ED8; /* Deeper blue: Clear interaction feedback */
+  --headings: #F97316; /* Orange for bold, engaging hierarchy */
+  --primary-text: #2563EB; /* Blue emphasis: Brand consistency */
+  --secondary-text: #475569; /* Mid-slate gray: Balanced subtlety */
+  --links: #3B82F6; /* Lighter blue: Distinct, clickable tech vibe */
+  --button-text: #FFFFFF; /* White: Optimal contrast */
+  --cardBackground: rgba(37, 99, 235, 0.07); /* Subtle blue tint: Elevated clean cards */
+  --box-shadow: rgba(0, 0, 0, 0.08); /* Soft shadow: Modern depth */
+  --footerBackground: rgba(37, 99, 235, 0.05); /* Faint blue separation */
+
+  --btn-shadow: 0 6px 0 rgba(37, 99, 235, 0.16), 0 12px 24px rgba(37, 99, 235, 0.09);
+  --btn-shadow-pressed: 0 4px 0 rgba(37, 99, 235, 0.14), 0 8px 16px rgba(37, 99, 235, 0.07);
+  --btn-highlight: rgba(255, 255, 255, 0.15);
+}
+
+:root[data-theme='dark'] {
+  --background: #0F172A; /* Deep slate-blue: Immersive, distinct tech feel */
+  --menuDPhover: #1E293B; /* Mid-slate: Pronounced dark hover */
+  --text: #F1F5F9; /* Soft off-white: Comfortable readability */
+  --primary: #4c7eeb; /* Brighter blue: Vibrant standout on dark surfaces */
+  --primary-dark: #1D4ED8; /* Darker blue variant for depth */
+  --secondary: #FB923C; /* Lighter warm orange: Elevated energy in dark mode */
+  --buttons: #3B82F6; /* Blue buttons: Bold and thematic */
+  --buttons-hover: #60A5FA; /* Lighter blue: Uplifting feedback */
+  --headings: #FB923C; /* Orange for strong dark-mode hierarchy */
+  --primary-text: #3B82F6; /* Blue emphasis: Consistent branding */
+  --secondary-text: #CBD5E1; /* Light slate: Subtle support */
+  --links: #93C5FD; /* Soft blue: Distinct navigation */
+  --button-text: #FFFFFF; /* White: Strong contrast */
+  --cardBackground: rgba(59, 130, 246, 0.15); /* Blue-tinted elevation: Depth */
+  --box-shadow: rgba(0, 0, 0, 0.7); /* Deeper shadow: Layering in low light */
+  --footerBackground: rgba(59, 130, 246, 0.12); /* Subtle blue separation */
+
+  --btn-shadow: 0 6px 0 rgba(0, 0, 0, 0.35), 0 10px 20px rgba(0, 0, 0, 0.25);
+  --btn-shadow-pressed: 0 3px 0 rgba(0, 0, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.2);
+  --btn-highlight: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  background: var(--background) !important;
+  color: var(--text);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 16px;
+  color: var(--text);
+  transition: color 0.5s ease;
+}
+
+.theme-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Sliding overlay, only active when data-theme-animating is present */
+.theme-wrapper[data-theme-animating]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  z-index: 9999;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.theme-wrapper[data-theme-animating][data-theme='light']::before,
+.theme-wrapper[data-theme-animating][data-theme='dark']::before {
+  transform: translateX(0);
+}
+
+/* Delay background change during animation */
+.theme-wrapper[data-theme-transition] {
+  transition-delay: 0.5s;
+}
