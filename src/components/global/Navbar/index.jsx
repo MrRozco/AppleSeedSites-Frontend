@@ -58,6 +58,7 @@ const Navbar = (content) => {
                 alt="Logo"
                 width={120}
                 height={120}
+                style={{ objectFit: 'contain', width: 'auto', height: 'auto', maxHeight: '120px', maxWidth: '120px' }}
                 priority
               />
             ) : null}

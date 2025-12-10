@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "../styles/globals.scss";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
 import Navbar from "@/components/global/Navbar";
@@ -13,6 +13,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const roboto = Roboto({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+  display: 'swap',
 });
 
 export const metadata = {
@@ -70,7 +77,7 @@ export default async function RootLayout({ children }) {
         }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}
       >
         <ThemeProvider>
           <div className="theme-wrapper" >

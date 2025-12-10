@@ -1,5 +1,4 @@
 @use 'sass:map';
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 
 @mixin font-style($font-family, $font-size, $font-weight, $line-height, $color: #000) {
   font-family: $font-family;
@@ -29,7 +28,7 @@ $typography-styles: (
   $settings: map.get($typography-styles, $style);
   @if $settings {
     @include font-style(
-      (Roboto, Arial, sans-serif),
+      (var(--font-roboto), Arial, sans-serif),
       map.get($settings, 'font-size'),
       map.get($settings, 'font-weight'),
       map.get($settings, 'line-height'),
