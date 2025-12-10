@@ -17,7 +17,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 320px; // Or the height you want for your SVG
+    height: 200px; // Or the height you want for your SVG
     z-index: 5 !important;
     fill: var(--background);
     pointer-events: none;
@@ -43,6 +43,7 @@
 
     &__content {
         flex: 1;
+        min-width: 0; /* Allow flex item to shrink below content size */
         display: flex;
         flex-direction: column;
         z-index: 10 !important;

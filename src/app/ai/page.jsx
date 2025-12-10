@@ -1,33 +1,13 @@
 import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "@/lib/api/strapi";
+import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export default async function Ai() {
 
     let aiPage = null;
 
     try {
-        const query = {
-            populate: {
-                content: {
-                    on: {
-                        'custom.hero': {
-                            populate: { heroImage: true }
-                        },
-                        'custom.business-section': {                      
-                            populate: {
-                                bulletPoint : {
-                                    populate: { lightIcon: true, darkIcon: true}
-                                },
-                                sliderImages : true,
-                                button: '*'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    aiPage = await getSingleType('ai', query);
+    aiPage = await getSingleType('ai', PAGE_CONTENT_QUERY);
 
     } catch (error) {
         error = 'Failed to load businesses page data';

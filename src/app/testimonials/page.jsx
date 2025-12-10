@@ -1,31 +1,13 @@
 import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "@/lib/api/strapi";
+import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export default async function Testimonial() {
 
     let testimonialPage = null;
 
     try {
-        const query = {
-            populate: {
-                content: {
-                    on: {
-                        'custom.hero': {
-                            populate: { heroImage: true }
-                        },
-                        'custom.testimonials' : {
-                            populate: {
-                                testimonialCards: { 
-                                populate: { lightIcon: true, darkIcon: true }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    testimonialPage = await getSingleType('testimonial', query);
+    testimonialPage = await getSingleType('testimonial', PAGE_CONTENT_QUERY);
 
     } catch (error) {
         error = 'Failed to load businesses page data';

@@ -1,33 +1,13 @@
 import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "@/lib/api/strapi";
+import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export default async function webOpsPage() {
 
     let webOpsPage = null;
 
     try {
-        const query = {
-            populate: {
-                content: {
-                    on: {
-                        'custom.hero': {
-                            populate: { heroImage: true }
-                        },
-                        'custom.business-section': {                      
-                            populate: {
-                                bulletPoint : {
-                                    populate: { lightIcon: true, darkIcon: true}
-                                },
-                                sliderImages : true,
-                                button: '*'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    webOpsPage = await getSingleType('web-ops', query);
+    webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
 
     } catch (error) {
         error = 'Failed to load web ops page data';
