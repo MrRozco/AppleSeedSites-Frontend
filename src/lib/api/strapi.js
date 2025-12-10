@@ -18,8 +18,7 @@ export async function fetchAPI(endpoint, query ={}, options ={}) {
                     'Content-Type': 'application/json',
                     ...options.headers,
                 },
-
-                cache: 'no-cache',
+                next: { revalidate: 60 },
                 ...options,   
             });
 

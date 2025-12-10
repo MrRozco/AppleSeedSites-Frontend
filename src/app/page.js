@@ -2,6 +2,14 @@ import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
+export async function generateMetadata() {
+  const homepage = await getSingleType('homepage', PAGE_CONTENT_QUERY);
+  return {
+    title: homepage?.title,
+    description: homepage?.description,
+  };
+}
+
 export default async function Home() {
 
 

@@ -2,6 +2,14 @@ import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
+export async function generateMetadata() {
+  const webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
+  return {
+    title: webOpsPage?.title,
+    description: webOpsPage?.description,
+  };
+}
+
 export default async function webOpsPage() {
 
     let webOpsPage = null;
