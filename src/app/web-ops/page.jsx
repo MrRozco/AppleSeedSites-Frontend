@@ -3,11 +3,18 @@ import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export async function generateMetadata() {
-  const webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
-  return {
-    title: webOpsPage?.title,
-    description: webOpsPage?.description,
-  };
+  try {
+    const webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
+    return {
+      title: webOpsPage?.title,
+      description: webOpsPage?.description,
+    };
+  } catch (error) {
+    return {
+      title: 'Web Ops',
+      description: 'Web Operations services.',
+    };
+  }
 }
 
 export default async function webOpsPage() {

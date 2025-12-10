@@ -3,11 +3,18 @@ import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export async function generateMetadata() {
-  const testimonialPage = await getSingleType('testimonial', PAGE_CONTENT_QUERY);
-  return {
-    title: testimonialPage?.title,
-    description: testimonialPage?.description,
-  };
+  try {
+    const testimonialPage = await getSingleType('testimonial', PAGE_CONTENT_QUERY);
+    return {
+      title: testimonialPage?.title,
+      description: testimonialPage?.description,
+    };
+  } catch (error) {
+    return {
+      title: 'Testimonials',
+      description: 'See what our clients say.',
+    };
+  }
 }
 
 export default async function Testimonial() {

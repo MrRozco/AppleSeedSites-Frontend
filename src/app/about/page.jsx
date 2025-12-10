@@ -3,11 +3,18 @@ import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export async function generateMetadata() {
-  const aboutPage = await getSingleType('about', PAGE_CONTENT_QUERY);
-  return {
-    title: aboutPage?.title,
-    description: aboutPage?.description,
-  };
+  try {
+    const aboutPage = await getSingleType('about', PAGE_CONTENT_QUERY);
+    return {
+      title: aboutPage?.title,
+      description: aboutPage?.description,
+    };
+  } catch (error) {
+    return {
+      title: 'About Us',
+      description: 'Learn more about our business.',
+    };
+  }
 }
 
 export default async function About() {

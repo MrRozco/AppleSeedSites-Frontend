@@ -3,11 +3,18 @@ import { getSingleType } from "@/lib/api/strapi";
 import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export async function generateMetadata() {
-  const homepage = await getSingleType('homepage', PAGE_CONTENT_QUERY);
-  return {
-    title: homepage?.title,
-    description: homepage?.description,
-  };
+  try {
+    const homepage = await getSingleType('homepage', PAGE_CONTENT_QUERY);
+    return {
+      title: homepage?.title,
+      description: homepage?.description,
+    };
+  } catch (error) {
+    return {
+      title: 'Home',
+      description: 'Welcome to our website.',
+    };
+  }
 }
 
 export default async function Home() {
