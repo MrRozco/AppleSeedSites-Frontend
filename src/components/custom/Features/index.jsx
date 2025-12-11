@@ -10,6 +10,7 @@ import { useCallback } from "react";
 const Features = (content) => {
 
     const { eyebrow, title, body, featuresCard, button} = content.data || {};
+    console.log('Features content data:', featuresCard);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
@@ -29,7 +30,7 @@ const Features = (content) => {
                     <div className={styles.features__grid__card__iconWrapper}>{card.icon && <Image src={buildImageSrc(card.icon.url)} className={styles.features__grid__card__icon} alt={card.title} width={50} height={50} />}</div>
                     {card.title && <h3 className={styles.features__grid__card__title}>{card.title}</h3>}
                     {card.body && <p className={styles.features__grid__card__body}>{card.body}</p>}
-                    {card.button && card.button.length > 0 && <Link href={card.button[0].url} className={styles.features__grid__card__button}>Learn More</Link>}
+                    {card.button && card.button.length > 0 && <Link href={card.button[0].url} className={styles.features__grid__card__button}>{card.button[0].title}</Link>}
                 </div>
               ))}  
             </div>
