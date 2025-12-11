@@ -8,6 +8,10 @@ export async function generateMetadata() {
     return {
       title: homepage?.title,
       description: homepage?.description,
+      openGraph: {
+        title: homepage?.title,
+        description: homepage?.description,
+      },
     };
   } catch (error) {
     return {
