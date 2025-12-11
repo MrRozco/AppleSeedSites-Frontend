@@ -298,6 +298,9 @@
   z-index: 2000;
   padding: 2rem 1rem;
   top: calc(50px + 4rem);
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  overscroll-behavior: contain; // Prevent scroll chaining
 
   a {
      text-decoration: none !important;
