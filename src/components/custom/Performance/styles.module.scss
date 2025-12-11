@@ -14,7 +14,7 @@
             flex-direction: column;
             justify-content: space-between;
 
-            @include component.tablet-up {
+            @include component.desktop-up {
                 flex-direction: row;
             }
 
@@ -85,12 +85,12 @@
             &__image {
                 position: relative;
                 width: 100%;
-                height: 300px;
+                height: 500px;
                 border-radius: 8px;
                 overflow: hidden;
 
 
-                @include component.tablet-up {
+                @include component.desktop-up {
                     width: 45%;
                     height: 400px;
                 }
@@ -105,7 +105,7 @@
             &__content {
                 width: 100%;
 
-                @include component.tablet-up {
+                @include component.desktop-up {
                     width: 60%;
                 }
 
@@ -142,7 +142,7 @@
                       width: 100%;
                       text-align: center;
 
-                      @include component.tablet-up {
+                      @include component.desktop-up {
                           width: auto;
                           text-align: left;
                       }
@@ -151,7 +151,7 @@
               }   
             }
 
-            @include component.tablet-up {
+            @include component.desktop-up {
                 flex-direction: row;
             }
         }
