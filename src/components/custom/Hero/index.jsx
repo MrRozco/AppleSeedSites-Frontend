@@ -26,8 +26,8 @@ const Hero = (content) => {
                             alt={heroImage.alt || 'Hero Image'}
                             width={heroImage.width || 600}
                             height={heroImage.height || 400}
-                            layout="responsive"
-                            objectFit="cover"
+                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                            sizes="(max-width: 768px) 100vw, 50vw"
                             priority
                         />
                     </div>
