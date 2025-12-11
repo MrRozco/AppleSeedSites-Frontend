@@ -25,16 +25,17 @@ const Footer = ( content ) => {
             </svg>
 
             <div className={styles.footer__content}>
+                <div className={styles.footer__contentWrapper}>
                 
-                {/* Brand Section */}
-                <div className={styles.footer__brand}>
+                    {/* Brand Section */}
+                    <div className={styles.footer__brand}>
                     <div className={styles.footer__logo}>
                         {logo?.url ? (
                             <Image
                                 src={buildImageSrc(logo.url)}
                                 alt="AppleSeed Sites Logo"  
-                                width={350}
-                                height={350}
+                                width={300}
+                                height={250}
                             />
                         ) : null}
                     </div>
@@ -82,6 +83,19 @@ const Footer = ( content ) => {
                             </div>
                         ))}
                     </div>
+                </div>
+                </div>
+            </div>
+
+            <div className={styles.footer__bottom}>
+                <div className={styles.footer__bottomWrapper}>
+                    <span className={styles.footer__copyright}>Copyright © 2025 AppleSeedSites All rights reserved.</span>
+                    <button 
+                        className={styles.footer__backToTop} 
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    >
+                        Back to Top
+                    </button>
                 </div>
             </div>
         </footer>

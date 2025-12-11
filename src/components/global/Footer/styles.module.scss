@@ -12,11 +12,17 @@
 
     // Main content wrapper
     &__content {
+        background-color: var(--footerBackground);
+        width: 100%;
+        padding: 4rem 0;
+    }
+
+    &__contentWrapper {
+        @include component.container;
+        
         display: grid;
         grid-template-columns: 1fr;
-        gap: 2rem;
-        padding: 2rem 6rem;
-        background-color: var(--footerBackground);
+        gap: 3rem;
         justify-items: center;
 
         @include component.tablet-up {
@@ -26,7 +32,7 @@
         }
 
         @include component.desktop-up {
-            grid-template-columns: 3fr 1fr 1fr; // Brand takes more space, others share rest
+            grid-template-columns: 2fr 1fr 1fr;
             gap: 4rem;
         }
     }
@@ -35,8 +41,7 @@
     &__brand {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 0;
+        align-items: center;   
         text-align: center;
         width: 100%;
 
@@ -49,7 +54,7 @@
             width: auto;
             align-items: flex-start;
             text-align: left;
-            gap: 2rem;
+            gap: 1.5rem;
         }
     }
 
@@ -72,7 +77,7 @@
         gap: 1rem;
         align-items: center;
 
-        @include component.tablet-up {
+        @include component.desktop-up {
             align-items: flex-start;
         }
     }
@@ -168,5 +173,52 @@
         font-weight: 700;
         margin-bottom: 0.5rem;
         text-transform: uppercase;
+    }
+
+    // Bottom section
+    &__bottom {
+        background-color: var(--footerBackground);
+         // Using text color for border
+        width: 100%;
+    }
+
+    &__bottomWrapper {
+        @include component.container;
+        
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--text);
+        align-items: center;
+        gap: 1rem;
+        padding: 2rem 2rem; // Reduced side padding for mobile
+
+        @include component.tablet-up {
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 2rem 6rem; // Match content padding
+        }
+    }
+
+    &__copyright {
+        @include component.typography('body-base', var(--text));
+        text-align: center;
+        
+        @include component.tablet-up {
+            text-align: left;
+        }
+    }
+
+    &__backToTop {
+        @include component.typography('body-base', var(--text));
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
     }
 }
