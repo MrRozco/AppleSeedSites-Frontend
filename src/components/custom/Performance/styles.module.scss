@@ -39,23 +39,37 @@
             &__stats {
                 margin-top: 2rem;
                 display: flex;
-                gap: 4rem;
+                gap: 2rem;
 
                 @include component.tablet-up {
                     justify-content: flex-end;
                 }
 
                 &__item {
-                    width: 20%;
+                    width: 33.3%;
 
                     &__number {
-                        @include component.typography('display-2', var(--secondary));
+                        @include component.typography('heading-2', var(--secondary));
                         margin: 0;
+
+                        @include component.tablet-up {
+                            @include component.typography('heading-1', var(--secondary));
+                        }
+
+                        @include component.desktop-up {
+                            @include component.typography('display-2', var(--secondary));
+                        }
                     }
 
                     &__text {
-                        @include component.typography('heading-3', #fff);
+                        @include component.typography('body-base', #fff);
                         margin: 0;
+
+                        @include component.tablet-up {
+                            @include component.typography('heading-3', #fff);
+                        }
+
+                       
                     }
                 }
             }

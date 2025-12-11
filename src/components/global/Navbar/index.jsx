@@ -55,7 +55,7 @@ const Navbar = (content) => {
             {lightLogo?.url ? (
               <Image
                 src={buildImageSrc((theme === 'light' || lightLogo?.url) ? lightLogo.url : darkLogo.url)}
-                alt="Logo"
+                alt="AppleSeed Sites Logo"
                 width={120}
                 height={120}
                 style={{ objectFit: 'contain', width: 'auto', height: 'auto', maxHeight: '120px', maxWidth: '120px' }}

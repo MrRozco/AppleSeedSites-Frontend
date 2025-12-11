@@ -18,6 +18,7 @@ export default function ThemeToggleSwitch({ id = 'theme-switch' }) {
         checked={checked}
         onChange={() => toggleTheme()}
         aria-checked={checked}
+        aria-label="Toggle dark mode"
         role="switch"
       />
       <label className={styles.switch__label} htmlFor={id} aria-hidden="false">

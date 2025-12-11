@@ -16,7 +16,7 @@
         }
 
         &__eyebrow {
-            @include component.typography('body-lg', var(--primary));
+            @include component.typography('body-lg', var(--secondary));
             font-weight: 700;
             text-transform: uppercase;
         }

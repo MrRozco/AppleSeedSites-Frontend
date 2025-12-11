@@ -83,7 +83,9 @@ export default async function RootLayout({ children }) {
           <div className="theme-wrapper" >
             <div style={{ height: "50px", backgroundColor: "var(--primary)" }} />
             <Navbar content={navBarData} />
-            {children}
+            <main>
+              {children}
+            </main>
             <Footer data={footerData} />
           </div>
         </ThemeProvider>

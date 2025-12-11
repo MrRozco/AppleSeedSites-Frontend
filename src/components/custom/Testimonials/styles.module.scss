@@ -11,7 +11,7 @@
         margin-bottom: 5rem;
 
         &__eyebrow {
-            @include component.typography('body-lg', var(--primary));
+            @include component.typography('body-lg', var(--secondary));
             font-weight: 700;
             margin-bottom: 0.5rem;
             text-transform: uppercase

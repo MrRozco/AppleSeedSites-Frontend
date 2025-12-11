@@ -32,7 +32,7 @@ const Footer = ( content ) => {
                         {logo?.url ? (
                             <Image
                                 src={buildImageSrc(logo.url)}
-                                alt="Logo"  
+                                alt="AppleSeed Sites Logo"  
                                 width={250}
                                 height={250}
                             />
@@ -70,7 +70,7 @@ const Footer = ( content ) => {
                                 {contact.lightIcon && contact.darkIcon && (
                                     <Image
                                         src={theme === 'dark' ? buildImageSrc(contact.darkIcon.url) : buildImageSrc(contact.lightIcon.url)}
-                                        alt={'Contact Icon'}
+                                        alt=""
                                         width={24}
                                         height={24}
                                         className={styles.footer__contactIcon}

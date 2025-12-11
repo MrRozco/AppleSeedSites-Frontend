@@ -58,13 +58,13 @@
 
     &__eyebrow {
 
-       @include component.typography('body-base', #fff);
+       @include component.typography('body-lg', var(--secondary));
 
        text-transform: uppercase;
        font-weight: 700;
 
        @include component.large-desktop-up{
-        @include component.typography('body-base', #fff);
+        @include component.typography('body-lg', var(--secondary));
        }
        
     }
