@@ -6,9 +6,9 @@ import { useContext, useCallback } from "react";
 import { ThemeContext } from "@/lib/context/ThemeContext";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/effect-cards';
+import 'swiper/css/pagination';
 import styles from './styles.module.scss';
-import { EffectCards } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 
 
 const BusinessSection = (data) => {
@@ -68,17 +68,20 @@ const CardsSlider = ({sliderImages, buildImageSrc  }) => (
 
     <div>
         <Swiper
-            effect="cards"
             grabCursor={true}
-            modules={[EffectCards]}
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            loop={true}
+            spaceBetween={20}
         >
             {sliderImages && sliderImages.map((image, index) => (
                 <SwiperSlide key={index}>
                     <Image
                         src={buildImageSrc(image.url)}
                         alt={image.alternativeText || `Slider Image ${index + 1}`}
-                        fill
-                        style={{ objectFit: "cover", borderRadius: '10px' }}
+                        width={image.width || 800}
+                        height={image.height || 600}
+                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', borderRadius: '1rem' }}
                 />
             </SwiperSlide>
             ))}

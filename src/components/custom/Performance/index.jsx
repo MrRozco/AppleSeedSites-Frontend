@@ -45,8 +45,9 @@ const Performance = ( data ) => {
                         <Image
                             src={buildImageSrc(image.url)}
                             alt={image.alternativeText || 'Performance Image'}
-                            fill
-                            style={{ objectFit: 'cover', borderRadius: '8px' }}
+                            width={image.width || 800}
+                            height={image.height || 600}
+                            style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
                             priority
                         />
                     )}

@@ -13,6 +13,9 @@
 h1, h2, h3, h4, h5, h6 {
   color: var(--text);
   transition: color 0.5s ease;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 a {

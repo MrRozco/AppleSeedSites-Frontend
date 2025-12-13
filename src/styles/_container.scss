@@ -3,7 +3,7 @@
 @mixin container {
   box-sizing: border-box; /* include padding in width */
   width: 100%;
-  padding: 5rem 0;
+  padding: 5rem 1rem;
   max-width: 1440px;
   margin: 0 auto;
 

@@ -84,23 +84,17 @@
             &__image {
                 position: relative;
                 width: 100%;
-                height: 400px;
+                height: auto;
                 border-radius: 8px;
                 overflow: hidden;
 
-                @include component.tablet-up {
-                    height: 500px;
-                }
-
-
                 @include component.desktop-up {
                     width: 45%;
-                    height: 560px;
+                    align-self: center;
                 }
 
                 &__img {
                     object-fit: contain;
-                    
                 }
             }
 

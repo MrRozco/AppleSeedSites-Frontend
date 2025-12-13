@@ -18,7 +18,7 @@
   width: 90vw;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 2rem 0 0;
   height: 8rem;
   background-color: var(--background);
   box-shadow: rgba(53, 54, 54, 0.733) 0px 8px 24px;
@@ -93,6 +93,37 @@
 &__navDropdown:hover {
     color: var(--primary-text) !important;
     text-decoration: none;
+}
+
+&__navDropdown {
+    list-style: none;
+    &::-webkit-details-marker {
+        display: none;
+    }
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    
+    &::after {
+        content: '';
+        width: 0.5em;
+        height: 0.5em;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg) translateY(-2px);
+        transition: transform 0.3s ease;
+    }
+
+    @include component.desktop-up {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+
+details[open] > &__navDropdown::after {
+    transform: rotate(-135deg) translateY(2px);
 }
 
 &__cta {
