@@ -54,6 +54,18 @@ export const PAGE_CONTENT_QUERY = {
             sliderImages: true,
             button: '*'
           }
+        },
+        'custom.pricing' : {
+          populate: {
+            card: {
+              populate: { 
+                bulletPoint: {
+                  populate: { lightIcon: true, darkIcon: true }
+                },
+                cta: true,
+              }
+            }
+          }
         }
       }
     }

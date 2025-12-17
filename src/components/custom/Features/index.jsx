@@ -10,7 +10,6 @@ import { useCallback } from "react";
 const Features = (content) => {
 
     const { eyebrow, title, body, featuresCard, button} = content.data || {};
-    console.log('Features content data:', featuresCard);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';

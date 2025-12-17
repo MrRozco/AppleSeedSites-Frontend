@@ -11,8 +11,6 @@ const Testimonials = (content) => {
 
     const { eyebrow, title, description, testimonialCards, button} = content.data || {};
 
-    console.log('Testimonials content:', content);
-
     const { theme } = useContext(ThemeContext);
 
     const buildImageSrc = useCallback((url) => {

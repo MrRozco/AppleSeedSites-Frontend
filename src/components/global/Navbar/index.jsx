@@ -8,13 +8,11 @@ import { useContext } from "react";
 import { ThemeContext } from "@/lib/context/ThemeContext";
 
 const Navbar = (content) => {
-  console.log ('Navbar content prop:', content);
   const { lightLogo, darkLogo, NavbarItems } = content?.content || {};
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme } = useContext(ThemeContext);
 
-  console.log ('NavbarItems:', NavbarItems);
 
 
   const navItems = useMemo(() => NavbarItems?.filter(item => item.__component !== 'menu.menu-button') || [], [NavbarItems]);
