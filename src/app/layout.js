@@ -25,6 +25,10 @@ const roboto = Roboto({
 export const metadata = {
   title: "Business Website", // Change this to your website title
   description: "Welcome to our business website", // Change this to your website description
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     title: "Business Website",
     description: "Welcome to our business website",
