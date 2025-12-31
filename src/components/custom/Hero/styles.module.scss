@@ -86,6 +86,7 @@
 
         text-transform: uppercase;
         @include component.typography('display-2', #fff);
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
         @include component.large-desktop-up{
             @include component.typography('display-1', #fff);
