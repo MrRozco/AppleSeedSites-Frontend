@@ -22,9 +22,9 @@
   --card-glow: rgba(76, 126, 235, 0.25); /* Primary color glow */
   
   /* Tech Wave Colors */
-  --wave-1: rgba(59, 130, 246, 0.3); /* Blue */
-  --wave-2: rgba(168, 85, 247, 0.25); /* Purple hint */
-  --wave-3: rgba(56, 189, 248, 0.25); /* Cyan hint */
+  --wave-1: rgba(59, 130, 246, 0.08); /* Blue - Much softer */
+  --wave-2: rgba(168, 85, 247, 0.06); /* Purple hint - Much softer */
+  --wave-3: rgba(56, 189, 248, 0.06); /* Cyan hint - Much softer */
 }
 
 :root[data-theme='dark'] {
