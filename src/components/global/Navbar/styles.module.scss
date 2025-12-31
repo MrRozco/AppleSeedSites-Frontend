@@ -149,7 +149,7 @@ details[open] > &__navDropdown::after {
   width: 70vw; // 60% of viewport width
   background-color: var(--background);
   border-radius: 0 0 1rem 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   box-shadow: var(--box-shadow) 0px 8px 24px;
   z-index: 1000;
   min-width: unset; 

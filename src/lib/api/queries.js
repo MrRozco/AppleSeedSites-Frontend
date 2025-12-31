@@ -66,6 +66,18 @@ export const PAGE_CONTENT_QUERY = {
               }
             }
           }
+        },
+        'custom.contact-section' : {
+          populate: {
+            darkIcon: true,
+            lightIcon: true,
+            bulletPoint: {
+              populate: { lightIcon: true, darkIcon: true }
+            },
+            link : {
+              populate: { lightIcon: true, darkIcon: true }
+            }
+          }
         }
       }
     }

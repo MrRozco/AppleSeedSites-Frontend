@@ -3,7 +3,7 @@
 .hero {
 
     position: relative;
-    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+    // background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); // Moved to __bg
     padding-top: 10vh;
     margin-bottom: 5rem;
     display: flex;
@@ -12,21 +12,34 @@
     flex-direction: column;
     
     
-    &__background {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 200px; // Or the height you want for your SVG
-    z-index: 5 !important;
-    fill: var(--background);
-    pointer-events: none;
+    &__bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+        
+        // Mask Strategy:
+        // 1. Top part: Solid white gradient (opaque) covering everything except the bottom 310px.
+        // 2. Bottom part: SVG Mask that defines the "Hero Shape" (Top part of the wave).
+        //    The SVG path encloses the top area, so the bottom area (under the wave) is transparent.
+        
+        -webkit-mask-image: 
+            linear-gradient(white, white),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath d='M0,192L80,213.3C160,235,320,277,480,245.3C640,213,800,107,960,80C1120,53,1280,107,1360,133.3L1440,160L1440,0L0,0Z' fill='black'/%3E%3C/svg%3E");
+        mask-image: 
+            linear-gradient(white, white),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath d='M0,192L80,213.3C160,235,320,277,480,245.3C640,213,800,107,960,80C1120,53,1280,107,1360,133.3L1440,160L1440,0L0,0Z' fill='black'/%3E%3C/svg%3E");
+            
+        -webkit-mask-size: 100% calc(100% - 310px), 100% 320px;
+        mask-size: 100% calc(100% - 310px), 100% 320px;
+        
+        -webkit-mask-position: top, bottom;
+        mask-position: top, bottom;
+        
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
     }   
 
-
-    &__background path {
-        transition: fill 0.3s ease;
-    }
 
     &__container {
         width: 70%;

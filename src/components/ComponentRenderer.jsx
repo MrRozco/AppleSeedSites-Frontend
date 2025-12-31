@@ -9,6 +9,7 @@ const Performance = dynamic(() => import("./custom/Performance"));
 const Testimonials = dynamic(() => import("./custom/Testimonials"));
 const AboutSection = dynamic(() => import("./custom/AboutSection"));
 const Pricing = dynamic(() => import("./custom/Pricing"));
+const ContactSection = dynamic(() => import("./custom/ContactSection"));
 
 const componentMap = {
     'custom.hero': Hero,
@@ -19,6 +20,7 @@ const componentMap = {
     'custom.testimonials': Testimonials,
     'custom.about-section': AboutSection,
     'custom.pricing': Pricing,
+    'custom.contact-section': ContactSection,
 };
 
 
