@@ -34,8 +34,8 @@ const Footer = ( content ) => {
                             <Image
                                 src={buildImageSrc(logo.url)}
                                 alt="AppleSeed Sites Logo"  
-                                width={300}
-                                height={250}
+                                width={180}
+                                height={150}
                             />
                         ) : null}
                     </div>

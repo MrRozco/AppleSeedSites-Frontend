@@ -66,9 +66,9 @@ const Navbar = (content) => {
               <Image
                 src={buildImageSrc((theme === 'light' || lightLogo?.url) ? lightLogo.url : darkLogo.url)}
                 alt="AppleSeed Sites Logo"
-                width={200}
-                height={170}
-                style={{ objectFit: 'contain', width: 'auto', height: 'auto', maxHeight: '170px', maxWidth: '200px' }}
+                width={170}
+                height={140}
+                style={{ objectFit: 'contain', width: 'auto', height: 'auto', maxHeight: '140px', maxWidth: '200px' }}
                 priority
               />
             ) : null}
@@ -77,14 +77,14 @@ const Navbar = (content) => {
 
         <ul className={styles.nav__navLinks} role="menubar">
           {navItems.map((item, i) => (
-            <NavItem key={item.id || i} item={item} theme={theme} buildImageSrc={buildImageSrc} styles={styles} />
+            <NavItem key={`nav-${item.id || 'item'}-${i}`} item={item} theme={theme} buildImageSrc={buildImageSrc} styles={styles} />
           ))}
         </ul>
 
         <div className={styles.nav__cta}>
           {ctaItems.map((item, i) => (
             <Link
-              key={item.id || i}
+              key={`cta-${item.id || 'item'}-${i}`}
               className={styles.nav__navButton}
               href={item.url}
             >
@@ -136,11 +136,11 @@ const NavItem = ({ item, theme, buildImageSrc, styles }) => {
           <div className={styles.nav__navDropdownWrapper}>
             <div className={styles.nav__navDropdownContent}>
               {item.sections?.map((section, j) => (
-                <div key={section.id || j} className={styles.nav__navDropdownSection}>
+                <div key={`section-${section.id || 'sect'}-${j}`} className={styles.nav__navDropdownSection}>
                   <div className={styles.nav__navDropdownHeading}>{section.heading}</div>
                   {section.links?.map((link, k) => (
                     <Link
-                      key={link.id || k}
+                      key={`link-${link.id || 'lnk'}-${k}`}
                       href={link.url}
                       className={styles.nav__navDropdownLink}
                       onClick={handleDesktopLinkClick}
@@ -183,17 +183,17 @@ const MobileMenu = ({ NavbarItems, theme, buildImageSrc, styles, closeMobile }) 
   <div className={styles.nav__mobileMenu}>
     <ul role="menu" aria-label="Mobile navigation">
       {NavbarItems?.map((item, i) => (
-        <li key={item.id || i} role="menuitem">
+        <li key={`mobile-${item.id || 'item'}-${i}`} role="menuitem">
           {item.__component === 'menu.dropdown' ? (
             <details>
               <summary className={styles.nav__navDropdown}>{item.title}</summary>
               <ul>
                 {item.sections?.map((section, j) => (
-                  <li key={section.id || j}>
+                  <li key={`mobile-section-${section.id || 'sect'}-${j}`}>
                     <div className={styles.nav__navDropdownHeading}>{section.heading}</div>
                     <ul>
                       {section.links?.map((link, k) => (
-                        <li key={link.id || k}>
+                        <li key={`mobile-link-${link.id || 'lnk'}-${k}`}>
                           <Link href={link.url} onClick={closeMobile}>
                             <div className={styles.nav__navDropdownLinkTop}>
                               {link.LightIcon?.url && link.darkIcon?.url && (
