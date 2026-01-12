@@ -38,7 +38,7 @@
 
         @include component.desktop-up {       
             flex-direction: row;
-            align-items: center;
+            align-items: start;
             justify-content: space-between; 
             
             &__reverse {
@@ -55,6 +55,7 @@
                 line-height: 1.6;
                 color: var(--text);
                 @include component.typography('body-lg', var(--text));
+                white-space: pre-wrap;
 
                 strong {
                 font-weight: bolder !important;
