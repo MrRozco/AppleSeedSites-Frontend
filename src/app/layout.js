@@ -32,9 +32,13 @@ export const metadata = {
   openGraph: {
     title: "Business Website",
     description: "Welcome to our business website",
-    // To change the preview image, add an 'opengraph-image.png' file to the src/app folder
-    // or uncomment the line below and add an image to the public folder:
-    // images: ['/your-preview-image.jpg'],
+    type: 'website',
+    // opengraph-image.png in src/app folder is automatically used
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Business Website",
+    description: "Welcome to our business website",
   },
 };
 
