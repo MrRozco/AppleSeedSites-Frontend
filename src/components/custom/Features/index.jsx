@@ -5,16 +5,48 @@ import styles from './styles.module.scss';
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeContext } from "@/lib/context/ThemeContext";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const Features = (content) => {
 
     const { eyebrow, title, body, featuresCard, button} = content.data || {};
+    const [visibleCards, setVisibleCards] = useState(new Set());
+    const cardRefs = useRef([]);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
-        return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
+        return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/*/, '')}`;
     }, [])
+
+    useEffect(() => {
+        const observers = [];
+        
+        cardRefs.current.forEach((card, index) => {
+            if (!card) return;
+            
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            setVisibleCards(prev => new Set([...prev, index]));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                }
+            );
+            
+            observer.observe(card);
+            observers.push(observer);
+        });
+        
+        return () => {
+            observers.forEach(observer => observer.disconnect());
+        };
+    }, [featuresCard]);
 
     return (
         <section className={styles.features}>
@@ -25,7 +57,11 @@ const Features = (content) => {
             </div>
             <div className={styles.features__grid}>
               {featuresCard && featuresCard.map((card, index) => (
-                <div key={index} className={styles.features__grid__card}>
+                <div 
+                    key={index} 
+                    ref={el => cardRefs.current[index] = el}
+                    className={`${styles.features__grid__card} ${visibleCards.has(index) ? styles.visible : ''}`}
+                >
                     <div className={styles.features__grid__card__iconWrapper}>{card.icon && <Image src={buildImageSrc(card.icon.url)} className={styles.features__grid__card__icon} alt={card.title} width={50} height={50} />}</div>
                     {card.title && <h3 className={styles.features__grid__card__title}>{card.title}</h3>}
                     {card.body && <p className={styles.features__grid__card__body}>{card.body}</p>}
@@ -33,9 +69,7 @@ const Features = (content) => {
                 </div>
               ))}  
             </div>
-            {button && <div className={styles.features__button}>
-                <Link href={button.url}>{button.title}</Link>
-            </div>}
+
         </section>
     )
 }

@@ -1,115 +1,197 @@
 @use '../../../styles/component.scss' as component;
 
 .hero {
-
     position: relative;
-    // background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); // Moved to __bg
-    padding-top: 10vh;
-    margin-bottom: 5rem;
+    min-height: 50vh;
+    padding: 4rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    overflow: hidden;
+    background: transparent;
+    z-index: 1;
     
+    @include component.tablet-up {
+        min-height: 60vh;
+        padding: 5rem 2rem;
+    }
     
-    &__bg {
+    @include component.desktop-up {
+        min-height: 70vh;
+        padding: 6rem 2rem;
+    }
+    
+    // Grid overlay
+    &__grid {
         position: absolute;
         inset: 0;
-        z-index: -1;
-        background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
-        
-        // Mask Strategy:
-        // 1. Top part: Solid white gradient (opaque) covering everything except the bottom 310px.
-        // 2. Bottom part: SVG Mask that defines the "Hero Shape" (Top part of the wave).
-        //    The SVG path encloses the top area, so the bottom area (under the wave) is transparent.
-        
-        -webkit-mask-image: 
-            linear-gradient(white, white),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath d='M0,192L80,213.3C160,235,320,277,480,245.3C640,213,800,107,960,80C1120,53,1280,107,1360,133.3L1440,160L1440,0L0,0Z' fill='black'/%3E%3C/svg%3E");
-        mask-image: 
-            linear-gradient(white, white),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath d='M0,192L80,213.3C160,235,320,277,480,245.3C640,213,800,107,960,80C1120,53,1280,107,1360,133.3L1440,160L1440,0L0,0Z' fill='black'/%3E%3C/svg%3E");
-            
-        -webkit-mask-size: 100% calc(100% - 310px), 100% 320px;
-        mask-size: 100% calc(100% - 310px), 100% 320px;
-        
-        -webkit-mask-position: top, bottom;
-        mask-position: top, bottom;
-        
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
+        background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: 1;
+        opacity: 0.4;
+        mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
     }   
 
 
     &__container {
-        width: 70%;
-        z-index: 10 !important;
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        z-index: 10;
         display: flex;
         flex-direction: column;
-
-        @include component.large-desktop-up {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;   
-        }      
-    }
-
-    &__content {
-        flex: 1;
-        min-width: 0; /* Allow flex item to shrink below content size */
-        display: flex;
-        flex-direction: column;
-        z-index: 10 !important;
+        align-items: center;
         text-align: center;
-        margin-bottom: 2rem;
-
-        @include component.large-desktop-up {
-            text-align: left
-        }
+        gap: 1.5rem;
         
+        @include component.desktop-up {
+            gap: 2rem;
+        }
     }
 
     &__eyebrow {
-
-       @include component.typography('body-lg', var(--secondary));
-
-       text-transform: uppercase;
-       font-weight: 700;
-
-       @include component.large-desktop-up{
-        @include component.typography('body-lg', var(--secondary));
-       }
-       
+        @include component.typography('body-base', var(--secondary));
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out 0.2s both;
+        
+        @include component.tablet-up {
+            @include component.typography('body-lg', var(--secondary));
+        }
     }
 
     &__heading {
-
-        text-transform: uppercase;
         @include component.typography('display-2', #fff);
-        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out 0.4s both;
+        position: relative;
+        max-width: 90%;
 
-        @include component.large-desktop-up{
+        @include component.tablet-up {
             @include component.typography('display-1', #fff);
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.75) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 85%;
         }
         
+        @include component.desktop-up {
+            @include component.typography('display-1', #fff);
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.75) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 80%;
+        }
     }
 
     &__text {
-        @include component.typography('heading-1', #fff);
+        @include component.typography('body-lg', rgba(255, 255, 255, 0.75));
+        line-height: 1.7;
+        max-width: 90%;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out 0.6s both;
+        
+        @include component.tablet-up {
+            @include component.typography('heading-3', rgba(255, 255, 255, 0.8));
+            max-width: 70ch;
+        }
+        
+        @include component.desktop-up {
+            @include component.typography('heading-2', rgba(255, 255, 255, 0.85));
+            max-width: 65ch;
+        }
     }
-
-    &__image {
-        flex: 1;
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        object-fit: cover;
-        z-index: 10 !important;
+    
+    &__accent {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+        opacity: 0;
+        animation: fadeIn 0.6s ease-out 0.8s both;
+        
+        @include component.tablet-up {
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
     }
+    
+    &__dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: 0 0 8px rgba(76, 126, 235, 0.6);
+        animation: pulse 2s ease-in-out infinite;
+        
+        @include component.tablet-up {
+            width: 8px;
+            height: 8px;
+        }
+        
+        &:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        &:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+    }
+}
 
+// Animations
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+    }
+}
 
-
-
+// Accessibility - respect motion preferences
+@media (prefers-reduced-motion: reduce) {
+    .hero__eyebrow,
+    .hero__heading,
+    .hero__text,
+    .hero__accent,
+    .hero__dot {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }

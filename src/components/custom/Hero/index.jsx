@@ -1,39 +1,29 @@
 import styles from './styles.module.scss';
-import Image from 'next/image';
 
 const Hero = (content) => {
-
-    const { eyebrow, header, text, heroImage } = content.data;
-
-    const buildImageSrc = (url) => {
-        if(!url) return '';
-        return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
-    }
+    const { eyebrow, header, text } = content.data;
 
     return (
         <section className={styles.hero}>
-
-            <div className={styles.hero__container} >
-                <div className={styles.hero__content}>
-                    {eyebrow && <p className={styles.hero__eyebrow}>{eyebrow}</p>}  
-                    {header && <h1 className={styles.hero__heading}>{header}</h1>}
-                    {text && <p className={styles.hero__text}>{text}</p>}
-                </div>
-                {heroImage && (
-                    <div className={styles.hero__image}>
-                        <Image 
-                            src={buildImageSrc(heroImage.url)} 
-                            alt={heroImage.alt || 'Hero Image'}
-                            width={heroImage.width || 600}
-                            height={heroImage.height || 400}
-                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            priority
-                        />
-                    </div>
+            {/* Grid overlay */}
+            <div className={styles.hero__grid} aria-hidden="true"></div>
+            
+            {/* Main content - no wrapper */}
+            <div className={styles.hero__container}>
+                {eyebrow && <p className={styles.hero__eyebrow}>{eyebrow}</p>}  
+                {header && (
+                    <h1 className={styles.hero__heading}>
+                        {header}
+                        {/* Floating accent dots directly under heading */}
+                        <div className={styles.hero__accent} aria-hidden="true">
+                            <span className={styles.hero__dot}></span>
+                            <span className={styles.hero__dot}></span>
+                            <span className={styles.hero__dot}></span>
+                        </div>
+                    </h1>
                 )}
+                {text && <p className={styles.hero__text}>{text}</p>}
             </div>
-            <div className={styles.hero__bg} />
         </section>
     )
 }

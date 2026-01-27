@@ -1,34 +1,66 @@
 @use '../../../styles/component.scss' as component;
 
 .footer {
+    position: relative;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(10, 14, 23, 0.6) 20%,
+        rgba(10, 14, 23, 0.95) 100%);
+    margin-top: 6rem;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     
-    // Wave decoration
-    &__wave {
-        display: block;
-        width: 100%;
-        height: auto;
-        fill: var(--footerBackground);
+    @include component.tablet-up {
+        margin-top: 8rem;
+        padding-top: 5rem;
+    }
+    
+    @include component.desktop-up {
+        margin-top: 10rem;
+        padding-top: 6rem;
+    }
+    
+    // Subtle top glow effect
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent 0%,
+            rgba(76, 126, 235, 0.4) 50%,
+            transparent 100%);
     }
 
     // Main content wrapper
     &__content {
-        background-color: var(--footerBackground);
-        width: 100%;
-        padding: 4rem 0;
+        position: relative;
+        padding: 0 1rem 4rem;
+        
+        @include component.tablet-up {
+            padding: 0 2rem 5rem;
+        }
+        
+        @include component.desktop-up {
+            padding: 0 4rem 6rem;
+        }
     }
 
     &__contentWrapper {
-        @include component.container;
-        
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
         display: grid;
         grid-template-columns: 1fr;
         gap: 3rem;
-        justify-items: center;
-
+        
         @include component.tablet-up {
-            grid-template-columns: 1fr 1fr;
-            justify-items: start;
-            align-items: start;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
         }
 
         @include component.desktop-up {
@@ -41,84 +73,102 @@
     &__brand {
         display: flex;
         flex-direction: column;
-        align-items: center;   
-        text-align: center;
-        width: 100%;
-
+        gap: 1.5rem;
+        
         @include component.tablet-up {
-            grid-column: 1 / -1; // Span full width on tablet
+            grid-column: 1 / -1;
         }
 
         @include component.desktop-up {
-            grid-column: auto; // Reset to single column on desktop
-            width: auto;
-            align-items: flex-start;
-            text-align: left;
-            gap: 1.5rem;
+            grid-column: auto;
         }
     }
 
     &__logo {
-        width: 100%;
+        width: 180px;
         height: auto;
-        text-align: center;
-        margin-bottom: 0;
         
         @include component.desktop-up {
-            text-align: left;
-            width: auto;
-            max-width: 300px;
+            width: 220px;
+        }
+        
+        img {
+            filter: brightness(1.1) drop-shadow(0 2px 8px rgba(76, 126, 235, 0.2));
         }
     }
 
     &__cta {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-
-        @include component.desktop-up {
-            align-items: flex-start;
-        }
+        gap: 1.5rem;
     }
 
     &__description {
-        @include component.typography('body-lg', var(--text));
-        line-height: 1.6;
+        @include component.typography('body-lg', var(--secondary-text));
+        line-height: 1.7;
+        max-width: 500px;
     }
 
     &__ctaButton {
         @include component.button;
-        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        align-self: flex-start;
+        text-decoration: none;
+        
+        &::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+        
+        &:hover::after {
+            transform: translateX(4px);
+        }
     }
 
     // Navigation links section
     &__nav {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        width: 100%;
-
-        @include component.tablet-up {
-            text-align: left;
-            width: auto;
-        }
+        gap: 1.5rem;
     }
 
     &__navList {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 1rem;
     }
 
     &__navLink {
-        @include component.typography('body-lg', var(--text));
+        @include component.typography('body-base', var(--text));
         text-decoration: none;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        opacity: 0.9;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
 
         &:hover {
             color: var(--primary);
+            opacity: 1;
+            transform: translateX(4px);
+            
+            &::before {
+                width: 100%;
+            }
         }
     }
 
@@ -126,44 +176,40 @@
     &__contact {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        width: 100%;
-
-        @include component.tablet-up {
-            text-align: left;
-            width: auto;
-        }
+        gap: 1.5rem;
     }
 
     &__contactList {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
     }
 
     &__contactItem {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        justify-content: center;
-
-        @include component.tablet-up {
-            justify-content: flex-start;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+            transform: translateX(4px);
         }
     }
 
     &__contactIcon {
         flex-shrink: 0;
+        filter: brightness(1.2) drop-shadow(0 2px 4px rgba(76, 126, 235, 0.2));
     }
 
     &__contactLink {
-        @include component.typography('body-lg', var(--text));
+        @include component.typography('body-base', var(--text));
         text-decoration: none;
         transition: color 0.3s ease;
+        opacity: 0.9;
 
         &:hover {
             color: var(--primary);
+            opacity: 1;
         }
     }
 
@@ -171,37 +217,58 @@
     &__heading {
         @include component.typography('body-lg', var(--text));
         font-weight: 700;
-        margin-bottom: 0.5rem;
         text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0;
+        position: relative;
+        padding-bottom: 0.75rem;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 8px rgba(76, 126, 235, 0.4);
+        }
     }
 
     // Bottom section
     &__bottom {
-        background-color: var(--footerBackground);
-         // Using text color for border
-        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 2rem 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        
+        @include component.tablet-up {
+            padding: 2rem 2rem;
+        }
+        
+        @include component.desktop-up {
+            padding: 2rem 4rem;
+        }
     }
 
     &__bottomWrapper {
-        @include component.container;
-        
+        max-width: 1400px;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
-        border-top: 1px solid var(--text);
         align-items: center;
-        gap: 1rem;
-        padding: 2rem 2rem; // Reduced side padding for mobile
+        gap: 1.5rem;
 
         @include component.tablet-up {
             flex-direction: row;
             justify-content: space-between;
-            padding: 2rem 6rem; // Match content padding
         }
     }
 
     &__copyright {
-        @include component.typography('body-base', var(--text));
+        @include component.typography('body-base', var(--secondary-text));
         text-align: center;
+        opacity: 0.8;
         
         @include component.tablet-up {
             text-align: left;
@@ -210,15 +277,20 @@
 
     &__backToTop {
         @include component.typography('body-base', var(--text));
-        background: none;
-        border: none;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
         cursor: pointer;
-        text-decoration: none;
-        padding: 0;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
+        font-weight: 500;
 
         &:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
             color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 126, 235, 0.2);
         }
     }
 }

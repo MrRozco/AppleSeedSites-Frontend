@@ -2,30 +2,65 @@
 
 .features {
     @include component.container;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 4rem 1rem;
+    
+    @include component.tablet-up {
+        padding: 5rem 2rem;
+    }
+    
+    @include component.desktop-up {
+        padding: 6rem 2rem;
+    }
 
     &__header {
+        position: relative;
         text-align: center;
-        margin-bottom: 5rem;
+        margin-bottom: 4rem;
+        z-index: 1;
+        animation: fadeUp 0.8s ease-out both;
 
         &__eyebrow {
             @include component.typography('body-lg', var(--secondary));
             font-weight: 700;
-            margin-bottom: 0.6rem;
-            text-transform: uppercase
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.9;
         }
 
         &__title {
             @include component.typography('display-2', var(--text));
             margin-bottom: 1rem;
-            text-transform: uppercase
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -0.75rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                border-radius: 2px;
+                box-shadow: 0 0 20px rgba(76, 126, 235, 0.5);
+            }
         }
 
         &__body {
-            @include component.typography('body-lg', var(--text));
-            margin: 0 auto; // Center the text horizontally
+            @include component.typography('body-lg', var(--secondary-text));
+            margin: 0 auto;
+            line-height: 1.7;
 
             @include component.tablet-up {
                 max-width: 80%;
@@ -34,35 +69,48 @@
             @include component.desktop-up {
                 max-width: 60%;
             }
-            
         }
     }
 
     &__button {
-        @include component.button-large;
+        position: relative;
+        z-index: 1;
+        margin-top: 2rem;
+        animation: fadeUp 0.8s ease-out 0.4s both;
 
         a {
+            @include component.button-large;
             color: #fff;
             text-decoration: none;
+            background: linear-gradient(135deg, var(--buttons), var(--buttons-hover));
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            }
         }
     }
 
     &__grid {
+        position: relative;
         display: grid;
         grid-template-columns: repeat(1, minmax(100%, 1fr));
-        gap: 2rem;
+        gap: 1.5rem;
         margin-top: 2rem;
         justify-items: center;
         align-items: stretch;
+        z-index: 1;
 
         @include component.tablet-up {
             grid-template-columns: repeat(2, minmax(50%, 1fr));
-            width: 80vw;
+            width: 85vw;
+            gap: 2rem;
         }
 
         @include component.desktop-up {
             grid-template-columns: repeat(2, minmax(50%, 1fr));
-            width: 70vw;
+            width: 75vw;
         }
 
         @include component.large-desktop-up {
@@ -70,50 +118,134 @@
         }
 
         &__card {
-            background: var(--cardBackground);
             position: relative;
-            padding: 4rem 2rem;
-            margin-bottom: 3rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            @include component.card-hover-effect;
+            padding: 4.5rem 2rem 2rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             text-align: center;
             width: 90%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, translate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Initial hidden state */
+            opacity: 0;
+            translate: 0 40px;
+            
+            /* Visible state with staggered delay */
+            &.visible {
+                opacity: 1;
+                translate: 0 0;
+                transition-delay: calc(var(--card-index, 0) * 0.1s);
+            }
 
             @include component.tablet-up {
                 width: 100%;
             }
 
+            &:hover {
+                transform: translateY(-8px);
+                box-shadow:
+                    0 16px 48px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+                border-color: rgba(76, 126, 235, 0.3);
+            }
+
+            &:nth-child(1) { --card-index: 0; }
+            &:nth-child(2) { --card-index: 1; }
+            &:nth-child(3) { --card-index: 2; }
+            &:nth-child(4) { --card-index: 3; }
+            &:nth-child(5) { --card-index: 4; }
+            &:nth-child(6) { --card-index: 5; }
+
             &__iconWrapper {
                 position: absolute;
                 top: -25px;
-                left: 5%;
-                padding: 10px;
-                background-color: var(--secondary);
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 14px;
+                background: linear-gradient(135deg, var(--secondary), color-mix(in oklch, var(--secondary) 80%, var(--primary)));
                 border-radius: 16px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s ease;
+            }
+
+            &:hover &__iconWrapper {
+                transform: translateX(-50%) scale(1.1) rotate(5deg);
             }
 
             &__title {
                 @include component.typography('heading-2', var(--text));
+                margin-top: 1.5rem;
                 margin-bottom: 1rem;
+                flex-shrink: 0;
             }
 
             &__body {
-                @include component.typography('body-base', var(--text));
-                font-weight: 600;
+                @include component.typography('body-base', var(--secondary-text));
+                line-height: 1.6;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.5rem;
             }
 
             &__button {
-                @include component.button;
-                padding: 1rem 2rem !important;
-                margin-top: 2rem;
-                display: inline-block;
+                @include component.button-small;
+                margin-top: auto;
+                align-self: center;
+                flex-shrink: 0;
+                
+                @include component.tablet-up {
+                    @include component.button;
+                }
             }
         }
     }
+}
 
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    33% {
+        transform: translate(20px, -20px);
+    }
+    66% {
+        transform: translate(-15px, 15px);
+    }
+}
 
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .features::before,
+    .features__header,
+    .features__button,
+    .features__grid__card {
+        animation: none !important;
+    }
+    
+    .features__header,
+    .features__button,
+    .features__grid__card {
+        opacity: 1;
+        transform: none;
+    }
 }

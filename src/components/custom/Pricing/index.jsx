@@ -1,19 +1,49 @@
 "use client";
 import styles from './styles.module.scss';
 import Link from 'next/link';
-import { useContext, useCallback } from "react";
-import { ThemeContext } from "@/lib/context/ThemeContext";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from 'next/image';
 
 const Pricing = (content) => {
+    const [visibleCards, setVisibleCards] = useState(new Set());
+    const cardRefs = useRef([]);
 
     const {heading, description, card } = content.data || {};
-    const { theme } = useContext(ThemeContext);
 
     const buildImageSrc = useCallback((url) => {
             if(!url) return '';
             return url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${url.replace(/^\/+/, '')}`;
         }, [])
+    
+    useEffect(() => {
+        const observers = [];
+        
+        cardRefs.current.forEach((card, index) => {
+            if (!card) return;
+            
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            setVisibleCards(prev => new Set([...prev, index]));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                }
+            );
+            
+            observer.observe(card);
+            observers.push(observer);
+        });
+        
+        return () => {
+            observers.forEach(observer => observer.disconnect());
+        };
+    }, [card]);
 
     return (
         <section className={styles.pricing}>
@@ -22,18 +52,18 @@ const Pricing = (content) => {
                 {description && <p className={styles.pricing__header__description}>{description}</p>}
             </div>
             <div className={styles.pricing__cardsContainer}>
-                <PricingCards card={card} buildImageSrc={buildImageSrc} styles={styles} theme={theme} />
+                <PricingCards card={card} buildImageSrc={buildImageSrc} styles={styles} cardRefs={cardRefs} visibleCards={visibleCards} />
             </div>
         </section>
     )
 }
 
 
-const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
+const BulletPoint = ({ bulletPoint, buildImageSrc, styles }) => (
     <>
         <ul className={styles.pricing__cardsContainer__card__bulletPoints}>
             {bulletPoint && bulletPoint.map((point, index) => {
-                const icon = theme === 'dark' ? (point.darkIcon || point.lightIcon) : (point.lightIcon || point.darkIcon);
+                const icon = point.darkIcon;
                 return (
                     <li key={index} className={styles.pricing__cardsContainer__card__bulletPoints__item}>
                         {icon && (
@@ -52,17 +82,21 @@ const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
     </>
 )
 
-const PricingCards = ({card, buildImageSrc, styles, theme}) => (
+const PricingCards = ({card, buildImageSrc, styles, cardRefs, visibleCards}) => (
     <>
         {card && card.map((pricingCard, index) => (
-            <div key={index} className={styles.pricing__cardsContainer__card}>
+            <div 
+                key={index} 
+                ref={el => cardRefs.current[index] = el}
+                className={`${styles.pricing__cardsContainer__card} ${visibleCards.has(index) ? styles.visible : ''}`}
+            >
                 {pricingCard.title && <h3 className={styles.pricing__cardsContainer__card__title}>{pricingCard.title}</h3>}
                 {pricingCard.description && <p className={styles.pricing__cardsContainer__card__description}>{pricingCard.description}</p>}
                 <div className={styles.pricing__cardsContainer__card__priceSection}>
                     {pricingCard.price && <p className={styles.pricing__cardsContainer__card__priceSection__price}>${pricingCard.price}</p>}
                     {pricingCard.priceText && <p className={styles.pricing__cardsContainer__card__priceSection__priceText}>{pricingCard.priceText}</p>}   
                 </div>
-                <BulletPoint bulletPoint={pricingCard.bulletPoint} buildImageSrc={buildImageSrc} styles={styles} theme={theme} />
+                <BulletPoint bulletPoint={pricingCard.bulletPoint} buildImageSrc={buildImageSrc} styles={styles} />
                 {pricingCard.cta && pricingCard.cta.map((ctaItem, idx) => (
                     <Link key={idx} href={ctaItem.url} className={styles.pricing__cardsContainer__card__cta}>{ctaItem.title}</Link>
                 ))}

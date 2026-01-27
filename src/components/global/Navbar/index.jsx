@@ -2,16 +2,15 @@
 import styles from './styles.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeToggle from '@/components/theme/ThemeToggle';
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { useContext } from "react";
-import { ThemeContext } from "@/lib/context/ThemeContext";
+import { usePathname } from 'next/navigation';
 
 const Navbar = (content) => {
   const { lightLogo, darkLogo, NavbarItems } = content?.content || {};
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme } = useContext(ThemeContext);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const pathname = usePathname();
 
 
 
@@ -34,13 +33,20 @@ const Navbar = (content) => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
+      // Close mobile menu
       if (mobileOpen && !e.target.closest(`.${styles.nav__mobileMenu}`) && !e.target.closest(`.${styles.nav__hamburger}`)) {
         setMobileOpen(false);
       }
+      // Close dropdown menu
+      if (openDropdown !== null && !e.target.closest(`.${styles.nav__navLink}[data-dropdown-id="${openDropdown}"]`)) {
+        setOpenDropdown(null);
+      }
     };
-    if (mobileOpen) document.addEventListener('click', handleClickOutside);
+    if (mobileOpen || openDropdown !== null) {
+      document.addEventListener('click', handleClickOutside);
+    }
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [mobileOpen]);
+  }, [mobileOpen, openDropdown]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -58,13 +64,13 @@ const Navbar = (content) => {
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <section className={styles.navBg}>
+    <section className={`${styles.navBg} ${scrolled ? styles.scrolled : ""}`}>
       <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ""}`} role="navigation" aria-label="Main navigation">
         <div className={styles.nav__logo}>
           <Link href="/">
-            {lightLogo?.url ? (
+            {darkLogo?.url ? (
               <Image
-                src={buildImageSrc((theme === 'light' || lightLogo?.url) ? lightLogo.url : darkLogo.url)}
+                src={buildImageSrc(darkLogo.url)}
                 alt="AppleSeed Sites Logo"
                 width={170}
                 height={140}
@@ -77,7 +83,16 @@ const Navbar = (content) => {
 
         <ul className={styles.nav__navLinks} role="menubar">
           {navItems.map((item, i) => (
-            <NavItem key={`nav-${item.id || 'item'}-${i}`} item={item} theme={theme} buildImageSrc={buildImageSrc} styles={styles} />
+            <NavItem 
+              key={`nav-${item.id || 'item'}-${i}`} 
+              item={item} 
+              index={i}
+              buildImageSrc={buildImageSrc} 
+              styles={styles}
+              openDropdown={openDropdown}
+              setOpenDropdown={setOpenDropdown}
+              pathname={pathname}
+            />
           ))}
         </ul>
 
@@ -91,7 +106,6 @@ const Navbar = (content) => {
               {item.text}
             </Link>
           ))}
-          <ThemeToggle />
           <button
             className={`${styles.nav__hamburger} ${mobileOpen ? styles.open : ''}`}
             onClick={toggleMobile}
@@ -105,7 +119,6 @@ const Navbar = (content) => {
           {mobileOpen && (
             <MobileMenu
               NavbarItems={NavbarItems}
-              theme={theme}
               buildImageSrc={buildImageSrc}
               styles={styles}
               closeMobile={closeMobile}
@@ -118,21 +131,32 @@ const Navbar = (content) => {
 };
 
 
-const NavItem = ({ item, theme, buildImageSrc, styles }) => {
+const NavItem = ({ item, index, buildImageSrc, styles, openDropdown, setOpenDropdown, pathname }) => {
   if (item.__component === 'menu.dropdown') {
+    const isOpen = openDropdown === index;
 
-    const handleDesktopLinkClick = (e) => {
-    const details = e.currentTarget.closest('details');
-    if (details) details.open = false;
-  };
+    const handleToggleDropdown = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setOpenDropdown(isOpen ? null : index);
+    };
 
+    const handleLinkClick = () => {
+      setOpenDropdown(null);
+    };
 
     return (
-      <li className={styles.nav__navLink} role="menuitem">
-        <details>
-          <summary className={styles.nav__navDropdown} aria-haspopup="true">
-            {item.title}
-          </summary>
+      <li className={styles.nav__navLink} role="menuitem" data-dropdown-id={index}>
+        <button 
+          className={styles.nav__navDropdown} 
+          aria-haspopup="true"
+          aria-expanded={isOpen}
+          onClick={handleToggleDropdown}
+          type="button"
+        >
+          {item.title}
+        </button>
+        {isOpen && (
           <div className={styles.nav__navDropdownWrapper}>
             <div className={styles.nav__navDropdownContent}>
               {item.sections?.map((section, j) => (
@@ -143,12 +167,12 @@ const NavItem = ({ item, theme, buildImageSrc, styles }) => {
                       key={`link-${link.id || 'lnk'}-${k}`}
                       href={link.url}
                       className={styles.nav__navDropdownLink}
-                      onClick={handleDesktopLinkClick}
+                      onClick={handleLinkClick}
                     >
                       <div className={styles.nav__navDropdownLinkTop}>
-                        {link.LightIcon?.url && link.darkIcon?.url && (
+                        {link.darkIcon?.url && (
                           <Image
-                            src={buildImageSrc(theme === 'light' ? link.LightIcon.url : link.darkIcon.url)}
+                            src={buildImageSrc(link.darkIcon.url)}
                             alt={link.name}
                             width={35}
                             height={35}
@@ -164,14 +188,16 @@ const NavItem = ({ item, theme, buildImageSrc, styles }) => {
               ))}
             </div>
           </div>
-        </details>
+        )}
       </li>
     );
   }
 
+  const isActive = pathname === item.url;
+
   return (
     <li className={styles.nav__navLink} role="menuitem">
-      <Link className={styles.nav__navItem} href={item.url}>
+      <Link className={`${styles.nav__navItem} ${isActive ? styles.active : ''}`} href={item.url}>
         {item.title}
       </Link>
     </li>
@@ -179,8 +205,9 @@ const NavItem = ({ item, theme, buildImageSrc, styles }) => {
 };
 
 
-const MobileMenu = ({ NavbarItems, theme, buildImageSrc, styles, closeMobile }) => (
-  <div className={styles.nav__mobileMenu}>
+const MobileMenu = ({ NavbarItems, buildImageSrc, styles, closeMobile }) => {
+  return (
+    <div className={styles.nav__mobileMenu}>
     <ul role="menu" aria-label="Mobile navigation">
       {NavbarItems?.map((item, i) => (
         <li key={`mobile-${item.id || 'item'}-${i}`} role="menuitem">
@@ -196,9 +223,9 @@ const MobileMenu = ({ NavbarItems, theme, buildImageSrc, styles, closeMobile }) 
                         <li key={`mobile-link-${link.id || 'lnk'}-${k}`}>
                           <Link href={link.url} onClick={closeMobile}>
                             <div className={styles.nav__navDropdownLinkTop}>
-                              {link.LightIcon?.url && link.darkIcon?.url && (
+                              {link.darkIcon?.url && (
                                 <Image
-                                  src={buildImageSrc(theme === 'light' ? link.LightIcon.url : link.darkIcon.url)}
+                                  src={buildImageSrc(link.darkIcon.url)}
                                   alt={link.name}
                                   width={35}
                                   height={35}
@@ -232,6 +259,7 @@ const MobileMenu = ({ NavbarItems, theme, buildImageSrc, styles, closeMobile }) 
       ))}
     </ul>
   </div>
-);
+  );
+};
 
 export default Navbar;

@@ -1,15 +1,14 @@
-import dynamic from 'next/dynamic';
-import Hero from "./custom/Hero";
+"use client";
 
-// Dynamically import other components to reduce initial bundle size
-const Features = dynamic(() => import("./custom/Features"));
-const BusinessSection = dynamic(() => import("./custom/BusinessSection"));
-const OurWork = dynamic(() => import("./custom/OurWork"));
-const Performance = dynamic(() => import("./custom/Performance"));
-const Testimonials = dynamic(() => import("./custom/Testimonials"));
-const AboutSection = dynamic(() => import("./custom/AboutSection"));
-const Pricing = dynamic(() => import("./custom/Pricing"));
-const ContactSection = dynamic(() => import("./custom/ContactSection"));
+import Hero from "./custom/Hero";
+import Features from "./custom/Features";
+import BusinessSection from "./custom/BusinessSection";
+import OurWork from "./custom/OurWork";
+import Performance from "./custom/Performance";
+import Testimonials from "./custom/Testimonials";
+import AboutSection from "./custom/AboutSection";
+import Pricing from "./custom/Pricing";
+import ContactSection from "./custom/ContactSection";
 
 const componentMap = {
     'custom.hero': Hero,

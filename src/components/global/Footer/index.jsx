@@ -2,12 +2,9 @@
 import styles from './styles.module.scss'
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext, useCallback } from 'react';
-import { ThemeContext } from '@/lib/context/ThemeContext';
+import { useCallback } from 'react';
 
 const Footer = ( content ) => {
-
-    const { theme } = useContext(ThemeContext);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
@@ -19,11 +16,6 @@ const Footer = ( content ) => {
 
     return (
         <footer className={styles.footer}>
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 260" className={styles.footer__wave}>
-                <path d="M0,128L80,128C160,128,320,128,480,144C640,160,800,192,960,213.3C1120,235,1280,245,1360,250.7L1440,256L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
-            </svg>
-
             <div className={styles.footer__content}>
                 <div className={styles.footer__contentWrapper}>
                 
@@ -68,9 +60,9 @@ const Footer = ( content ) => {
                     <div className={styles.footer__contactList}>
                         {contactLink && contactLink.map((contact) => (
                             <div key={contact.id} className={styles.footer__contactItem}>
-                                {contact.lightIcon && contact.darkIcon && (
+                                {contact.darkIcon && (
                                     <Image
-                                        src={theme === 'dark' ? buildImageSrc(contact.darkIcon.url) : buildImageSrc(contact.lightIcon.url)}
+                                        src={buildImageSrc(contact.darkIcon.url)}
                                         alt=""
                                         width={24}
                                         height={24}

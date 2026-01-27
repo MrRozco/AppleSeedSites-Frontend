@@ -2,19 +2,18 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useCallback } from "react";
-import { ThemeContext } from "@/lib/context/ThemeContext";
+import { useCallback } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
 import styles from './styles.module.scss';
-import { Pagination } from 'swiper/modules';
 
 
 const BusinessSection = (data) => {
 
     const { title, body, tag, bulletPoint, sliderImages, imageRight, button } = data.data;
-    const { theme } = useContext(ThemeContext);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
@@ -27,7 +26,7 @@ const BusinessSection = (data) => {
             <div className={`${styles.businessSection__content} ${imageRight ? '' : styles.businessSection__content__reverse }`}>
                 <div className={styles.businessSection__content__body}>
                     <div dangerouslySetInnerHTML={{ __html: body }} className={styles.businessSection__content__body__text} />
-                    <BulletPoint bulletPoint={bulletPoint} theme={theme} buildImageSrc={buildImageSrc} styles={styles} />
+                    <BulletPoint bulletPoint={bulletPoint} buildImageSrc={buildImageSrc} styles={styles} />
                     {button && (
                         <Link href={button[0].url} className={styles.businessSection__content__body__button}>
                             {button[0].title}
@@ -43,18 +42,20 @@ const BusinessSection = (data) => {
     );
 }
 
-const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
+const BulletPoint = ({ bulletPoint, buildImageSrc, styles }) => (
     <div className={styles.businessSection__content__body__bulletPoints}>
         <ul>
             {bulletPoint && bulletPoint.map((point, index) => (
                 <li key={index} className={styles.businessSection__content__body__bulletPoints__item}>
-                    {point.lightIcon && point.darkIcon && (
-                        <Image
-                            src={theme === 'dark' ? buildImageSrc(point.darkIcon.url) : buildImageSrc(point.lightIcon.url)}
-                            alt={point.text}
-                            width={20}
-                            height={20}
-                        />
+                    {point.darkIcon && (
+                        <div className={styles.businessSection__content__body__bulletPoints__iconWrapper}>
+                            <Image
+                                src={buildImageSrc(point.darkIcon.url)}
+                                alt={point.text}
+                                width={40}
+                                height={40}
+                            />
+                        </div>
                     )}
                     <p dangerouslySetInnerHTML={{ __html: point.text }}  />
                 </li>
@@ -64,26 +65,40 @@ const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
 )
 
 const CardsSlider = ({sliderImages, buildImageSrc  }) => (
-
-
-    <div>
+    <div className={styles.businessSection__sliderWrapper}>
         <Swiper
+            effect={'coverflow'}
             grabCursor={true}
-            modules={[Pagination]}
+            centeredSlides={true}
+            slidesPerView={'auto'}
+            coverflowEffect={{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            }}
+            autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+            }}
+            modules={[EffectCoverflow, Pagination, Autoplay]}
             pagination={{ clickable: true }}
             loop={true}
-            spaceBetween={20}
+            className={styles.businessSection__swiper}
         >
             {sliderImages && sliderImages.map((image, index) => (
-                <SwiperSlide key={index}>
-                    <Image
-                        src={buildImageSrc(image.url)}
-                        alt={image.alternativeText || `Slider Image ${index + 1}`}
-                        width={image.width || 800}
-                        height={image.height || 600}
-                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', borderRadius: '1rem' }}
-                />
-            </SwiperSlide>
+                <SwiperSlide key={index} className={styles.businessSection__swiperSlide}>
+                    <div className={styles.businessSection__imageCard}>
+                        <Image
+                            src={buildImageSrc(image.url)}
+                            alt={image.alternativeText || `Slider Image ${index + 1}`}
+                            width={image.width || 800}
+                            height={image.height || 600}
+                            style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                        />
+                    </div>
+                </SwiperSlide>
             ))}
         </Swiper>
     </div>
