@@ -1,18 +1,13 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useCallback } from "react";
-import { ThemeContext } from "@/lib/context/ThemeContext";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
+import { useCallback } from "react";
 import styles from './styles.module.scss';
 
 
 const AboutSection = (data) => {
 
     const { title, body, tag, bulletPoint, image, imageRight, button } = data.data;
-    const { theme } = useContext(ThemeContext);
 
     const buildImageSrc = useCallback((url) => {
         if(!url) return '';
@@ -25,7 +20,7 @@ const AboutSection = (data) => {
             <div className={`${styles.businessSection__content} ${imageRight ? '' : styles.businessSection__content__reverse }`}>
                 <div className={styles.businessSection__content__body}>
                     <div dangerouslySetInnerHTML={{ __html: body }} className={styles.businessSection__content__body__text} />
-                    <BulletPoint bulletPoint={bulletPoint} theme={theme} buildImageSrc={buildImageSrc} styles={styles} />
+                    <BulletPoint bulletPoint={bulletPoint} buildImageSrc={buildImageSrc} styles={styles} />
                     {button && (
                         <Link href={button.url} className={styles.businessSection__content__body__button}>
                             {button.title}
@@ -41,18 +36,20 @@ const AboutSection = (data) => {
     );
 }
 
-const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
+const BulletPoint = ({ bulletPoint, buildImageSrc, styles }) => (
     <div className={styles.businessSection__content__body__bulletPoints}>
         <ul>
             {bulletPoint && bulletPoint.map((point, index) => (
                 <li key={index} className={styles.businessSection__content__body__bulletPoints__item}>
-                    {point.lightIcon && point.darkIcon && (
-                        <Image
-                            src={theme === 'dark' ? buildImageSrc(point.darkIcon.url) : buildImageSrc(point.lightIcon.url)}
-                            alt={point.text}
-                            width={20}
-                            height={20}
-                        />
+                    {point.darkIcon && (
+                        <div className={styles.businessSection__content__body__bulletPoints__iconWrapper}>
+                            <Image
+                                src={buildImageSrc(point.darkIcon.url)}
+                                alt={point.text}
+                                width={40}
+                                height={40}
+                            />
+                        </div>
                     )}
                     <p dangerouslySetInnerHTML={{ __html: point.text }}  />
                 </li>
@@ -61,11 +58,14 @@ const BulletPoint = ({ bulletPoint, theme, buildImageSrc, styles }) => (
     </div>
 )
 
-const SideImage = ({image, buildImageSrc  }) => (
-
-
-    <div >
-        <Image src={buildImageSrc(image.url)} alt={image.alternativeText || 'About Image'} fill style={{ objectFit: "cover", borderRadius: '10px' }} />
+const SideImage = ({image, buildImageSrc, styles }) => (
+    <div className={styles.businessSection__imageCard}>
+        <Image 
+            src={buildImageSrc(image.url)} 
+            alt={image.alternativeText || 'About Image'} 
+            fill 
+            style={{ objectFit: "contain" }} 
+        />
     </div>
 )
 

@@ -1,18 +1,25 @@
 @use '../../../styles/component.scss' as component;
 
-
 .navBg {
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  height: 6rem;
-  background-color: var(--primary);
-  z-index: 1050; /* Ensure it's below the nav but above other content */
+  padding-top: 2rem;
+  background: linear-gradient(180deg, 
+    rgba(10, 14, 23, 0.8) 0%, 
+    rgba(76, 126, 235, 0.05) 50%,
+    transparent 100%);
+  z-index: 1050;
+  transition: padding-top 0.3s ease, background 0.3s ease;
+  
+  &.scrolled {
+    padding-top: 0;
+    background: linear-gradient(135deg, #0a0e17 0%, #151922 100%);
+  }
 }
 
 .nav {
-
   display: flex;
   justify-self: center;
   width: 90vw;
@@ -20,18 +27,24 @@
   justify-content: space-between;
   padding: 0 2rem 0 0;
   height: 8rem;
-  background-color: var(--background);
-  box-shadow: rgba(53, 54, 54, 0.733) 0px 8px 24px;
-  margin: 0 auto; // Center the navbar
-  border-radius: 8px;        // Initial radius
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  margin: 0 auto;
+  border-radius: 12px;
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1100;
-  transition: margin 0.3s, border-radius 0.3s, width 0.6s;
-
-  margin-bottom: 4rem;;
+  transition: margin 0.3s ease, border-radius 0.3s ease, width 0.6s ease, background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+  margin-bottom: 4rem;
 
   @include component.desktop-up {
     width: 90vw;
@@ -83,166 +96,276 @@
     color: var(--text) !important;
     font-weight: 700 !important;    
     display: block;
-    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.3s ease;
     cursor: pointer;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        box-shadow: 0 0 8px rgba(76, 126, 235, 0.4);
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
  
 }
 
-&__navItem:hover,
-&__navDropdown:hover {
-    color: var(--primary-text) !important;
-    text-decoration: none;
+&__navItem:hover::before,
+&__navDropdown:hover::before {
+    width: 100%;
+}
+
+&__navItem.active::before {
+    width: 100%;
 }
 
 &__navDropdown {
     list-style: none;
-    &::-webkit-details-marker {
-        display: none;
-    }
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    
+    @include component.typography('body-lg', var(--text));
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    text-decoration: none;
     
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
+    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
     &::after {
         content: '';
-        width: 0.5em;
-        height: 0.5em;
-        border-right: 2px solid currentColor;
-        border-bottom: 2px solid currentColor;
-        transform: rotate(45deg) translateY(-2px);
-        transition: transform 0.3s ease;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: 0 0 6px rgba(76, 126, 235, 0.5);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0.8;
+    }
+    
+    &:hover::after {
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(76, 126, 235, 0.8);
+        transform: scale(1.2);
+    }
+    
+    &[aria-expanded="true"]::after {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        box-shadow: 0 0 12px rgba(249, 115, 22, 0.8);
+        transform: scale(1.3);
+        opacity: 1;
     }
 
     @include component.desktop-up {
         display: flex;
         justify-content: flex-start;
+        color: var(--text) !important;
+        font-weight: 700 !important;
+    }
+    
+    &:hover {
+        color: var(--primary-text) !important;
     }
 }
 
-details[open] > &__navDropdown::after {
-    transform: rotate(-135deg) translateY(2px);
-}
-
 &__cta {
-
   display: flex;
   align-items: center;
   gap: 0;
   
+  /* Hide CTA buttons on mobile - they appear in mobile menu instead */
+  & > a {
+    display: none;
+  }
 
   @include component.tablet-up {
     align-items: center;
     gap: 2rem;
+    
+    /* Show CTA buttons on tablet and up */
+    & > a {
+      display: inline-flex;
+    }
   }
 }
 
 
 &__navDropdownWrapper {
-  display: none;
   position: fixed;
-  left: 50%; // Align to the left
+  left: 50%;
   top: calc(50px + 8rem);
   transform: translateX(-50%);
-  width: 70vw; // 60% of viewport width
-  background-color: var(--background);
-  border-radius: 0 0 1rem 1rem;
-  padding: 0.5rem 1rem;
-  box-shadow: var(--box-shadow) 0px 8px 24px;
+  width: 90vw;
+  max-width: 1200px;
+  background: linear-gradient(135deg,
+    rgba(10, 14, 23, 0.98) 0%,
+    rgba(21, 25, 34, 0.98) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 1.5rem 1.5rem;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
   z-index: 1000;
-  min-width: unset; 
-    
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  @include component.desktop-up {
+    width: 70vw;
+    padding: 2.5rem 3rem;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 &__navDropdownContent {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start; /* Align all columns to the top */
-    gap: 1rem; /* Add consistent spacing between columns */
-}
-
-&__navLink:hover .nav__navDropdownWrapper {
-    display: block; /* Show on hover */
-}
-
-.nav__navLink:hover .nav__navDropdownWrapper,
-.nav__navDropdownWrapper:hover {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  
+  @include component.tablet-up {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem;
+  }
 }
 
 &__navDropdownSection {
-    margin-bottom: 1rem; /* Space between sections */
-    flex: 1; /* Equal width columns */
-    min-width: 0; /* Allow flex items to shrink */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  &:not(:last-child) {
+    @include component.tablet-up {
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      padding-right: 2.5rem;
+    }
+  }
 }
 
 &__navDropdownHeading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(76, 126, 235, 0.3);
   
-    font-size: 1.125rem; // body-lg
-    font-weight: 600;
-    color: var(--text);
-    text-align: center ;
-    margin: 2rem 1rem;
-    text-transform: uppercase; /* Enhance visual hierarchy */
+  @include component.desktop-up {
+    font-size: 0.9rem;
+  }
+}
 
-    @include component.desktop-up {
-      text-align: left;
+
+&__navDropdownLink {
+  display: block;
+  text-decoration: none;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.02) 0%, 
+    rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(76, 126, 235, 0.1) 0%, 
+      rgba(249, 115, 22, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  &:hover {
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.05) 0%, 
+      rgba(255, 255, 255, 0.03) 100%);
+    border-color: rgba(76, 126, 235, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 126, 235, 0.15);
+    
+    &::before {
+      opacity: 1;
     }
+    
+    .nav__navDropdownLinkIcon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    .nav__navDropdownLinkName {
+      color: var(--primary);
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
-
-&__navDropdownLink{
-
-  margin: 2rem 0rem;
-}
-
-&__navDropdownLinkTop{
+&__navDropdownLinkTop {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 &__navDropdownLinkIcon {
-
-  color: var(--primary) !important;
-
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(76, 126, 235, 0.3));
 }
 
 &__navDropdownLinkName {
-
-  color: var(--text);  
-  font-size: 1.25rem; // body-xl
+  color: var(--text);
+  font-size: 1rem;
   font-weight: 600;
-
+  line-height: 1.4;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
   @include component.desktop-up {
-    font-weight: 500;
-    }
-    
+    font-size: 1.05rem;
+  }
 }
 
 &__navDropdownLinkDescription {
-    font-size: 1rem; // body-base
-    color: var(--text);/* Lighter color for description */
-    display: block;
-    margin-top: 0.25rem;
-}
-
-&__navDropdownLink {
-    display: block;
-    text-decoration: none;
-    color: #333333;
-    padding: 0.5rem 1rem;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    border-radius: 1rem
-}
-
-&__navDropdownLink:hover {
-    background-color: var(--menuDPhover); /* Light gray hover effect */
-    color: #007bff; /* Primary color on hover */
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--secondary-text);
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  @include component.desktop-up {
+    font-size: 0.9rem;
+  }
 }
 
 /* Style for link descriptions */
@@ -355,7 +478,17 @@ details[open] > &__navDropdown::after {
   text-align: center;
 }
 
-
+&__navButton {
+  @include component.button-small;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  
+  @include component.tablet-up {
+    @include component.button;
+    width: auto;
+  }
+}
 
 }
 
@@ -364,6 +497,15 @@ details[open] > &__navDropdown::after {
   border-radius: 0;
   width: 100%;
   max-width: 100%;
+  background: linear-gradient(135deg,
+    rgba(10, 14, 23, 0.95) 0%,
+    rgba(21, 25, 34, 0.95) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   .nav__navDropdownWrapper {
     top: 8rem; // Adjust this value to change the position when scrolled

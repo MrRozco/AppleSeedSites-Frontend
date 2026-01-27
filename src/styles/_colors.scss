@@ -1,94 +1,134 @@
-:root[data-theme='light'] {
-  --background: #F8FAFC; /* Soft blue-tinted white: Clean, professional, inviting */
-  --menuDPhover: #E0E7FF; /* Light indigo: Subtle modern hover */
-  --text: #1E293B; /* Deep slate: High-contrast readability */
-  --primary: #4c7eeb; /* Vibrant blue: Trustworthy tech core for backgrounds/accents */
-  --primary-dark: #2f4c9e; /* Darker blue variant for depth */
-  --secondary: #F97316; /* Warm orange: Energetic, approachable for headings/icons */
-  --buttons: #2563EB; /* Blue buttons: Cohesive and reliable */
-  --buttons-hover: #1D4ED8; /* Deeper blue: Clear interaction feedback */
-  --headings: #C2410C; /* Darker Orange: High contrast for accessibility */
-  --primary-text: #2563EB; /* Blue emphasis: Brand consistency */
-  --secondary-text: #475569; /* Mid-slate gray: Balanced subtlety */
-  --links: #2563EB; /* Darker Blue: High contrast for accessibility */
-  --button-text: #FFFFFF; /* White: Optimal contrast */
-  --cardBackground: rgba(37, 99, 235, 0.07); /* Subtle blue tint: Elevated clean cards */
-  --box-shadow: rgba(0, 0, 0, 0.08); /* Soft shadow: Modern depth */
-  --footerBackground: rgba(37, 99, 235, 0.05); /* Faint blue separation */
+:root {
+  /* Core Colors - Modern Dark Theme */
+  --background: #0a0e17;
+  --menuDPhover: #1E293B;
+  --text: #F1F5F9;
+  --primary: #016eb8;
+  --primary-dark: #01316c;
+  --secondary: #f97412;
+  --buttons: #3B82F6;
+  --buttons-hover: #60A5FA;
+  --headings: #FB923C;
+  --primary-text: #3B82F6;
+  --secondary-text: #94A3B8;
+  --links: #93C5FD;
+  --button-text: #FFFFFF;
+  --cardBackground: rgba(255, 255, 255, 0.05);
+  --box-shadow: rgba(0, 0, 0, 0.4);
+  --footerBackground: rgba(15, 23, 42, 0.8);
 
-  --btn-shadow: 0 6px 0 rgba(37, 99, 235, 0.16), 0 12px 24px rgba(37, 99, 235, 0.09);
-  --btn-shadow-pressed: 0 4px 0 rgba(37, 99, 235, 0.14), 0 8px 16px rgba(37, 99, 235, 0.07);
-  --btn-highlight: rgba(255, 255, 255, 0.15);
-  --card-glow: rgba(76, 126, 235, 0.25); /* Primary color glow */
+  /* Button Styles */
+  --btn-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.2);
+  --btn-shadow-pressed: 0 4px 8px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --btn-highlight: rgba(255, 255, 255, 0.12);
+  --card-glow: rgba(76, 126, 235, 0.25);
   
-  /* Tech Wave Colors */
-  --wave-1: rgba(59, 130, 246, 0.08); /* Blue - Much softer */
-  --wave-2: rgba(168, 85, 247, 0.06); /* Purple hint - Much softer */
-  --wave-3: rgba(56, 189, 248, 0.06); /* Cyan hint - Much softer */
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  /* Animated Gradient Orbs */
+  --wave-1: rgba(1, 110, 184, 0.15);
+  --wave-2: rgba(249, 116, 18, 0.1);
+  --wave-3: rgba(1, 49, 108, 0.12);
 }
 
-:root[data-theme='dark'] {
-  --background: #0F172A; /* Deep slate-blue: Immersive, distinct tech feel */
-  --menuDPhover: #1E293B; /* Mid-slate: Pronounced dark hover */
-  --text: #F1F5F9; /* Soft off-white: Comfortable readability */
-  --primary: #4c7eeb; /* Brighter blue: Vibrant standout on dark surfaces */
-  --primary-dark: #1D4ED8; /* Darker blue variant for depth */
-  --secondary: #FB923C; /* Lighter warm orange: Elevated energy in dark mode */
-  --buttons: #3B82F6; /* Blue buttons: Bold and thematic */
-  --buttons-hover: #60A5FA; /* Lighter blue: Uplifting feedback */
-  --headings: #FB923C; /* Orange for strong dark-mode hierarchy */
-  --primary-text: #3B82F6; /* Blue emphasis: Consistent branding */
-  --secondary-text: #CBD5E1; /* Light slate: Subtle support */
-  --links: #93C5FD; /* Soft blue: Distinct navigation */
-  --button-text: #FFFFFF; /* White: Strong contrast */
-  --cardBackground: rgba(59, 130, 246, 0.15); /* Blue-tinted elevation: Depth */
-  --box-shadow: rgba(0, 0, 0, 0.7); /* Deeper shadow: Layering in low light */
-  --footerBackground: rgba(59, 130, 246, 0.12); /* Subtle blue separation */
-  
-  /* Animated Background Colors */
-  --bg-gradient-1: #0F172A; /* Base */
-  --btn-highlight: rgba(255, 255, 255, 0.08);
-  --card-glow: rgba(76, 126, 235, 0.4); /* Primary color glow, slightly stronger in dark mode */
-  
-  /* Tech Wave Colors */
-  --wave-1: rgba(29, 78, 216, 0.4); /* Deep Blue */
-  --wave-2: rgba(109, 40, 217, 0.35); /* Deep Purple */
-  --wave-3: rgba(15, 23, 42, 0.7); /* Dark Slate overlay */
-}
-
-@keyframes techWaves {
-  0% {
-    background-position: 0% 50%;
+@keyframes gridPulse {
+  0%, 100% {
+    opacity: 0.3;
   }
   50% {
-    background-position: 100% 50%;
+    opacity: 0.5;
+  }
+}
+
+@keyframes gridMove {
+  0% {
+    transform: translateY(0);
   }
   100% {
-    background-position: 0% 50%;
+    transform: translateY(50px);
+  }
+}
+
+@keyframes dotMoveHorizontal {
+  0% {
+    left: -5%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 105%;
+    opacity: 0;
+  }
+}
+
+@keyframes dotMoveVertical {
+  0% {
+    top: -5%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
   }
 }
 
 body {
   min-height: 100vh;
-  background-color: var(--background);
-  /* Mesh Gradient Effect */
-  background-image: 
-    radial-gradient(at 0% 0%, var(--wave-1) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, var(--wave-2) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, var(--wave-3) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, var(--wave-1) 0px, transparent 50%);
-  background-size: 180% 180%;
-  animation: techWaves 25s ease-in-out infinite alternate;
-  
+  background: linear-gradient(135deg, #0a0e17 0%, #151922 50%, #0d1117 100%);
+  position: relative;
   color: var(--text);
   transition: color 0.5s ease;
+  overflow-x: hidden;
+  
+  /* Animated Grid Lines */
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(to bottom, transparent 0%, rgba(1, 110, 184, 0.12) 1px, transparent 1px),
+      linear-gradient(to right, transparent 0%, rgba(1, 110, 184, 0.08) 1px, transparent 1px);
+    background-size: 100% 100px, 100px 100%;
+    opacity: 0.4;
+    animation: gridMove 4s linear infinite, gridPulse 6s ease-in-out infinite;
+    mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 40%, transparent 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  /* Glowing Accent */
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 30% 30%, rgba(1, 110, 184, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 70% 70%, rgba(249, 116, 18, 0.06) 0%, transparent 50%);
+    filter: blur(40px);
+    mix-blend-mode: screen;
+    z-index: 0;
+    pointer-events: none;
+  }
 }
 
-p {
-  line-height: 1.6;
-  margin-bottom: 16px;
-  color: var(--text);
-  transition: color 0.5s ease;
+/* Animated dots traveling on grid */
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 .theme-wrapper {
@@ -97,29 +137,155 @@ p {
   background: transparent;
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  z-index: 1;
+  
+  /* Horizontal traveling dot 1 - Blue */
+  &::before {
+    content: '';
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #016eb8;
+    border-radius: 50%;
+    top: 20%;
+    left: -5%;
+    box-shadow: 
+      0 0 10px #016eb8,
+      0 0 20px #016eb8,
+      -20px 0 8px rgba(1, 110, 184, 0.6),
+      -40px 0 6px rgba(1, 110, 184, 0.4),
+      -60px 0 4px rgba(1, 110, 184, 0.2),
+      -80px 0 2px rgba(1, 110, 184, 0.1);
+    animation: dotMoveHorizontal 4s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  /* Horizontal traveling dot 2 - Orange */
+  &::after {
+    content: '';
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #f97412;
+    border-radius: 50%;
+    top: 60%;
+    left: -5%;
+    box-shadow: 
+      0 0 10px #f97412,
+      0 0 20px #f97412,
+      -20px 0 8px rgba(249, 116, 18, 0.6),
+      -40px 0 6px rgba(249, 116, 18, 0.4),
+      -60px 0 4px rgba(249, 116, 18, 0.2),
+      -80px 0 2px rgba(249, 116, 18, 0.1);
+    animation: dotMoveHorizontal 5s linear infinite;
+    animation-delay: 1.5s;
+    z-index: 0;
+    pointer-events: none;
+  }
 }
 
-/* Sliding overlay, only active when data-theme-animating is present */
-.theme-wrapper[data-theme-animating]::before {
-  content: '';
+/* Additional traveling dots - Vertical and Horizontal */
+.grid-dot-1 {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--background);
-  z-index: 9999;
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
+  width: 4px;
+  height: 4px;
+  background: #01316c;
+  border-radius: 50%;
+  left: 25%;
+  top: -5%;
+  box-shadow: 
+    0 0 10px #01316c,
+    0 0 20px #01316c,
+    0 -20px 8px rgba(1, 49, 108, 0.6),
+    0 -40px 6px rgba(1, 49, 108, 0.4),
+    0 -60px 4px rgba(1, 49, 108, 0.2),
+    0 -80px 2px rgba(1, 49, 108, 0.1);
+  animation: dotMoveVertical 6s linear infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.theme-wrapper[data-theme-animating][data-theme='light']::before,
-.theme-wrapper[data-theme-animating][data-theme='dark']::before {
-  transform: translateX(0);
+.grid-dot-2 {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #016eb8;
+  border-radius: 50%;
+  left: 75%;
+  top: -5%;
+  box-shadow: 
+    0 0 10px #016eb8,
+    0 0 20px #016eb8,
+    0 -20px 8px rgba(1, 110, 184, 0.6),
+    0 -40px 6px rgba(1, 110, 184, 0.4),
+    0 -60px 4px rgba(1, 110, 184, 0.2),
+    0 -80px 2px rgba(1, 110, 184, 0.1);
+  animation: dotMoveVertical 5.5s linear infinite;
+  animation-delay: 2s;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* Delay background change during animation */
-.theme-wrapper[data-theme-transition] {
-  transition-delay: 0.5s;
+.grid-dot-3 {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #01316c;
+  border-radius: 50%;
+  top: 80%;
+  left: -5%;
+  box-shadow: 
+    0 0 10px #01316c,
+    0 0 20px #01316c,
+    -20px 0 8px rgba(1, 49, 108, 0.6),
+    -40px 0 6px rgba(1, 49, 108, 0.4),
+    -60px 0 4px rgba(1, 49, 108, 0.2),
+    -80px 0 2px rgba(1, 49, 108, 0.1);
+  animation: dotMoveHorizontal 4.5s linear infinite;
+  animation-delay: 0.8s;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.grid-dot-4 {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #f97412;
+  border-radius: 50%;
+  left: 50%;
+  top: -5%;
+  box-shadow: 
+    0 0 10px #f97412,
+    0 0 20px #f97412,
+    0 -20px 8px rgba(249, 116, 18, 0.6),
+    0 -40px 6px rgba(249, 116, 18, 0.4),
+    0 -60px 4px rgba(249, 116, 18, 0.2),
+    0 -80px 2px rgba(249, 116, 18, 0.1);
+  animation: dotMoveVertical 8s linear infinite;
+  animation-delay: 1s;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Accessibility - respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  .theme-wrapper::before,
+  .theme-wrapper::after,
+  .grid-dot-1,
+  .grid-dot-2,
+  .grid-dot-3,
+  .grid-dot-4 {
+    animation: none !important;
+  }
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 16px;
+  color: var(--text);
+  transition: color 0.5s ease;
 }

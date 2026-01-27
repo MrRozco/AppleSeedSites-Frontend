@@ -2,106 +2,150 @@
 
 .businessSection {
     @include component.container;
-    display: flex;
-    flex-direction: column;
+    padding: 4rem 1rem;
     margin-bottom: 4rem;
-    width: 100%;
-        padding: 0 1rem;
 
     @include component.tablet-up {
-        margin-bottom: 10rem;
+        padding: 5rem 2rem;
+        margin-bottom: 6rem;
     }
 
-    
+    @include component.desktop-up {
+        padding: 6rem 2rem;
+        margin-bottom: 8rem;
+    }
+
     &__title {
         @include component.typography('display-2', var(--text));
-        margin-bottom: 2rem;
-        text-transform: uppercase;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(76, 126, 235, 0.5);
+        }
+
+        @include component.tablet-up {
+            margin-bottom: 4rem;
+        }
     }
 
     &__content {
         display: flex;
         flex-direction: column;
-        gap: 5rem;
-        
-        &__image {
-            position: relative;
-            width: 100%;
-            height: 300px;
-
-            @include component.desktop-up {
-                width: 45%;
-                height: 400px;
-            }
-        }
-
+        gap: 3rem;
+        align-items: center;
 
         @include component.desktop-up {       
             flex-direction: row;
-            align-items: start;
-            justify-content: space-between; 
+            gap: 4rem;
+            align-items: center;
             
             &__reverse {
-            flex-direction: row-reverse;
-        }
-            
+                flex-direction: row-reverse;
+            }
         }
        
-        
         &__body {
-            flex: 1;         
+            flex: 1;
+            max-width: 600px;
+
+            @include component.desktop-up {
+                max-width: none;
+            }
 
             &__text {
-                line-height: 1.6;
-                color: var(--text);
+                line-height: 1.8;
+                color: rgba(241, 245, 249, 0.9);
                 @include component.typography('body-lg', var(--text));
-                white-space: pre-wrap;
+                margin-bottom: 2rem;
 
                 strong {
-                font-weight: bolder !important;
-                color: var(--secondary) !important;
-                @include component.typography('body-xl', var(--text));
+                    font-weight: 700;
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    @include component.typography('body-xl', var(--text));
                 }
-                :global(.wysiwyg-strong) { font-weight: 800; }
             }
 
             &__bulletPoints {
-                margin-top: 2rem;
-                strong {
-                font-weight: bolder !important;
-                color: var(--secondary) !important;
+                margin-top: 2.5rem;
                 
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
                 }
-                
+
+                &__iconWrapper {
+                    min-width: 56px;
+                    width: 56px;
+                    height: 56px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, rgba(76, 126, 235, 0.1), rgba(249, 115, 22, 0.1));
+                    border-radius: 12px;
+                    border: 1px solid rgba(76, 126, 235, 0.2);
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                    backdrop-filter: blur(10px);
+                    transition: all 0.3s ease;
+                    position: relative;
+                    z-index: 10;
+                    
+                    img {
+                        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+                    }
+                }
 
                 &__item {
                     display: flex;
                     align-items: center;
-                    margin-bottom: 1rem;
+                    gap: 1rem;
                     color: var(--text);
                     @include component.typography('body-base', var(--text));
                     font-weight: 500;
+                    transition: all 0.3s ease;
 
-                        :global(strong),
-                        :global(b),
-                        :global(.wysiwyg-strong) {
-                        font-weight: bolder !important;
-                        @include component.typography('body-lg', var(--text));
+                    &:hover {
+                        .businessSection__content__body__bulletPoints__iconWrapper {
+                            transform: translateY(-2px) scale(1.05);
+                            border-color: rgba(76, 126, 235, 0.4);
+                            box-shadow: 0 8px 20px rgba(76, 126, 235, 0.2);
                         }
-            
+                    }
 
-                    img {
-                        width: 50px;
-                        height: 50px;
-                        margin-right: 2rem;
-                        object-fit: contain;
+                    p {
+                        flex: 1;
+                        line-height: 1.6;
+                        
+                        :global(strong),
+                        :global(b) {
+                            font-weight: 700;
+                            color: var(--primary);
+                        }
                     }
                 }
             }
 
             &__button {
                 @include component.button-large;
-                margin-top: 2rem;
+                margin-top: 2.5rem;
                 display: inline-block;
                 width: 100%;
                 text-align: center;
@@ -112,15 +156,66 @@
             }
         }
 
-        &__slider {
+        &__image {
             flex: 1;
+            position: relative;
+            width: 100%;
+            height: 400px;
             display: flex;
             justify-content: center;
             align-items: center;
+
+            @include component.tablet-up {
+                height: 450px;
+            }
+
+            @include component.desktop-up {
+                height: 500px;
+            }
         }
     }
 
-    
+    &__imageCard {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(76, 126, 235, 0.05), rgba(249, 115, 22, 0.05));
+        border: 1px solid rgba(76, 126, 235, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
 
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(76, 126, 235, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        &:hover {
+            transform: translateY(-4px);
+            border-color: rgba(76, 126, 235, 0.4);
+            box-shadow: 0 12px 48px rgba(76, 126, 235, 0.3);
+
+            &::before {
+                opacity: 1;
+            }
+        }
+
+        img {
+            position: relative;
+            z-index: 0;
+        }
+    }
 }
 

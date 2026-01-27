@@ -92,7 +92,10 @@ export default async function RootLayout({ children }) {
       >
         <ThemeProvider>
           <div className="theme-wrapper" >
-            <div style={{ height: "50px", backgroundColor: "var(--primary)" }} />
+            <div className="grid-dot-1"></div>
+            <div className="grid-dot-2"></div>
+            <div className="grid-dot-3"></div>
+            <div className="grid-dot-4"></div>
             <Navbar content={navBarData} />
             <main>
               {children}

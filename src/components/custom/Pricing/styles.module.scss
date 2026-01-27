@@ -1,23 +1,71 @@
 @use '../../../styles/component.scss' as component;
 
 .pricing {
-
     @include component.container;
+    position: relative;
+    padding: 4rem 1rem;
+    overflow: hidden;
+    
+    @include component.tablet-up {
+        padding: 5rem 2rem;
+    }
+    
+    @include component.desktop-up {
+        padding: 6rem 2rem;
+    }
+
+    // Subtle gradient orb
+    &::before {
+        content: '';
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(76, 126, 235, 0.1) 0%, transparent 70%);
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        filter: blur(70px);
+        z-index: 0;
+        animation: pulse 8s ease-in-out infinite;
+    }
 
     &__header {
-
+        position: relative;
         text-align: center;
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
+        z-index: 1;
+        animation: fadeUp 0.8s ease-out both;
         
         &__title {
             @include component.typography('display-2', var(--text));
             margin-bottom: 1rem;
-            text-transform: uppercase
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -0.75rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                border-radius: 2px;
+                box-shadow: 0 0 20px rgba(76, 126, 235, 0.5);
+            }
         }
 
         &__description {
-            @include component.typography('body-lg', var(--text));
+            @include component.typography('body-lg', var(--secondary-text));
             margin: 0 auto;
+            line-height: 1.7;
 
             @include component.tablet-up {
                 max-width: 80%;
@@ -26,77 +74,114 @@
             @include component.desktop-up {
                 max-width: 60%;
             }
-            
         }
     }
 
     &__cardsContainer {
+        position: relative;
         @include component.container;
         display: grid;
         grid-template-columns: repeat(1, minmax(100%, 1fr));
         gap: 2rem;
         justify-items: center;
         align-items: stretch;
+        z-index: 1;
 
         @include component.tablet-up {
             grid-template-columns: repeat(1, minmax(100%, 1fr));
-            width: 80vw;
+            width: 85vw;
             margin-inline: auto;
         }
 
         @include component.desktop-up {
             grid-template-columns: repeat(3, minmax(33%, 1fr));
             width: 100%;
+            gap: 2.5rem;
         }
 
         &__card  {
-            background: var(--cardBackground);
             position: relative;
-            padding: 4rem 2rem;
-            margin-bottom: 3rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            @include component.card-hover-effect;
+            padding: 4rem 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 24px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             text-align: center;
             width: 90%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Initial hidden state */
+            opacity: 0;
+            translate: 0 40px;
+            
+            /* Visible state with staggered delay */
+            &.visible {
+                opacity: 1;
+                translate: 0 0;
+            }
+            
+            &:nth-child(1).visible { transition-delay: 0s; }
+            &:nth-child(2).visible { transition-delay: 0.1s; }
+            &:nth-child(3).visible { transition-delay: 0.2s; }
 
             @include component.tablet-up {
                 width: 100%;
             }
 
+            &:hover {
+                transform: translateY(-10px);
+                box-shadow:
+                    0 20px 50px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+                border-color: rgba(76, 126, 235, 0.4);
+            }
+
             &:nth-child(2) {
                 border: 2px solid var(--secondary);
+                background: linear-gradient(135deg,
+                    rgba(249, 115, 22, 0.08) 0%,
+                    rgba(255, 255, 255, 0.04) 100%);
                 
-                // Make it taller (longer)
                 padding-top: 5rem;
                 padding-bottom: 5rem;
                 
-                // Make it pop on desktop
                 @include component.desktop-up {
                     transform: scale(1.05);
                     z-index: 2;
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.12);
                 }
 
-                // Badge
+                &:hover {
+                    @include component.desktop-up {
+                        transform: scale(1.08) translateY(-10px);
+                    }
+                }
+
                 &::after {
                     content: 'Most Popular';
                     position: absolute;
                     top: 0;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    background-color: var(--secondary);
+                    background: linear-gradient(135deg, var(--secondary), color-mix(in oklch, var(--secondary) 80%, var(--primary)));
                     color: white;
-                    padding: 0.5rem 1.5rem;
+                    padding: 0.6rem 1.75rem;
                     border-radius: 9999px;
-                    font-weight: 600;
+                    font-weight: 700;
                     font-size: 0.875rem;
                     letter-spacing: 0.05em;
                     white-space: nowrap;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
                 }
             }
 
@@ -149,13 +234,61 @@
             }
 
             &__cta {
-                @include component.button
-
-               
+                @include component.button;
+                margin-top: 2rem;
+                padding: 1rem 2.5rem !important;
+                background: linear-gradient(135deg, var(--buttons), var(--buttons-hover));
+                transition: all 0.2s ease;
+                text-decoration: none;
+                display: inline-block;
+                
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+                }
             }
         }
-
-
     }
+}
 
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pricing::before,
+    .pricing__header,
+    .pricing__cardsContainer__card {
+        animation: none !important;
+    }
+    
+    .pricing__header,
+    .pricing__cardsContainer__card {
+        opacity: 1;
+        transform: none;
+    }
+    
+    .pricing__cardsContainer__card:nth-child(2) {
+        @include component.desktop-up {
+            transform: scale(1.05);
+        }
+    }
 }
