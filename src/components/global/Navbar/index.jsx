@@ -157,9 +157,9 @@ const NavItem = ({ item, index, buildImageSrc, styles, openDropdown, setOpenDrop
           {item.title}
         </button>
         {isOpen && (
-          <div className={styles.nav__navDropdownWrapper}>
+          <div className={`${styles.nav__navDropdownWrapper} ${(!item.sections || item.sections.length === 0) && item.menuLink ? styles.nav__navDropdownWrapper__compact : ''}`}>
             <div className={styles.nav__navDropdownContent}>
-              {item.sections?.map((section, j) => (
+              {item.sections?.length > 0 && item.sections.map((section, j) => (
                 <div key={`section-${section.id || 'sect'}-${j}`} className={styles.nav__navDropdownSection}>
                   <div className={styles.nav__navDropdownHeading}>{section.heading}</div>
                   {section.links?.map((link, k) => (
@@ -185,6 +185,16 @@ const NavItem = ({ item, index, buildImageSrc, styles, openDropdown, setOpenDrop
                     </Link>
                   ))}
                 </div>
+              ))}
+              {(!item.sections || item.sections.length === 0) && item.menuLink?.map((link, j) => (
+                <Link
+                  key={`menuLink-${link.id || 'mlnk'}-${j}`}
+                  href={link.url}
+                  className={styles.nav__navDropdownMenuLink}
+                  onClick={handleLinkClick}
+                >
+                  {link.title}
+                </Link>
               ))}
             </div>
           </div>
@@ -215,7 +225,7 @@ const MobileMenu = ({ NavbarItems, buildImageSrc, styles, closeMobile }) => {
             <details>
               <summary className={styles.nav__navDropdown}>{item.title}</summary>
               <ul>
-                {item.sections?.map((section, j) => (
+                {item.sections?.length > 0 && item.sections.map((section, j) => (
                   <li key={`mobile-section-${section.id || 'sect'}-${j}`}>
                     <div className={styles.nav__navDropdownHeading}>{section.heading}</div>
                     <ul>
@@ -238,6 +248,17 @@ const MobileMenu = ({ NavbarItems, buildImageSrc, styles, closeMobile }) => {
                         </li>
                       ))}
                     </ul>
+                  </li>
+                ))}
+                {(!item.sections || item.sections.length === 0) && item.menuLink?.map((link, j) => (
+                  <li key={`mobile-menulink-${link.id || 'mlnk'}-${j}`}>
+                    <Link 
+                      href={link.url} 
+                      className={styles.nav__navDropdownMenuLink}
+                      onClick={closeMobile}
+                    >
+                      {link.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
