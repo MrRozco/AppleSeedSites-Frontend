@@ -4,25 +4,25 @@ import { PAGE_CONTENT_QUERY } from "@/lib/api/queries";
 
 export async function generateMetadata() {
   try {
-    const webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
+    const webOpPage = await getSingleType('web-op', PAGE_CONTENT_QUERY);
     return {
-      title: webOpsPage?.title,
-      description: webOpsPage?.description,
+      title: webOpPage?.title,
+      description: webOpPage?.description,
     };
   } catch (error) {
     return {
       title: 'Web Ops',
-      description: 'Web Operations services.',
+      description: 'Web operations services.',
     };
   }
 }
 
-export default async function webOpsPage() {
+export default async function WebOps() {
 
-    let webOpsPage = null;
+    let webOpPage = null;
 
     try {
-    webOpsPage = await getSingleType('web-ops', PAGE_CONTENT_QUERY);
+    webOpPage = await getSingleType('web-op', PAGE_CONTENT_QUERY);
 
     } catch (error) {
         error = 'Failed to load web ops page data';
@@ -31,8 +31,8 @@ export default async function webOpsPage() {
 
     return (
         <div>
-            {webOpsPage ? (
-                <PageRenderer page={webOpsPage} />
+            {webOpPage ? (
+                <PageRenderer page={webOpPage} />
             ) : (
                 <p>Loading...</p>
             )}
