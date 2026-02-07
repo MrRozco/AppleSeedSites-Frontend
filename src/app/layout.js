@@ -50,6 +50,7 @@ export default async function RootLayout({ children }) {
     "darkLogo",
     "lightLogo",
     "NavbarItems",
+    "NavbarItems.menuLink",
     "NavbarItems.sections",
     "NavbarItems.sections.links",
     "NavbarItems.sections.links.LightIcon",
