@@ -1,109 +1,74 @@
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
-import "../styles/globals.scss";
-import { ThemeProvider } from "@/lib/context/ThemeContext";
-import Navbar from "@/components/global/Navbar";
-import Footer from "@/components/global/Footer";
-import { getSingleType } from "@/lib/api/strapi";
+import { Bricolage_Grotesque, Figtree } from "next/font/google";
+import "@/styles/tokens.css";
+import "@/styles/appleseed.css";
+import "@/styles/site.css";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import CtaBand from "@/components/layout/CtaBand";
+import RevealObserver from "@/components/layout/RevealObserver";
+import { getSingleType } from "@/lib/strapi";
+import { NAVBAR_QUERY, FOOTER_QUERY } from "@/lib/queries";
+import { normalizeNavItems } from "@/lib/navigation";
+import { SITE_URL } from "@/lib/routes";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/* Two families, self-hosted by next/font (no layout shift, no third-party requests). */
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
+  axes: ["opsz"],
+  variable: "--font-bricolage",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sans = Figtree({
   subsets: ["latin"],
-});
-
-const roboto = Roboto({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-  display: 'swap',
+  variable: "--font-figtree",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Business Website", // Change this to your website title
-  description: "Welcome to our business website", // Change this to your website description
-  icons: {
-    icon: '/icon.png',
-    apple: '/icon.png',
-  },
+  metadataBase: new URL(SITE_URL),
+  title: "AppleSeedSites",
+  description: "Fast, mobile-first websites for small businesses.",
+  icons: { icon: "/icon.png", apple: "/icon.png" },
   openGraph: {
-    title: "Business Website",
-    description: "Welcome to our business website",
-    // To change the preview image, add an 'opengraph-image.png' file to the src/app folder
-    // or uncomment the line below and add an image to the public folder:
-    // images: ['/your-preview-image.jpg'],
+    type: "website",
+    siteName: "AppleSeedSites",
+    title: "AppleSeedSites",
+    description: "Fast, mobile-first websites for small businesses.",
   },
 };
 
+export const viewport = {
+  themeColor: "#0a0e17",
+  colorScheme: "dark",
+};
+
+/* The layout never fails the page: if the CMS is unreachable the menu and footer
+   simply render empty, and the page fetch decides whether to error. */
+async function safeSingleType(type, query) {
+  try {
+    return await getSingleType(type, query);
+  } catch {
+    return null;
+  }
+}
 
 export default async function RootLayout({ children }) {
-
-  let navBarData = null;
-  let footerData = null;
-
-  try {
-    navBarData = await getSingleType('navbar', {
-  "populate": [
-    "darkLogo",
-    "lightLogo",
-    "NavbarItems",
-    "NavbarItems.menuLink",
-    "NavbarItems.sections",
-    "NavbarItems.sections.links",
-    "NavbarItems.sections.links.LightIcon",
-    "NavbarItems.sections.links.darkIcon",
-  ]
-})
-  } catch (error) {
-    console.error('Error in RootLayout:', error);
-  }
-
-  try {
-    footerData = await getSingleType('footer', {
-      "populate": [
-        "logo",
-        "cta",
-        "footerLink",
-        "contactLink",
-        "contactLink.lightIcon",
-        "contactLink.darkIcon"
-      ]
-    });
-  } catch (error) {
-    console.error('Error in RootLayout:', error);
-  }
+  const [navbar, footer] = await Promise.all([
+    safeSingleType("navbar", NAVBAR_QUERY),
+    safeSingleType("footer", FOOTER_QUERY),
+  ]);
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              const theme = localStorage.getItem('theme') || 'light';
-              document.documentElement.setAttribute('data-theme', theme);
-            })();
-          `
-        }} />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}
-      >
-        <ThemeProvider>
-          <div className="theme-wrapper" >
-            <div className="grid-dot-1"></div>
-            <div className="grid-dot-2"></div>
-            <div className="grid-dot-3"></div>
-            <div className="grid-dot-4"></div>
-            <Navbar content={navBarData} />
-            <main>
-              {children}
-            </main>
-            <Footer data={footerData} />
-          </div>
-        </ThemeProvider>
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+      <body className="as as-page">
+        <Navbar items={normalizeNavItems(navbar)} />
+        <main id="main">
+          {children}
+          <CtaBand footer={footer} />
+        </main>
+        <Footer data={footer} />
+        <RevealObserver />
       </body>
     </html>
   );
