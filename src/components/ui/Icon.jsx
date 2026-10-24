@@ -33,7 +33,33 @@ const PATHS = {
       <circle cx="12" cy="10" r="2.3" />
     </>
   ),
+  trend: (
+    <>
+      <path d="m3.5 17 6-6 4 4 7-7.5" />
+      <path d="M15 7.5h5.5V13" />
+    </>
+  ),
+  plus: <path d="M12 5v14M5 12h14" />,
+  alert: (
+    <>
+      <path d="M12 3.5 2.8 19.5h18.4z" />
+      <path d="M12 10v4.5M12 17.2v.1" />
+    </>
+  ),
 };
+
+/** Five filled stars for a rating. Decorative: pair it with visible text and an sr-only label. */
+export function Stars({ count = 5 }) {
+  return (
+    <span className="as-stars">
+      {Array.from({ length: count }, (_, i) => (
+        <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="m12 2.8 2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
 
 export default function Icon({ name, size = 20, className }) {
   return (

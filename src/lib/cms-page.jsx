@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "./strapi";
-import { PAGE_CONTENT_QUERY } from "./queries";
+import { PAGE_CONTENT_QUERY, FOOTER_QUERY } from "./queries";
 
 /**
  * Builds a CMS-driven route from an entry in lib/routes.js.
@@ -36,7 +36,14 @@ export function createCmsPage(route, { compactHero = true } = {}) {
   async function Page() {
     const page = await load();
     if (!page) notFound();
-    return <PageRenderer page={page} compactHero={compactHero} />;
+    // Same cached request as the layout's footer (React cache + fetch dedupe), used for the CTA band.
+    let footer = null;
+    try {
+      footer = await getSingleType("footer", FOOTER_QUERY);
+    } catch {
+      // The band is optional; the page still renders.
+    }
+    return <PageRenderer page={page} footer={footer} compactHero={compactHero} />;
   }
 
   return { generateMetadata, Page };

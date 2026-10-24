@@ -4,7 +4,6 @@ import "@/styles/appleseed.css";
 import "@/styles/site.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import CtaBand from "@/components/layout/CtaBand";
 import RevealObserver from "@/components/layout/RevealObserver";
 import { getSingleType } from "@/lib/strapi";
 import { NAVBAR_QUERY, FOOTER_QUERY } from "@/lib/queries";
@@ -63,10 +62,7 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body className="as as-page">
         <Navbar items={normalizeNavItems(navbar)} />
-        <main id="main">
-          {children}
-          <CtaBand footer={footer} />
-        </main>
+        <main id="main">{children}</main>
         <Footer data={footer} />
         <RevealObserver />
       </body>

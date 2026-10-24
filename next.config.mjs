@@ -18,8 +18,9 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns,
-    // Next 16 blocks optimizing images from local IPs by default; allow it for a local Strapi in dev.
-    dangerouslyAllowLocalIP: process.env.NODE_ENV !== "production",
+    // Next 16 blocks optimizing images from private IPs. Allow it only when the site itself is
+    // configured against a local Strapi (localhost), never when it points at Strapi Cloud.
+    dangerouslyAllowLocalIP: ["localhost", "127.0.0.1"].includes(strapi.hostname),
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
 };

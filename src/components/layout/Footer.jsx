@@ -9,12 +9,13 @@ import Wordmark from "./Wordmark";
 /**
  * Footer single type.
  * Fields: logo, description, cta { title, url }, menuHeader, footerLink[] { title, url },
- * contactHeader, contactLink[] { url, text, lightIcon, darkIcon }.
+ * contactHeader, contactLink[] { url (optional), text, lightIcon, darkIcon }.
  */
 export default function Footer({ data }) {
   const { logo, description, cta, menuHeader, footerLink, contactHeader, contactLink } = data || {};
   const links = (footerLink || []).filter((l) => l?.url && l?.title);
-  const contacts = (contactLink || []).filter((c) => c?.url && c?.text);
+  // A contact item without a url renders as a plain text line (e.g. the service area).
+  const contacts = (contactLink || []).filter((c) => has(c?.text));
 
   return (
     <footer className="as-footer">
@@ -47,10 +48,17 @@ export default function Footer({ data }) {
               <ul>
                 {contacts.map((c, i) => (
                   <li key={c.id ?? i}>
-                    <SmartLink href={c.url}>
-                      <CmsIcon media={pickIcon(c)} size={18} fallback={iconForHref(c.url)} />
-                      <span>{c.text}</span>
-                    </SmartLink>
+                    {has(c.url) ? (
+                      <SmartLink href={c.url}>
+                        <CmsIcon media={pickIcon(c)} size={18} fallback={iconForHref(c.url)} />
+                        <span>{c.text}</span>
+                      </SmartLink>
+                    ) : (
+                      <span className="as-footer-note">
+                        <CmsIcon media={pickIcon(c)} size={18} fallback="pin" />
+                        <span>{c.text}</span>
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -60,7 +68,7 @@ export default function Footer({ data }) {
 
         <div className="as-footer-legal">
           <span>© {new Date().getFullYear()} AppleSeed Sites. All rights reserved.</span>
-          <span>Built in Maryland</span>
+          <span>Built in Maryland.</span>
         </div>
       </div>
     </footer>

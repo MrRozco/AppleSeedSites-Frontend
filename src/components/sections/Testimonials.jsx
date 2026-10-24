@@ -1,12 +1,14 @@
-import { gridCount, has } from "@/lib/utils";
+import { firstButton, gridCount, has } from "@/lib/utils";
 import { pickIcon, isQuoteIcon } from "@/lib/media";
 import { Section, SectionHead, headingId } from "@/components/ui/Section";
 import CmsImage from "@/components/ui/CmsImage";
+import { CmsButton } from "@/components/ui/Button";
 import { QuoteMark } from "@/components/ui/Icon";
 
 /**
  * custom.testimonials
- * Fields: eyebrow, title, description, testimonialCards[] { lightIcon, darkIcon, testimonial, name, subname }.
+ * Fields: eyebrow, title, description, testimonialCards[] { lightIcon, darkIcon, testimonial, name, subname },
+ * button (e.g. "Read our Google reviews").
  * The card icon is either a client logo upload or the design's quote mark. Quote-mark uploads
  * (file name contains "quote") use the design's own mark so every card matches.
  */
@@ -47,6 +49,11 @@ export default function Testimonials({ data }) {
             );
           })}
         </ul>
+      )}
+      {firstButton(data?.button) && (
+        <div className="as-section-foot">
+          <CmsButton button={firstButton(data.button)} variant="secondary" arrow />
+        </div>
       )}
     </Section>
   );
