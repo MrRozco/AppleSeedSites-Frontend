@@ -6,10 +6,11 @@ import { CmsIcon } from "@/components/ui/CmsImage";
 
 /**
  * custom.pricing
- * Fields: eyebrow, heading, description, card[] { title, description, price, priceText, bulletPoint[], cta[] }.
+ * Fields: eyebrow, heading, description,
+ * card[] { title, description, price, priceText, setupFee, pointsIntro, bulletPoint[], cta[] }.
  * The CMS has no "featured" flag: the card at index floor(n / 2) (n ≥ 2) is "Most Popular".
  */
-export default function Pricing({ data }) {
+export default function Pricing({ data, anchor }) {
   const { eyebrow, heading, description, card } = data || {};
   const cards = (card || []).filter(Boolean);
   const n = cards.length;
@@ -17,7 +18,7 @@ export default function Pricing({ data }) {
   const id = headingId("pricing", data);
 
   return (
-    <Section kind="as-pricing" labelledBy={has(heading) ? id : undefined}>
+    <Section kind="as-pricing" labelledBy={has(heading) ? id : undefined} id={anchor}>
       <SectionHead id={id} eyebrow={eyebrow} title={heading} description={description} />
       {n > 0 && (
         <ul className="as-prices" data-count={n > 6 ? "many" : String(n)}>
@@ -26,6 +27,12 @@ export default function Pricing({ data }) {
             const hasPrice = c.price != null && c.price !== "";
             const points = (c.bulletPoint || []).filter((p) => has(p?.text));
             const ctas = (c.cta || []).filter((b) => b?.url && b?.title);
+            const hasSetup = c.setupFee != null && c.setupFee !== "";
+            const setup = hasSetup ? (
+              <p className="as-setup">
+                + <b>${Number(c.setupFee).toLocaleString("en-US")}</b> one-time setup
+              </p>
+            ) : null;
             return (
               <li key={c.id ?? i} className="as-reveal" style={{ "--rd": `${i * 80}ms` }}>
                 <article className={cx("as-card", "as-lift", "as-price", isFeatured && "is-featured")}>
@@ -41,12 +48,17 @@ export default function Pricing({ data }) {
                         {formatPrice(c.price)}
                       </b>
                       {has(c.priceText) && <span>{c.priceText}</span>}
+                      {setup}
                     </div>
                   ) : has(c.priceText) ? (
                     <div className="as-amount is-text">
                       <b>{c.priceText}</b>
+                      {setup}
                     </div>
+                  ) : setup ? (
+                    <div className="as-amount">{setup}</div>
                   ) : null}
+                  {has(c.pointsIntro) && <p className="as-points-intro">{c.pointsIntro}</p>}
                   {points.length > 0 && (
                     <ul className="as-points">
                       {points.map((p, j) => (

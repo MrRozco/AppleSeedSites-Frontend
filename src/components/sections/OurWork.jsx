@@ -5,15 +5,16 @@ import Icon from "@/components/ui/Icon";
 
 /**
  * custom.our-work: each card is ONE external link to the client's site.
- * Fields: eyebrow, title, description, portfolioCard[] { image, title, description, url, buttonText }.
+ * Fields: eyebrow, title, description,
+ * portfolioCard[] { image, title, tag ("Industry · City, State"), description, result (one outcome), url, buttonText }.
  */
-export default function OurWork({ data }) {
+export default function OurWork({ data, anchor }) {
   const { eyebrow, title, description, portfolioCard } = data || {};
   const cards = (portfolioCard || []).filter((c) => has(c?.url) || has(c?.title));
   const id = headingId("our-work", data);
 
   return (
-    <Section kind="as-ourwork" labelledBy={has(title) ? id : undefined}>
+    <Section kind="as-ourwork" labelledBy={has(title) ? id : undefined} id={anchor}>
       <SectionHead id={id} eyebrow={eyebrow} title={title} description={description} />
       {cards.length > 0 && (
         <ul className="as-grid" data-count={gridCount(cards.length)}>
@@ -32,8 +33,15 @@ export default function OurWork({ data }) {
                   )}
                 </div>
                 <div className="as-work-body">
+                  {has(card.tag) && <p className="as-work-tag">{card.tag}</p>}
                   {has(card.title) && <h3 className="as-h3">{card.title}</h3>}
                   <Paragraphs text={card.description} />
+                  {has(card.result) && (
+                    <p className="as-work-result">
+                      <Icon name="trend" size={16} />
+                      <span>{card.result}</span>
+                    </p>
+                  )}
                 </div>
                 <span className="as-work-go">
                   {card.buttonText || "Visit site"}

@@ -1256,6 +1256,7 @@
   display: grid;
   gap: var(--space-4);
   justify-items: start;
+  align-content: start;
   max-width: 400px;
 }
 .as-footer-brand p {
@@ -1626,6 +1627,459 @@
   line-height: 24px;
 }
 
+/* ---------- Hero trust row (NEW field: custom.hero.trust) ---------- */
+.as-trust {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--secondary-text);
+}
+.as-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.as-stars {
+  display: inline-flex;
+  gap: 1px;
+  color: var(--headings);
+}
+.as-trust-ic {
+  display: inline-grid;
+  color: var(--links);
+}
+
+/* ---------- Placeholder highlight (design review only, not production) ---------- */
+.as-ph {
+  color: inherit;
+  background: rgba(251, 191, 36, 0.14);
+  outline: 1px dashed rgba(251, 191, 36, 0.9);
+  outline-offset: 1px;
+  border-radius: 4px;
+  padding: 0 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ---------- Our Work additions (NEW fields: tag, result) ---------- */
+.as-work-body .as-work-tag {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--links);
+}
+.as-work-body .as-work-result {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-2);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.as-work-result svg {
+  flex: none;
+  color: var(--headings);
+}
+
+/* ---------- Pricing additions (NEW fields: setupFee, pointsIntro) ---------- */
+.as-amount .as-setup {
+  flex-basis: 100%;
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--secondary-text);
+}
+.as-amount .as-setup b {
+  font: 700 14px/20px var(--font-sans);
+  letter-spacing: 0;
+  color: var(--text);
+}
+.as-points-intro {
+  margin: 0 0 calc(var(--space-2) - var(--space-5));
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---------- Footer: non-link contact line ---------- */
+.as-footer-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  color: var(--secondary-text);
+}
+.as-footer-note svg {
+  flex: none;
+  color: var(--links);
+}
+
+/* ---------- Steps (NEW: custom.steps) ---------- */
+.as-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.as-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  padding-bottom: var(--space-8);
+}
+.as-step:last-child {
+  padding-bottom: 0;
+}
+/* dashed connector: vertical on phones/tablets */
+.as-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 64px;
+  bottom: 8px;
+  width: 2px;
+  background-image: linear-gradient(rgba(147, 197, 253, 0.4) 50%, transparent 0);
+  background-size: 2px 10px;
+}
+.as-step-num {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font: 700 24px/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: linear-gradient(140deg, var(--primary) 0%, var(--primary-dark) 100%);
+  box-shadow:
+    0 0 0 6px var(--background),
+    0 0 0 7px rgba(147, 197, 253, 0.28);
+}
+.as-step-body {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: 12px;
+  min-width: 0;
+}
+.as-step-body p {
+  margin: 0;
+  color: var(--secondary-text);
+}
+
+/* ---------- FAQ (NEW: custom.faq) ---------- */
+.as-faq {
+  display: grid;
+  gap: var(--space-10);
+}
+.as-faq-head {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  align-content: start;
+  min-width: 0;
+}
+.as-faq-head .as-eyebrow {
+  margin: 0;
+}
+.as-faq-head .as-lead {
+  font-size: 17px;
+  line-height: 28px;
+}
+.as-faq-list {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.as-faq-item {
+  background: var(--cardBackground);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+}
+.as-faq-item[open] {
+  border-color: rgba(147, 197, 253, 0.3);
+  background: rgba(255, 255, 255, 0.07);
+}
+.as-faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding: var(--space-4) var(--space-5);
+  border-radius: inherit;
+}
+.as-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+/* Questions are controls, so they use --text (not the orange heading colour) */
+.as-faq-item summary h3 {
+  margin: 0;
+  font: 600 17px/26px var(--font-sans);
+  color: var(--text);
+}
+.as-faq-item summary:hover h3 {
+  color: var(--links);
+}
+.as-faq-ic {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.16);
+  color: var(--links);
+  transition: transform var(--dur-base) cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.as-faq-item[open] .as-faq-ic {
+  transform: rotate(45deg);
+}
+.as-faq-a {
+  padding: 0 var(--space-5) var(--space-5);
+  font-size: 16px;
+  line-height: 27px;
+}
+.as-faq-item[open] .as-faq-a {
+  animation: as-drop-in var(--dur-base) ease both;
+}
+
+/* ---------- Lead form (NEW: custom.lead-form) ---------- */
+.as-ctaband.as-lead-band {
+  padding: var(--space-8) var(--space-4);
+  align-items: center;
+}
+.as-lead-copy {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  min-width: 0;
+}
+.as-lead-copy .as-eyebrow {
+  margin: 0;
+}
+.as-leadform-card {
+  min-width: 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: #0b1324;
+  border: 1px solid rgba(147, 197, 253, 0.2);
+  box-shadow: var(--shadow-3);
+}
+.as-leadform {
+  display: grid;
+  gap: var(--space-4);
+}
+.as-leadform[hidden],
+.as-leadform-done[hidden],
+.as-field-err[hidden] {
+  display: none;
+}
+.as-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+fieldset.as-field {
+  display: block;
+}
+.as-field label,
+.as-field legend {
+  padding: 0;
+  font: 600 14px/20px var(--font-sans);
+  color: var(--text);
+}
+.as-field legend {
+  margin-bottom: 6px;
+}
+.as-field input[type="text"] {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #64748b; /* 3.9:1 against the form card */
+  background: var(--background);
+  color: var(--text);
+  font: 400 16px/1 var(--font-sans); /* 16px stops iOS zooming on focus */
+}
+.as-field input[type="text"]:hover {
+  border-color: var(--secondary-text);
+}
+.as-field input[type="text"]:focus-visible {
+  border-color: var(--links);
+}
+.as-field.is-invalid input[type="text"],
+.as-field.is-invalid .as-seg span {
+  border-color: #f87171;
+}
+.as-field-err {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  color: #fca5a5;
+}
+.as-field-err svg {
+  flex: none;
+}
+.as-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.as-seg label {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.as-seg input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.as-seg span {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #64748b;
+  background: var(--background);
+  font-weight: 600;
+}
+.as-seg label:hover span {
+  border-color: var(--secondary-text);
+}
+.as-seg input:checked + span {
+  border-color: var(--links);
+  background: rgba(37, 99, 235, 0.24);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px var(--links);
+}
+.as-seg input:focus-visible + span {
+  outline: 2px solid var(--links);
+  outline-offset: 3px;
+}
+.as-leadform .as-btn {
+  margin-top: var(--space-1);
+}
+.as-leadform-done {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+}
+.as-leadform-done:focus {
+  outline: none;
+}
+.as-leadform-done p {
+  margin: 0;
+  color: var(--secondary-text);
+}
+.as-done-ic {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(74, 222, 128, 0.14);
+  color: #4ade80;
+  animation: as-pop var(--dur-base) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes as-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .as-ctaband.as-lead-band {
+    padding: var(--space-12) var(--space-10);
+  }
+  .as-leadform-card {
+    padding: var(--space-8);
+  }
+  .as-faq-item summary {
+    padding: var(--space-4) var(--space-6);
+  }
+  .as-faq-a {
+    padding: 0 var(--space-6) var(--space-6);
+  }
+}
+@media (min-width: 1024px) {
+  .as-steps.is-row {
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+  .as-steps.is-row .as-step {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 0;
+  }
+  /* connector turns horizontal and runs to the next number */
+  .as-steps.is-row .as-step:not(:last-child)::before {
+    left: 72px;
+    right: calc(var(--space-8) * -1 + 16px);
+    top: 27px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background-image: linear-gradient(90deg, rgba(147, 197, 253, 0.4) 50%, transparent 0);
+    background-size: 10px 2px;
+  }
+  .as-steps.is-row .as-step-body {
+    padding-top: 0;
+    max-width: 34ch;
+  }
+  .as-faq {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-14);
+    align-items: start;
+  }
+  .as-faq-head {
+    position: sticky;
+    top: 104px;
+  }
+  .as-ctaband.as-lead-band {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
+    gap: var(--space-12);
+    padding: var(--space-14) var(--space-12);
+  }
+}
+
 /* ---------- Scroll reveal ----------
    Content is visible by default. JS marks only elements that start
    BELOW the fold as .is-pending, then animates them in on intersect. */
@@ -1842,5 +2296,9 @@
   .as-lift:focus-within,
   .as-btn:hover {
     transform: none;
+  }
+  .as-faq-item[open] .as-faq-a,
+  .as-done-ic {
+    animation: none;
   }
 }

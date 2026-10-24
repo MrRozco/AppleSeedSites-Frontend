@@ -21,11 +21,11 @@ export default function Button({ href, children, variant = "primary", size, bloc
   );
 }
 
-/** Render a Strapi `layout.button` / `menu.menu-link` ({ title, url }). */
+/** Render a Strapi `layout.button` / `menu.menu-link` ({ title, url }). Off-site URLs open in a new tab. */
 export function CmsButton({ button, ...props }) {
   if (!button?.url || !button?.title) return null;
   return (
-    <Button href={button.url} {...props}>
+    <Button href={button.url} newTab={/^https?:\/\//i.test(button.url)} {...props}>
       {button.title}
     </Button>
   );

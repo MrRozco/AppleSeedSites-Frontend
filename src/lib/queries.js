@@ -11,7 +11,9 @@ export const PAGE_CONTENT_QUERY = {
   populate: {
     content: {
       on: {
-        "custom.hero": { populate: { heroImage: true } },
+        "custom.hero": {
+          populate: { heroImage: true, button: true, trust: { populate: { icon: true } } },
+        },
         "custom.features": {
           populate: { featuresCard: { populate: { icon: true, button: true } }, button: "*" },
         },
@@ -19,7 +21,7 @@ export const PAGE_CONTENT_QUERY = {
         "custom.performance": {
           populate: { image: true, stat: true, button: "*", bulletPoint: icons },
         },
-        "custom.testimonials": { populate: { testimonialCards: icons } },
+        "custom.testimonials": { populate: { testimonialCards: icons, button: true } },
         "custom.about-section": { populate: { bulletPoint: icons, image: true, button: "*" } },
         "custom.business-section": {
           populate: { bulletPoint: icons, sliderImages: true, button: "*" },
@@ -30,6 +32,10 @@ export const PAGE_CONTENT_QUERY = {
         "custom.contact-section": {
           populate: { darkIcon: true, lightIcon: true, bulletPoint: icons, link: icons },
         },
+        "custom.steps": { populate: { step: true, button: true } },
+        "custom.faq": { populate: { faqItem: true, button: true } },
+        // Only plain fields; listed so the section is always returned in the dynamic zone.
+        "custom.lead-form": { populate: "*" },
       },
     },
   },
