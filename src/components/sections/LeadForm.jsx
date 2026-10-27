@@ -1,14 +1,15 @@
 import { has } from "@/lib/utils";
 import { Eyebrow, Paragraphs, headingId } from "@/components/ui/Section";
-import LeadFormFields from "./LeadFormFields";
+import LeadForm from "@/components/forms/LeadForm";
+import ReviewForm from "@/components/forms/ReviewForm";
 
 /**
- * custom.lead-form: free website plan form on the deep-blue band.
- * Fields: eyebrow, title, description, submitLabel, successTitle, successText.
- * The four inputs are fixed in code because they feed the lead API (app/api/lead/route.js),
- * which saves each submission as a Lead in Strapi.
+ * custom.lead-form: lead form on the deep-blue band, placed on CMS pages.
+ * Section copy (eyebrow, title, description, submitLabel) comes from the section; field labels
+ * come from the lead-form single type (`leadForm`). Submissions go to /api/lead → /thank-you.
+ * `kind="review"` renders the free site review form (website + email) instead.
  */
-export default function LeadForm({ data, anchor }) {
+export default function LeadFormSection({ data, anchor, leadForm, kind = "lead" }) {
   const { eyebrow, title, description } = data || {};
   const id = headingId("lead-form", data);
 
@@ -26,11 +27,11 @@ export default function LeadForm({ data, anchor }) {
             <Paragraphs text={description} className="as-lead" />
           </div>
           <div className="as-leadform-card">
-            <LeadFormFields
-              submitLabel={data?.submitLabel || "Get My Free Plan"}
-              successTitle={data?.successTitle || "Thanks! Your free plan is on its way."}
-              successText={data?.successText || "We'll reach out within 1 business day."}
-            />
+            {kind === "review" ? (
+              <ReviewForm content={leadForm} />
+            ) : (
+              <LeadForm content={leadForm} variant="compact" submitLabel={data?.submitLabel} />
+            )}
           </div>
         </div>
       </div>
