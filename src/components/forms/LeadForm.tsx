@@ -4,6 +4,7 @@ import { Suspense, useEffect, useId, useRef, useState, type FormEvent } from "re
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cx } from "@/lib/utils";
 import { track } from "@/lib/track";
+import { pageSlug } from "@/lib/contact-link";
 import { EMAIL, EMAIL_HREF, PHONE_DISPLAY } from "@/lib/contact";
 import {
   MAX,
@@ -65,9 +66,6 @@ const titleCase = (s: string) =>
     .replace(/[-_]+/g, " ")
     .trim()
     .replace(/\b\w/g, (c) => c.toUpperCase());
-
-/** "/" → "home", "/small-business" → "small-business". */
-export const pageSlug = (path: string) => path.replace(/^\/+|\/+$/g, "").replace(/\//g, "-") || "home";
 
 function needOptionsFrom(content: Partial<LeadFormContent> | null | undefined, preselected?: LeadNeed): NeedOption[] {
   const fromCms = Array.isArray(content?.needOptions)
