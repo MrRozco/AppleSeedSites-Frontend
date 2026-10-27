@@ -5,6 +5,7 @@ import { CmsIcon } from "./CmsImage";
 /** Stable heading id for aria-labelledby, from the Strapi component id. */
 export const headingId = (kind, data) => `${kind}-${data?.id ?? "x"}`;
 
+/** @param {{ kind?: string, labelledBy?: string, id?: string, children?: import("react").ReactNode }} props */
 export function Section({ kind, labelledBy, id, children }) {
   return (
     <section className={cx("as-section", kind)} aria-labelledby={labelledBy} id={id || undefined}>
@@ -13,11 +14,13 @@ export function Section({ kind, labelledBy, id, children }) {
   );
 }
 
+/** @param {{ text?: string | null }} props */
 export function Eyebrow({ text }) {
   return has(text) ? <p className="as-eyebrow">{text}</p> : null;
 }
 
 /** Plain-text field split on blank lines into <p> elements. */
+/** @param {{ text?: string | null, className?: string }} props */
 export function Paragraphs({ text, className }) {
   return paragraphs(text).map((p, i) => (
     <p key={i} className={className}>
@@ -27,6 +30,7 @@ export function Paragraphs({ text, className }) {
 }
 
 /** Section head: eyebrow + H2 on the left, description on the right (desktop). */
+/** @param {{ id?: string, eyebrow?: string | null, title?: string | null, description?: string | null }} props */
 export function SectionHead({ id, eyebrow, title, description }) {
   const hasCopy = paragraphs(description).length > 0;
   if (!has(title) && !has(eyebrow) && !hasCopy) return null;

@@ -1,0 +1,575 @@
+/* =========================================================
+   Pricing page, plan cards, lead forms, /contact and /thank-you.
+   Built on the design tokens and the existing as-* components (price cards, fields,
+   CTA band, FAQ); only what those don't cover lives here.
+   ========================================================= */
+
+/* ---------- Billing toggle (segmented control) ---------- */
+.as-billing {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 4px;
+  padding: 4px;
+  margin-top: var(--space-6);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--card-border-strong);
+  background: rgba(255, 255, 255, 0.04);
+  max-width: 100%;
+}
+.as-billing-opt {
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--secondary-text);
+  font: 600 15px/20px var(--font-sans);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast),
+    color var(--dur-fast);
+}
+.as-billing-opt:hover {
+  color: var(--text);
+}
+.as-billing-opt.is-on {
+  background: var(--buttons-aa);
+  color: #fff;
+}
+.as-billing-opt:focus-visible {
+  outline: 2px solid var(--links);
+  outline-offset: 2px;
+}
+
+/* ---------- Plan cards ---------- */
+.as-plan-grid {
+  padding-top: var(--space-4); /* room for the badge on the first card */
+}
+.as-plan-grid > li {
+  min-width: 0;
+}
+/* Mobile and tablet: the highlighted plan first. */
+@media (max-width: 1023.98px) {
+  .as-plan-grid > li.is-highlighted {
+    order: -1;
+  }
+  .as-plan-grid > li + li {
+    margin-top: var(--space-2);
+  }
+}
+.as-price.is-compact {
+  gap: var(--space-4);
+}
+.as-price .as-amount > .as-sr + b {
+  margin-right: 2px;
+}
+.as-plans-sec {
+  padding-top: var(--space-8);
+}
+.as-below-cards {
+  max-width: 72ch;
+  margin: var(--space-8) auto 0;
+  text-align: center;
+  color: var(--secondary-text);
+  font-size: 15px;
+  line-height: 24px;
+}
+
+/* ---------- Which plan ---------- */
+.as-which {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.as-which-row {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+.as-which-situation {
+  margin: 0;
+  font-weight: 600;
+}
+.as-which-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--headings);
+  font: 700 18px/24px var(--font-display);
+  text-decoration: none;
+}
+.as-which-plan:hover span {
+  text-decoration: underline;
+}
+.as-which-link,
+.as-addon-link {
+  color: var(--links);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+@media (min-width: 768px) {
+  .as-which-row {
+    grid-template-columns: minmax(0, 1.6fr) minmax(120px, auto) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .as-which-link {
+    justify-self: end;
+    text-align: right;
+  }
+}
+
+/* ---------- Tables (comparison, cost) ---------- */
+.as-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 15px;
+  line-height: 22px;
+}
+.as-table th,
+.as-table td {
+  padding: 14px var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--card-border);
+}
+.as-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.as-table thead th {
+  font: 700 16px/22px var(--font-display);
+  color: var(--text);
+}
+.as-table tbody th {
+  font-weight: 600;
+  color: var(--text);
+}
+.as-table td {
+  color: var(--secondary-text);
+}
+.as-table .is-featured {
+  background: rgba(249, 116, 18, 0.06);
+}
+.as-table thead a {
+  color: inherit;
+  text-decoration: none;
+}
+.as-table thead a:hover {
+  color: var(--links);
+}
+.as-table .as-check {
+  display: inline-grid;
+}
+.as-cmp-no {
+  color: #64748b;
+}
+
+/* Comparison: collapsed on mobile, open on desktop (ResponsiveDetails). */
+.as-compare > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border-strong);
+  background: var(--cardBackground);
+  font: 700 16px/22px var(--font-sans);
+  cursor: pointer;
+  list-style: none;
+}
+.as-compare > summary::-webkit-details-marker {
+  display: none;
+}
+.as-compare > summary:focus-visible {
+  outline: 2px solid var(--links);
+  outline-offset: 2px;
+}
+.as-compare[open] > summary .as-chev {
+  transform: rotate(180deg);
+}
+.as-compare-scroll {
+  margin-top: var(--space-4);
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  background: var(--cardBackground);
+}
+.as-compare-table {
+  min-width: 600px;
+}
+.as-compare-table tbody th {
+  width: 28%;
+}
+@media (min-width: 1024px) {
+  .as-compare > summary {
+    display: none;
+  }
+  .as-compare-scroll {
+    margin-top: 0;
+    overflow: visible; /* lets the header row stick */
+    background: transparent;
+  }
+  .as-compare-table thead th {
+    position: sticky;
+    top: 72px; /* below the sticky navbar */
+    z-index: 1;
+    background: var(--background);
+    border-bottom-color: var(--card-border-strong);
+  }
+  .as-compare-table thead th.is-featured {
+    background: linear-gradient(rgba(249, 116, 18, 0.06), rgba(249, 116, 18, 0.06)), var(--background);
+  }
+}
+
+/* Cost comparison: rows stack into cards on small screens. */
+.as-cost {
+  padding: 0;
+  overflow: hidden;
+}
+.as-cost-table tr.is-featured th {
+  color: var(--headings);
+}
+.as-cost-table tr.is-featured td {
+  color: var(--text);
+}
+@media (max-width: 639.98px) {
+  .as-cost-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .as-cost-table tr {
+    display: grid;
+    gap: 6px;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .as-cost-table tr:last-child {
+    border-bottom: 0;
+  }
+  .as-cost-table th,
+  .as-cost-table td {
+    padding: 0;
+    border: 0;
+  }
+  .as-cost-table td::before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    color: var(--text);
+  }
+}
+
+/* ---------- Add-ons ---------- */
+.as-addons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.as-addon {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  background: var(--cardBackground);
+}
+.as-addon-main {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  min-width: 0;
+}
+.as-addon-main p {
+  margin: 0;
+  color: var(--secondary-text);
+  font-size: 15px;
+  line-height: 24px;
+}
+.as-addon-price {
+  display: grid;
+  gap: 2px;
+}
+.as-addon-price b {
+  font: 700 22px/28px var(--font-display);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.as-addon-price span {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--secondary-text);
+}
+@media (min-width: 768px) {
+  .as-addon {
+    grid-template-columns: minmax(0, 1fr) minmax(160px, auto);
+    align-items: start;
+    gap: var(--space-8);
+  }
+  .as-addon-price {
+    text-align: right;
+  }
+}
+
+/* ---------- Guarantee ---------- */
+.as-guarantee {
+  display: grid;
+  gap: var(--space-4);
+  border-color: rgba(249, 116, 18, 0.45);
+}
+.as-guarantee-ic {
+  color: var(--headings);
+}
+.as-guarantee-copy {
+  display: grid;
+  gap: var(--space-2);
+}
+.as-guarantee-copy p {
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .as-guarantee {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-8);
+  }
+}
+
+/* ---------- CTA band buttons ---------- */
+.as-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+@media (max-width: 639.98px) {
+  .as-cta-actions .as-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- Form fields beyond text inputs ---------- */
+.as-field :is(input[type="email"], input[type="tel"], input[type="url"], select, textarea) {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #64748b;
+  background: var(--background);
+  color: var(--text);
+  font: 400 16px/1.4 var(--font-sans);
+}
+.as-field select {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+.as-field textarea {
+  min-height: 112px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+.as-field :is(input, select, textarea)::placeholder {
+  color: #7c8aa0;
+}
+.as-field :is(input, select, textarea):hover {
+  border-color: var(--secondary-text);
+}
+.as-field :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--links);
+  outline-offset: 1px;
+  border-color: var(--links);
+}
+.as-field.is-invalid :is(input, select, textarea) {
+  border-color: #f87171;
+}
+.as-field .as-optional {
+  font-weight: 400;
+  color: var(--secondary-text);
+}
+.as-form-row {
+  display: grid;
+  gap: var(--space-4);
+}
+@media (min-width: 640px) {
+  .as-form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.as-picked {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: start;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(59, 130, 246, 0.16);
+  color: var(--links);
+  font: 600 14px/20px var(--font-sans);
+}
+.as-form-note {
+  margin: 0;
+  text-align: center;
+  color: var(--secondary-text);
+  font-size: 14px;
+  line-height: 20px;
+}
+.as-form-privacy {
+  margin: 0;
+  text-align: center;
+  color: var(--secondary-text);
+  font-size: 13px;
+  line-height: 18px;
+}
+.as-form-privacy a {
+  color: var(--links);
+}
+.as-form-error {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  background: rgba(248, 113, 113, 0.08);
+  color: #fecaca;
+  font-size: 14px;
+  line-height: 20px;
+}
+.as-form-error a {
+  color: #fff;
+  font-weight: 700;
+}
+.as-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: as-spin 0.8s linear infinite;
+}
+@keyframes as-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .as-spinner {
+    animation-duration: 2s;
+  }
+}
+
+/* ---------- /contact ---------- */
+.as-contact-page {
+  padding-top: var(--space-10);
+  isolation: isolate;
+  overflow-x: clip; /* the hero orb is wider than phones; clip (not hidden) keeps the form sticky */
+}
+.as-contact-grid {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-areas:
+    "copy"
+    "form"
+    "talk";
+}
+.as-contact-copy {
+  grid-area: copy;
+  min-width: 0;
+}
+.as-contact-copy .as-lead {
+  margin: var(--space-4) 0 0;
+}
+.as-contact-form {
+  grid-area: form;
+  min-width: 0;
+}
+.as-contact-talk {
+  grid-area: talk;
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.as-contact-talk h2 {
+  margin: 0;
+}
+.as-talk-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.as-talk-cards .as-card {
+  padding: var(--space-4) var(--space-5);
+}
+.as-talk-cards .as-contactlink small {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--secondary-text);
+}
+@media (min-width: 1024px) {
+  .as-contact-page {
+    padding-top: var(--space-14);
+  }
+  .as-contact-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 520px);
+    grid-template-areas:
+      "copy form"
+      "talk form";
+    grid-template-rows: auto 1fr; /* the tall form spans both rows; extra height goes to the second */
+    column-gap: var(--space-12);
+    align-items: start;
+  }
+  .as-contact-form {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+/* ---------- /thank-you ---------- */
+.as-thanks {
+  display: grid;
+  gap: var(--space-8);
+}
+.as-thanks-side {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+.as-thanks-side h2 {
+  margin: 0 0 var(--space-3);
+}
+.as-thanks-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.as-thanks-links a {
+  color: var(--links);
+  font-weight: 600;
+}
+.as-embed.is-scheduler {
+  --embed-h: 680px;
+}
+@media (min-width: 1024px) {
+  .as-thanks {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}

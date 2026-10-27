@@ -61,6 +61,7 @@ export function Stars({ count = 5 }) {
   );
 }
 
+/** @param {{ name: string, size?: number, className?: string }} props */
 export default function Icon({ name, size = 20, className }) {
   return (
     <svg

@@ -11,6 +11,7 @@ import Steps from "./sections/Steps";
 import Faq from "./sections/Faq";
 import LeadForm from "./sections/LeadForm";
 import CtaBand from "./layout/CtaBand";
+import PricingTeaser from "./pricing/PricingTeaser";
 
 /** Strapi dynamic-zone component UID → section component. */
 const SECTIONS = {
@@ -50,9 +51,26 @@ const withoutBrand = (title = "") => title.replace(/\s*[-–—|:]\s*AppleSeed\s
  *   the page title, so every page has exactly one H1.
  * - The final CTA band (footer.cta) closes every page, except pages that have a lead form:
  *   there the form takes the band's place.
+ * - `plans` (homepage): custom.pricing renders as the PricingTeaser with plans from Strapi,
+ *   keeping the section's eyebrow/heading/description.
+ * - `leadForm`: lead-form single type (field labels) for custom.lead-form sections.
+ *   `leadFormKind="review"` turns them into the free site review form; `extraLeadForm` appends
+ *   one when the page has none.
  */
-export default function PageRenderer({ page, footer, compactHero = false }) {
-  const content = Array.isArray(page?.content) ? page.content : [];
+export default function PageRenderer({
+  page,
+  footer,
+  compactHero = false,
+  plans = null,
+  leadForm = null,
+  leadFormKind = "lead",
+  extraLeadForm = null,
+}) {
+  const base = Array.isArray(page?.content) ? page.content : [];
+  const content =
+    extraLeadForm && !base.some((c) => c?.__component === "custom.lead-form")
+      ? [...base, { __component: "custom.lead-form", id: "extra", ...extraLeadForm }]
+      : base;
   const hasHero = content.some((c) => c?.__component === "custom.hero");
   const hasLeadForm = content.some((c) => c?.__component === "custom.lead-form");
   const pageTitle = withoutBrand(page?.title);
@@ -68,12 +86,26 @@ export default function PageRenderer({ page, footer, compactHero = false }) {
 
         const props = { data: section };
         if (type === "custom.hero") Object.assign(props, { compact: compactHero, fallbackTitle: pageTitle });
+        if (type === "custom.lead-form") Object.assign(props, { leadForm, kind: leadFormKind });
         const anchor = ANCHORS[type];
         if (anchor && !usedAnchors.has(anchor)) {
           usedAnchors.add(anchor);
           props.anchor = anchor;
         }
-        return <Component key={`${type}-${section.id ?? i}`} {...props} />;
+        const key = `${type}-${section.id ?? i}`;
+        if (type === "custom.pricing" && plans?.length) {
+          return (
+            <PricingTeaser
+              key={key}
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              subheading={section.description}
+              plans={plans}
+              anchor={props.anchor}
+            />
+          );
+        }
+        return <Component key={key} {...props} />;
       })}
       {!hasLeadForm && <CtaBand footer={footer} />}
     </>
