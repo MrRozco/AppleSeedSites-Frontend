@@ -2,9 +2,11 @@ import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/appleseed.css";
 import "@/styles/site.css";
+import "@/styles/pricing-forms.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import RevealObserver from "@/components/layout/RevealObserver";
+import ClickTracker from "@/components/shared/ClickTracker";
 import { getSingleType } from "@/lib/strapi";
 import { NAVBAR_QUERY, FOOTER_QUERY } from "@/lib/queries";
 import { normalizeNavItems } from "@/lib/navigation";
@@ -65,6 +67,7 @@ export default async function RootLayout({ children }) {
         <main id="main">{children}</main>
         <Footer data={footer} />
         <RevealObserver />
+        <ClickTracker />
       </body>
     </html>
   );

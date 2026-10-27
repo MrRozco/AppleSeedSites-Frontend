@@ -6,6 +6,7 @@ import SmartLink from "./SmartLink";
  * The design's only call-to-action element (`.as-btn`).
  * variant: primary | secondary | ghost. size: sm | md | lg. Primary buttons carry an arrow.
  */
+/** @param {{ href?: string | null, children?: import("react").ReactNode, variant?: "primary" | "secondary" | "ghost", size?: "sm" | "md" | "lg", block?: boolean, arrow?: boolean, className?: string, [key: string]: any }} props */
 export default function Button({ href, children, variant = "primary", size, block = false, arrow, className, ...props }) {
   if (!href || !children) return null;
   const showArrow = arrow ?? variant === "primary";

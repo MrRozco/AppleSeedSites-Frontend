@@ -6,6 +6,7 @@ import { isExternal } from "@/lib/utils";
  * External URLs, mailto: and tel: use a plain anchor.
  * Server-safe: no hooks, so it works in both server and client components.
  */
+/** @param {{ href?: string, newTab?: boolean, children?: import("react").ReactNode, [key: string]: any }} props */
 export default function SmartLink({ href = "#", newTab = false, children, ...props }) {
   if (isExternal(href) || href.startsWith("#")) {
     const tab = newTab ? { target: "_blank", rel: "noopener noreferrer" } : {};
