@@ -5,19 +5,22 @@
  */
 import { cache } from "react";
 import { strapiFetch, TAGS } from "./strapi";
-import type { AddOn, LeadFormContent, Plan, PricingPage, ThankYouPage } from "@/types/strapi";
+import type { AddOn, ContactPage, Plan, PricingPage, ThankYouPage } from "@/types/strapi";
+
+const seo = { populate: { shareImage: true } };
 
 export const getPricingPage = cache(() =>
   strapiFetch<PricingPage>("pricing-page", {
     populate: {
-      whichPlan: true,
-      comparisonFeatures: true,
-      ecommerce: true,
-      costComparison: true,
+      hero: true,
+      planFinder: { populate: { matches: true } },
+      comparison: { populate: { features: true } },
+      addOns: { populate: { cta: true } },
+      costComparison: { populate: { rows: true } },
       guarantee: true,
-      faqs: true,
+      faq: { populate: { items: true, button: true } },
       closingCta: true,
-      seo: true,
+      seo,
     },
     tags: [TAGS.pricing],
   }),
@@ -41,16 +44,17 @@ export const getAddOns = cache(async () => {
   return addOns ?? [];
 });
 
+/** The lead-form single type: /contact copy plus the field labels for every lead form. */
 export const getLeadForm = cache(() =>
-  strapiFetch<LeadFormContent>("lead-form", {
-    populate: { nextSteps: true, seo: true },
+  strapiFetch<ContactPage>("lead-form", {
+    populate: { hero: true, form: true, nextSteps: { populate: { steps: true, button: true } }, seo },
     tags: [TAGS.leadForm],
   }),
 );
 
 export const getThankYouPage = cache(() =>
   strapiFetch<ThankYouPage>("thank-you-page", {
-    populate: { prepareList: true, links: true, seo: true },
+    populate: { hero: true, prepare: { populate: { items: true } }, links: true, seo },
     tags: [TAGS.thankYou],
   }),
 );

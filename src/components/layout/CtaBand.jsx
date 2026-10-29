@@ -5,14 +5,14 @@ const BUTTON_LABEL = "Get a Quote";
 
 /**
  * Final call-to-action band, rendered at the end of CMS pages.
- * Source: footer.cta.title (heading), footer.cta.url (button), footer.description.
+ * Source: footer.cta.label (heading), footer.cta.url (button), footer.description.
  */
 export default function CtaBand({ footer }) {
   const cta = footer?.cta;
   if (!cta?.url) return null;
   return (
     <SharedCtaBand
-      heading={cta.title}
+      heading={cta.label}
       body={footer.description}
       primary={{ label: BUTTON_LABEL, href: cta.url }}
       headingId="cta-band-title"

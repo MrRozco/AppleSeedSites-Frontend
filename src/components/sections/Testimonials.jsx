@@ -6,15 +6,15 @@ import { CmsButton } from "@/components/ui/Button";
 import { QuoteMark } from "@/components/ui/Icon";
 
 /**
- * custom.testimonials
- * Fields: eyebrow, title, description, testimonialCards[] { lightIcon, darkIcon, testimonial, name, subname },
+ * sections.testimonials
+ * Fields: eyebrow, title, description, testimonials[] { quote, name, business, icon },
  * button (e.g. "Read our Google reviews").
  * The card icon is either a client logo upload or the design's quote mark. Quote-mark uploads
  * (file name contains "quote") use the design's own mark so every card matches.
  */
 export default function Testimonials({ data }) {
-  const { eyebrow, title, description, testimonialCards } = data || {};
-  const cards = (testimonialCards || []).filter((c) => has(c?.testimonial));
+  const { eyebrow, title, description, testimonials } = data || {};
+  const cards = (testimonials || []).filter((c) => has(c?.quote));
   const id = headingId("testimonials", data);
 
   return (
@@ -30,7 +30,7 @@ export default function Testimonials({ data }) {
                 <figure className="as-card as-quote">
                   {logo ? (
                     <div className="as-quote-logo">
-                      <CmsImage media={logo} alt={logo.alternativeText || (c.subname ? `${c.subname} logo` : "")} sizes="160px" />
+                      <CmsImage media={logo} alt={logo.alternativeText || (c.business ? `${c.business} logo` : "")} sizes="160px" />
                     </div>
                   ) : (
                     <div className="as-quote-mark">
@@ -38,11 +38,11 @@ export default function Testimonials({ data }) {
                     </div>
                   )}
                   <blockquote>
-                    <p style={{ margin: 0 }}>{c.testimonial}</p>
+                    <p style={{ margin: 0 }}>{c.quote}</p>
                   </blockquote>
                   <figcaption>
                     {has(c.name) && <b>{c.name}</b>}
-                    {has(c.subname) && <span>{c.subname}</span>}
+                    {has(c.business) && <span>{c.business}</span>}
                   </figcaption>
                 </figure>
               </li>

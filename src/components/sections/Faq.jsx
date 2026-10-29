@@ -4,12 +4,12 @@ import { CmsButton } from "@/components/ui/Button";
 import FaqAccordion from "@/components/shared/FaqAccordion";
 
 /**
- * custom.faq: native <details>/<summary> accordion plus FAQPage structured data.
- * Fields: eyebrow, title, description, faqItem[] { question, answer (rich text) }, button (single).
+ * sections.faq: native <details>/<summary> accordion plus FAQPage structured data.
+ * Fields: eyebrow, title, description, items[] { question, answer (rich text) }, button.
  */
 export default function Faq({ data, anchor }) {
   const { eyebrow, title, description } = data || {};
-  const items = (data?.faqItem || [])
+  const items = (data?.items || [])
     .filter((q) => has(q?.question))
     .map((q) => ({ id: q.id, question: q.question, answerHtml: richHtml(q.answer) }));
   const button = firstButton(data?.button);

@@ -36,8 +36,8 @@ export default function WhichPlan({
                 ) : (
                   <span className="as-which-plan is-none" aria-hidden="true" />
                 )}
-                {has(row.linkHref) && has(row.linkLabel) && (
-                  <SmartLink className="as-which-link" href={row.linkHref as string}>
+                {has(row.linkUrl) && has(row.linkLabel) && (
+                  <SmartLink className="as-which-link" href={row.linkUrl as string}>
                     {row.linkLabel}
                   </SmartLink>
                 )}

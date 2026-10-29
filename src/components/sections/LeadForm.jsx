@@ -4,12 +4,12 @@ import LeadForm from "@/components/forms/LeadForm";
 import ReviewForm from "@/components/forms/ReviewForm";
 
 /**
- * custom.lead-form: lead form on the deep-blue band, placed on CMS pages.
+ * sections.lead-form: lead form on the deep-blue band, placed on CMS pages.
  * Section copy (eyebrow, title, description, submitLabel) comes from the section; field labels
- * come from the lead-form single type (`leadForm`). Submissions go to /api/lead → /thank-you.
+ * (`fields`) come from the lead-form single type's `form`. Submissions go to /api/lead → /thank-you.
  * `kind="review"` renders the free site review form (website + email) instead.
  */
-export default function LeadFormSection({ data, anchor, leadForm, kind = "lead" }) {
+export default function LeadFormSection({ data, anchor, fields, kind = "lead" }) {
   const { eyebrow, title, description } = data || {};
   const id = headingId("lead-form", data);
 
@@ -28,9 +28,9 @@ export default function LeadFormSection({ data, anchor, leadForm, kind = "lead" 
           </div>
           <div className="as-leadform-card">
             {kind === "review" ? (
-              <ReviewForm content={leadForm} />
+              <ReviewForm fields={fields} />
             ) : (
-              <LeadForm content={leadForm} variant="compact" submitLabel={data?.submitLabel} />
+              <LeadForm fields={fields} variant="compact" submitLabel={data?.submitLabel} />
             )}
           </div>
         </div>

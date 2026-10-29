@@ -53,7 +53,7 @@ export function SectionHead({ id, eyebrow, title, description }) {
   );
 }
 
-/** `custom.bullet-point[]`: icon tile + rich text. */
+/** `elements.bullet[]`: icon tile + rich text. */
 export function Points({ points }) {
   const list = (points || []).filter((p) => has(p?.text));
   if (!list.length) return null;

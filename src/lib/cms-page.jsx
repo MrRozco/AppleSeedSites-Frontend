@@ -1,17 +1,18 @@
 import { notFound } from "next/navigation";
 import PageRenderer from "@/components/PageRenderer";
 import { getSingleType } from "./strapi";
+import { seoMetadata } from "./seo";
 import { PAGE_CONTENT_QUERY, FOOTER_QUERY } from "./queries";
 import { getLeadForm, getPlans, safe } from "./cms-data";
 
 /**
  * Builds a CMS-driven route from an entry in lib/routes.js.
- * Every page: fetch its Strapi single type with PAGE_CONTENT_QUERY, take SEO from
- * `title` / `description`, render the `content` dynamic zone.
+ * Every page: fetch its Strapi single type with PAGE_CONTENT_QUERY, take SEO from its
+ * `seo` component, render the `content` dynamic zone.
  *
  * Options:
  *   compactHero    smaller hero without image (inner pages)
- *   pricingTeaser  render custom.pricing as the plan teaser (homepage)
+ *   pricingTeaser  render sections.pricing as the plan teaser (homepage)
  *   leadFormKind   "review" turns lead-form sections into the free site review form
  *   extraLeadForm  section copy for a lead form appended when the page has none
  *
@@ -33,14 +34,7 @@ export function createCmsPage(
     } catch {
       // Fall through to the static fallback below.
     }
-    const title = page?.title || route.title;
-    const description = page?.description || route.description;
-    return {
-      title,
-      description,
-      alternates: { canonical: route.path },
-      openGraph: { title, description, url: route.path },
-    };
+    return seoMetadata(page?.seo, { title: route.title, description: route.description, path: route.path });
   }
 
   async function Page() {
@@ -48,8 +42,8 @@ export function createCmsPage(
     if (!page) notFound();
 
     const content = Array.isArray(page.content) ? page.content : [];
-    const hasPricing = content.some((c) => c?.__component === "custom.pricing");
-    const hasLeadForm = Boolean(extraLeadForm) || content.some((c) => c?.__component === "custom.lead-form");
+    const hasPricing = content.some((c) => c?.__component === "sections.pricing");
+    const hasLeadForm = Boolean(extraLeadForm) || content.some((c) => c?.__component === "sections.lead-form");
 
     // Same cached request as the layout's footer (React cache + fetch dedupe), used for the CTA band.
     // The other loads are optional: the page still renders without them.

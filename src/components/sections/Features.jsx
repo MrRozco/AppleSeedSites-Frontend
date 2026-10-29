@@ -4,18 +4,18 @@ import { CmsButton } from "@/components/ui/Button";
 import { CmsIcon } from "@/components/ui/CmsImage";
 
 /**
- * custom.features
- * Fields: eyebrow, title, body, button (single), featuresCard[] { icon, title, body, button[] }.
+ * sections.features
+ * Fields: eyebrow, title, description, cards[] { icon, title, description, buttons[] }, button.
  */
 export default function Features({ data }) {
-  const { eyebrow, title, body, featuresCard } = data || {};
-  const cards = (featuresCard || []).filter((c) => has(c?.title) || has(c?.body));
+  const { eyebrow, title, description } = data || {};
+  const cards = (data?.cards || []).filter((c) => has(c?.title) || has(c?.description));
   const sectionButton = firstButton(data?.button);
   const id = headingId("features", data);
 
   return (
     <Section kind="as-features" labelledBy={has(title) ? id : undefined}>
-      <SectionHead id={id} eyebrow={eyebrow} title={title} description={body} />
+      <SectionHead id={id} eyebrow={eyebrow} title={title} description={description} />
       {cards.length > 0 && (
         <ul className="as-grid" data-count={gridCount(cards.length)}>
           {cards.map((card, i) => (
@@ -25,8 +25,8 @@ export default function Features({ data }) {
                   <CmsIcon media={card.icon} size={24} />
                 </span>
                 {has(card.title) && <h3 className="as-h3">{card.title}</h3>}
-                <Paragraphs text={card.body} />
-                <CmsButton button={firstButton(card.button)} variant="ghost" arrow />
+                <Paragraphs text={card.description} />
+                <CmsButton button={firstButton(card.buttons)} variant="ghost" arrow />
               </article>
             </li>
           ))}

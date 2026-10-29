@@ -6,10 +6,9 @@ export function buildImageSrc(url) {
   return url.startsWith("http") ? url : `${STRAPI_URL}/${url.replace(/^\/+/, "")}`;
 }
 
-/** The site is dark-only, so the dark variant wins and the light one is the fallback. */
+/** An item's `icon` upload, or null when it has none. */
 export function pickIcon(item) {
-  if (!item) return null;
-  const media = item.darkIcon || item.lightIcon || item.LightIcon || item.icon || null;
+  const media = item?.icon;
   return media?.url ? media : null;
 }
 

@@ -1,16 +1,16 @@
 "use client";
 
-import type { LeadFormContent } from "@/types/strapi";
+import type { LeadFormFields } from "@/types/strapi";
 import LeadForm from "./LeadForm";
 
 /**
  * Free site review form for /web-ops: website + email only, saved with need = site-review.
  */
 export default function ReviewForm({
-  content,
+  fields,
   submitLabel = "Get My Free Site Review",
 }: {
-  content?: Partial<LeadFormContent> | null;
+  fields?: Partial<LeadFormFields> | null;
   submitLabel?: string;
 }) {
   return (
@@ -19,7 +19,7 @@ export default function ReviewForm({
       variant="compact"
       submitLabel={submitLabel}
       labels={{ website: "Your website", contact: "Email" }}
-      content={{ underButtonText: content?.underButtonText, privacyText: content?.privacyText }}
+      fields={{ underButtonText: fields?.underButtonText, privacyText: fields?.privacyText }}
     />
   );
 }

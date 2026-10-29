@@ -2,7 +2,7 @@ import { has } from "@/lib/utils";
 import Icon from "@/components/ui/Icon";
 import { Paragraphs } from "@/components/ui/Section";
 
-/** shared.guarantee: a single highlighted promise (heading + body). */
+/** shared.guarantee: a single highlighted promise (title + description). */
 export default function GuaranteeBand({ heading, body }: { heading?: string | null; body?: string | null }) {
   if (!has(heading)) return null;
   return (

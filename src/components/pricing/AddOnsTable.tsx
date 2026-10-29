@@ -20,8 +20,8 @@ export default function AddOnsTable({ heading, addOns }: { heading?: string | nu
                 <div className="as-addon-main">
                   <h3 className="as-h4">{addOn.name}</h3>
                   {has(addOn.description) && <p>{addOn.description}</p>}
-                  {link && has(link.href) && has(link.label) && (
-                    <SmartLink className="as-addon-link" href={link.href as string}>
+                  {link && has(link.url) && has(link.label) && (
+                    <SmartLink className="as-addon-link" href={link.url as string}>
                       {link.label}
                     </SmartLink>
                   )}

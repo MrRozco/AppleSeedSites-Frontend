@@ -5,30 +5,30 @@ import { CmsButton } from "@/components/ui/Button";
 import { CmsIcon } from "@/components/ui/CmsImage";
 
 /**
- * custom.pricing
- * Fields: eyebrow, heading, description,
- * card[] { title, description, price, priceText, setupFee, pointsIntro, bulletPoint[], cta[] },
- * button (single, shown below the cards).
+ * sections.pricing (used when no Plans are published; the homepage normally shows PricingTeaser)
+ * Fields: eyebrow, title, description,
+ * cards[] { title, description, price, priceText, setupFee, pointsIntro, bullets[], buttons[] },
+ * button (shown below the cards).
  * The CMS has no "featured" flag: the card at index floor(n / 2) (n ≥ 2) is "Most Popular".
  */
 export default function Pricing({ data, anchor }) {
-  const { eyebrow, heading, description, card } = data || {};
+  const { eyebrow, title, description } = data || {};
   const button = firstButton(data?.button);
-  const cards = (card || []).filter(Boolean);
+  const cards = (data?.cards || []).filter(Boolean);
   const n = cards.length;
   const featured = n >= 2 ? Math.floor(n / 2) : -1;
   const id = headingId("pricing", data);
 
   return (
-    <Section kind="as-pricing" labelledBy={has(heading) ? id : undefined} id={anchor}>
-      <SectionHead id={id} eyebrow={eyebrow} title={heading} description={description} />
+    <Section kind="as-pricing" labelledBy={has(title) ? id : undefined} id={anchor}>
+      <SectionHead id={id} eyebrow={eyebrow} title={title} description={description} />
       {n > 0 && (
         <ul className="as-prices" data-count={n > 6 ? "many" : String(n)}>
           {cards.map((c, i) => {
             const isFeatured = i === featured;
             const hasPrice = c.price != null && c.price !== "";
-            const points = (c.bulletPoint || []).filter((p) => has(p?.text));
-            const ctas = (c.cta || []).filter((b) => b?.url && b?.title);
+            const points = (c.bullets || []).filter((p) => has(p?.text));
+            const ctas = (c.buttons || []).filter((b) => b?.url && b?.label);
             const hasSetup = c.setupFee != null && c.setupFee !== "";
             const setup = hasSetup ? (
               <p className="as-setup">

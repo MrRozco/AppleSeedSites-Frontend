@@ -3,14 +3,14 @@ import { Section, Points, headingId } from "@/components/ui/Section";
 import { CmsButton } from "@/components/ui/Button";
 
 /**
- * Shared two-column layout for custom.about-section and custom.business-section.
+ * Shared two-column layout for sections.text-image and sections.text-gallery.
  * No media → a centred reading column for long-form text (privacy, terms).
  * `imageRight` false/empty puts the media first on desktop.
  */
 export default function Split({ kind, slug, data, media, anchor }) {
-  const { title, body, bulletPoint, imageRight } = data || {};
+  const { title, body, bullets, imageRight } = data || {};
   const html = richHtml(body);
-  const button = firstButton(data?.button);
+  const button = firstButton(data?.button ?? data?.buttons);
   const id = headingId(slug, data);
   const textOnly = !media;
 
@@ -24,7 +24,7 @@ export default function Split({ kind, slug, data, media, anchor }) {
             </h2>
           )}
           {html && <div className="as-prose" dangerouslySetInnerHTML={{ __html: html }} />}
-          <Points points={bulletPoint} />
+          <Points points={bullets} />
           <CmsButton button={button} />
         </div>
         {media && (
