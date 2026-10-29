@@ -4,7 +4,7 @@ import { CmsButton } from "@/components/ui/Button";
 import { Stars } from "@/components/ui/Icon";
 import { Eyebrow, Paragraphs } from "@/components/ui/Section";
 
-/** custom.hero `trust`: small proof points under the buttons. `stars` draws a 5-star rating. */
+/** sections.hero `trustItems`: small proof points under the buttons. `stars` draws a 5-star rating. */
 function TrustRow({ items }) {
   const list = (items || []).filter((t) => has(t?.text));
   if (!list.length) return null;
@@ -30,15 +30,15 @@ function TrustRow({ items }) {
 }
 
 /**
- * custom.hero → the page's only H1.
- * Fields: eyebrow, header, text, heroImage, button[] (CTA slot: first primary, rest secondary),
- * trust[] { stars, icon, text }.
+ * sections.hero → the page's only H1.
+ * Fields: eyebrow, title, description, image, buttons[] (first primary, rest secondary),
+ * trustItems[] { text, stars, icon }.
  * `compact` (inner pages) uses the smaller H1 and ignores the image, as in the design.
  */
 export default function Hero({ data, compact = false, fallbackTitle }) {
-  const { eyebrow, header, text, heroImage, trust } = data || {};
-  const media = !compact && heroImage?.url ? heroImage : null;
-  const buttons = (data?.button || []).filter((b) => b?.url && b?.title);
+  const { eyebrow, title, description, image, trustItems } = data || {};
+  const media = !compact && image?.url ? image : null;
+  const buttons = (data?.buttons || []).filter((b) => b?.url && b?.label);
 
   return (
     <header className={cx("as-hero", media && "has-media", compact && "is-compact")}>
@@ -46,8 +46,8 @@ export default function Hero({ data, compact = false, fallbackTitle }) {
       <div className="as-container as-hero-in">
         <div className="as-hero-copy">
           <Eyebrow text={eyebrow} />
-          <h1 className={cx("as-h1", compact && "is-compact")}>{has(header) ? header : fallbackTitle}</h1>
-          <Paragraphs text={text} className="as-lead" />
+          <h1 className={cx("as-h1", compact && "is-compact")}>{has(title) ? title : fallbackTitle}</h1>
+          <Paragraphs text={description} className="as-lead" />
           {buttons.length > 0 && (
             <div className="as-btn-row">
               {buttons.map((b, i) => (
@@ -55,7 +55,7 @@ export default function Hero({ data, compact = false, fallbackTitle }) {
               ))}
             </div>
           )}
-          <TrustRow items={trust} />
+          <TrustRow items={trustItems} />
         </div>
         {media && (
           <div className="as-hero-media">

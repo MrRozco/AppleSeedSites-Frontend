@@ -3,13 +3,13 @@ import { Section, SectionHead, Paragraphs, headingId } from "@/components/ui/Sec
 import { CmsButton } from "@/components/ui/Button";
 
 /**
- * custom.steps: numbered process. Numbers come from the order, so editors never type them.
- * Fields: eyebrow, title, description, step[] { title, body }, button (single).
+ * sections.steps: numbered process. Numbers come from the order, so editors never type them.
+ * Fields: eyebrow, title, description, steps[] { title, body }, button.
  * ≥1024px with 2–4 steps: one row; otherwise a vertical timeline.
  */
 export default function Steps({ data, anchor }) {
   const { eyebrow, title, description } = data || {};
-  const steps = (data?.step || []).filter((s) => has(s?.title));
+  const steps = (data?.steps || []).filter((s) => has(s?.title));
   const button = firstButton(data?.button);
   const id = headingId("steps", data);
   const n = steps.length;

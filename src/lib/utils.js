@@ -5,10 +5,10 @@ export const has = (v) => v != null && v !== "" && !(Array.isArray(v) && v.lengt
 /** Card grids pick their column layout from the item count (see `data-count` in appleseed.css). */
 export const gridCount = (n) => (n > 6 ? "many" : String(n));
 
-/** Strapi `button` fields are single on some components and repeatable on others. */
+/** First usable `elements.link` from a single (`button`) or repeatable (`buttons`) field. */
 export function firstButton(button) {
   const b = Array.isArray(button) ? button[0] : button;
-  return b?.url && b?.title ? b : null;
+  return b?.url && b?.label ? b : null;
 }
 
 /** Plain-text fields: blank lines separate paragraphs. */

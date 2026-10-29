@@ -14,7 +14,8 @@ import AddOnsTable from "@/components/pricing/AddOnsTable";
 import CostComparison from "@/components/pricing/CostComparison";
 import CtaBand from "@/components/shared/CtaBand";
 import GuaranteeBand from "@/components/shared/GuaranteeBand";
-import FaqAccordion from "@/components/shared/FaqAccordion";
+import Faq from "@/components/sections/Faq";
+import type { SharedCta } from "@/types/strapi";
 
 const FROM = "pricing";
 
@@ -32,9 +33,19 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+/** shared.cta → CtaBand props. */
+const ctaBand = (cta: SharedCta) => ({
+  heading: cta.title,
+  body: cta.description,
+  primary: { label: cta.primaryLabel, href: cta.primaryUrl },
+  secondary: { label: cta.secondaryLabel, href: cta.secondaryUrl },
+});
+
 export default async function PricingPage() {
   const [page, plans, addOns] = await Promise.all([getPricingPage(), getPlans(), getAddOns()]);
   if (!page) notFound();
+  const { hero, planFinder, comparison, costComparison, guarantee, faq, closingCta } = page;
+  const ecommerce = page.addOns?.cta;
 
   return (
     <BillingProvider>
@@ -42,12 +53,10 @@ export default async function PricingPage() {
         <div className="as-hero-bg" aria-hidden="true" />
         <div className="as-container as-hero-in">
           <div className="as-hero-copy">
-            <Eyebrow text={page.eyebrow} />
-            <h1 className="as-h1 is-compact">{page.heading || "Pricing"}</h1>
-            <Paragraphs text={page.subheading} className="as-lead" />
-            {plans.length > 0 && (
-              <PricingToggle upfrontLabel={page.toggleUpfrontLabel} zeroDownLabel={page.toggleZeroDownLabel} />
-            )}
+            <Eyebrow text={hero?.eyebrow} />
+            <h1 className="as-h1 is-compact">{hero?.title || "Pricing"}</h1>
+            <Paragraphs text={hero?.description} className="as-lead" />
+            {plans.length > 0 && <PricingToggle upfrontLabel={hero?.upfrontLabel} zeroDownLabel={hero?.zeroDownLabel} />}
           </div>
         </div>
       </header>
@@ -55,53 +64,18 @@ export default async function PricingPage() {
       <section className="as-section as-pricing as-plans-sec" aria-label="Plans">
         <div className="as-container">
           <PlanGrid plans={plans} from={FROM} />
-          {has(page.belowCardsNote) && <p className="as-below-cards">{page.belowCardsNote}</p>}
+          {has(hero?.belowCardsNote) && <p className="as-below-cards">{hero?.belowCardsNote}</p>}
         </div>
       </section>
 
-      <WhichPlan heading={page.whichPlanHeading} rows={page.whichPlan || []} plans={plans} />
-      <ComparisonTable features={page.comparisonFeatures || []} plans={plans} />
-      <AddOnsTable heading={page.addOnsHeading} addOns={addOns} />
-
-      {page.ecommerce && (
-        <CtaBand
-          id="ecommerce"
-          heading={page.ecommerce.heading}
-          body={page.ecommerce.body}
-          primary={{ label: page.ecommerce.primaryLabel, href: page.ecommerce.primaryHref }}
-          secondary={{ label: page.ecommerce.secondaryLabel, href: page.ecommerce.secondaryHref }}
-        />
-      )}
-
-      <CostComparison heading={page.costComparisonHeading} rows={page.costComparison || []} />
-      <GuaranteeBand heading={page.guarantee?.heading} body={page.guarantee?.body} />
-
-      {(page.faqs?.length ?? 0) > 0 && (
-        <section className="as-section as-faq-sec" aria-labelledby="pricing-faq-title">
-          <div className="as-container">
-            <div className="as-faq">
-              <div className="as-faq-head as-reveal">
-                <h2 className="as-h2" id="pricing-faq-title">
-                  {page.faqHeading || "Pricing questions"}
-                </h2>
-              </div>
-              <FaqAccordion
-                items={(page.faqs || []).map((f) => ({ id: f.id, question: f.question, answerBlocks: f.answer }))}
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {page.closingCta && (
-        <CtaBand
-          id="get-started"
-          heading={page.closingCta.heading}
-          body={page.closingCta.body}
-          primary={{ label: page.closingCta.primaryLabel, href: page.closingCta.primaryHref }}
-          secondary={{ label: page.closingCta.secondaryLabel, href: page.closingCta.secondaryHref }}
-        />
-      )}
+      <WhichPlan heading={planFinder?.title} rows={planFinder?.matches || []} plans={plans} />
+      <ComparisonTable heading={comparison?.title || undefined} features={comparison?.features || []} plans={plans} />
+      <AddOnsTable heading={page.addOns?.title} addOns={addOns} />
+      {ecommerce && <CtaBand id="ecommerce" {...ctaBand(ecommerce)} />}
+      <CostComparison heading={costComparison?.title} rows={costComparison?.rows || []} />
+      <GuaranteeBand heading={guarantee?.title} body={guarantee?.description} />
+      {faq && <Faq data={{ ...faq, title: faq.title || "Pricing questions" }} anchor="faq" />}
+      {closingCta && <CtaBand id="get-started" {...ctaBand(closingCta)} />}
     </BillingProvider>
   );
 }

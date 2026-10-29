@@ -31,7 +31,7 @@ function Cell({ value }: { value: string | undefined }) {
 }
 
 /**
- * Plan comparison matrix: pricing-page.comparisonFeatures (rows) × each plan's comparisonValues
+ * Plan comparison matrix: pricing-page.comparison.features (rows) × each plan's comparisonValues
  * (matched by featureKey). Collapsed behind "Compare every feature" on mobile; open with a
  * sticky header row on desktop.
  */

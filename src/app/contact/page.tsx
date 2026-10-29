@@ -23,13 +23,15 @@ export async function generateMetadata(): Promise<Metadata> {
 const usableScheduler = (url?: string | null) => (url && !/PLACEHOLDER/i.test(url) ? url : null);
 
 /**
- * /contact: lead form (from the lead-form single type) with hero copy, direct contact options,
- * and "What happens next". The form still renders with built-in labels if Strapi is unreachable.
+ * /contact: the lead-form single type (hero, form labels, "What happens next" steps) plus direct
+ * contact options. The form still renders with built-in labels if Strapi is unreachable.
  */
 export default async function ContactPage() {
   const [content, thanks] = await Promise.all([safe(getLeadForm, null), safe(getThankYouPage, null)]);
   const scheduler = usableScheduler(thanks?.schedulerUrl);
-  const steps = (content?.nextSteps || []).filter((s) => has(s?.title));
+  const hero = content?.hero;
+  const nextSteps = content?.nextSteps;
+  const steps = (nextSteps?.steps || []).filter((s) => has(s?.title));
 
   return (
     <>
@@ -37,16 +39,16 @@ export default async function ContactPage() {
         <div className="as-hero-bg" aria-hidden="true" />
         <div className="as-container as-contact-grid">
           <div className="as-contact-copy">
-            <Eyebrow text={content?.eyebrow || "Free, no obligation"} />
+            <Eyebrow text={hero?.eyebrow || "Free, no obligation"} />
             <h1 className="as-h1 is-compact" id="contact-title">
-              {content?.heading || "Get your free website plan."}
+              {hero?.title || "Get your free website plan."}
             </h1>
-            <Paragraphs text={content?.subheading} className="as-lead" />
+            <Paragraphs text={hero?.description} className="as-lead" />
           </div>
 
           <div className="as-contact-form">
             <div className="as-leadform-card">
-              <LeadForm content={content} variant="full" />
+              <LeadForm fields={content?.form} variant="full" />
             </div>
           </div>
 
@@ -99,7 +101,7 @@ export default async function ContactPage() {
             <div className="as-head is-single as-reveal">
               <div className="as-head-title">
                 <h2 className="as-h2" id="next-steps-title">
-                  {content?.nextStepsHeading || "What happens next"}
+                  {nextSteps?.title || "What happens next"}
                 </h2>
               </div>
             </div>
@@ -114,7 +116,7 @@ export default async function ContactPage() {
                       <span className="as-sr">Step {i + 1}: </span>
                       {s.title}
                     </h3>
-                    <Paragraphs text={s.text} />
+                    <Paragraphs text={s.body} />
                   </div>
                 </li>
               ))}

@@ -17,15 +17,15 @@ import {
 import Icon from "@/components/ui/Icon";
 import SmartLink from "@/components/ui/SmartLink";
 import PhoneLink from "@/components/shared/PhoneLink";
-import { LEAD_NEEDS, type LeadFormContent, type LeadNeed, type NeedOption } from "@/types/strapi";
+import { LEAD_NEEDS, type LeadFormFields, type LeadNeed, type NeedOption } from "@/types/strapi";
 
 export type LeadFormVariant = "full" | "compact";
 /** "review" is the free site review form: website + email only, need = site-review. */
 export type LeadFormKind = "lead" | "review";
 
 export interface LeadFormProps {
-  /** Labels and copy from the Strapi lead-form single type. Every label has a fallback. */
-  content?: Partial<LeadFormContent> | null;
+  /** Labels from the lead-form single type's `form` (forms.lead-form-fields). Every label has a fallback. */
+  fields?: Partial<LeadFormFields> | null;
   /** full: every field. compact: name, email/phone, business, need. */
   variant?: LeadFormVariant;
   kind?: LeadFormKind;
@@ -67,9 +67,9 @@ const titleCase = (s: string) =>
     .trim()
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
-function needOptionsFrom(content: Partial<LeadFormContent> | null | undefined, preselected?: LeadNeed): NeedOption[] {
-  const fromCms = Array.isArray(content?.needOptions)
-    ? content.needOptions.filter(
+function needOptionsFrom(fields: Partial<LeadFormFields> | null | undefined, preselected?: LeadNeed): NeedOption[] {
+  const fromCms = Array.isArray(fields?.needOptions)
+    ? fields.needOptions.filter(
         (o): o is NeedOption => Boolean(o?.label) && (LEAD_NEEDS as readonly string[]).includes(o?.value),
       )
     : [];
@@ -98,7 +98,7 @@ function LeadFormWithParams(props: LeadFormProps) {
 }
 
 function LeadFormInner({
-  content,
+  fields,
   variant = "full",
   kind = "lead",
   defaultNeed,
@@ -117,7 +117,7 @@ function LeadFormInner({
 
   const isReview = kind === "review";
   const preselected = isReview ? "site-review" : intentToNeed(attribution.intent) || defaultNeed;
-  const needOptions = needOptionsFrom(content, preselected);
+  const needOptions = needOptionsFrom(fields, preselected);
   const [need, setNeed] = useState<string>(preselected || "");
 
   // Follow the URL when it arrives after hydration (the Suspense fallback renders without params).
@@ -253,7 +253,7 @@ function LeadFormInner({
 
       {show.name && (
         <div className={cx("as-field", errors.name && "is-invalid")}>
-          <label htmlFor={fieldId("name")}>{content?.nameLabel || "Name"}</label>
+          <label htmlFor={fieldId("name")}>{fields?.nameLabel || "Name"}</label>
           <input
             id={fieldId("name")}
             name="name"
@@ -282,14 +282,14 @@ function LeadFormInner({
       )}
 
       <div className={cx("as-field", errors.contact && "is-invalid")}>
-        <label htmlFor={fieldId("contact")}>{labels?.contact || content?.contactLabel || "Email or phone"}</label>
+        <label htmlFor={fieldId("contact")}>{labels?.contact || fields?.contactLabel || "Email or phone"}</label>
         <input
           id={fieldId("contact")}
           name="contact"
           type={isReview ? "email" : "text"}
           inputMode={isReview ? "email" : undefined}
           autoComplete={isReview ? "email" : "email tel"}
-          placeholder={isReview ? undefined : content?.contactPlaceholder || undefined}
+          placeholder={isReview ? undefined : fields?.contactPlaceholder || undefined}
           required
           maxLength={MAX.contact}
           aria-invalid={errors.contact ? true : undefined}
@@ -301,7 +301,7 @@ function LeadFormInner({
 
       {show.business && (
         <div className={cx("as-field", errors.businessName && "is-invalid")}>
-          <label htmlFor={fieldId("businessName")}>{content?.businessLabel || "Business name"}</label>
+          <label htmlFor={fieldId("businessName")}>{fields?.businessLabel || "Business name"}</label>
           <input
             id={fieldId("businessName")}
             name="businessName"
@@ -320,8 +320,8 @@ function LeadFormInner({
       {show.website && !isReview && (
         <WebsiteField
           id={fieldId("website")}
-          label={content?.websiteLabel || "Current website"}
-          placeholder={content?.websitePlaceholder || "Leave blank if you don't have one"}
+          label={fields?.websiteLabel || "Current website"}
+          placeholder={fields?.websitePlaceholder || "Leave blank if you don't have one"}
           error={errors.website}
           errId={errId("website")}
           onChange={() => recheck("website")}
@@ -330,7 +330,7 @@ function LeadFormInner({
 
       {show.need && (
         <div className={cx("as-field", errors.need && "is-invalid")}>
-          <label htmlFor={fieldId("need")}>{content?.needLabel || "What do you need?"}</label>
+          <label htmlFor={fieldId("need")}>{fields?.needLabel || "What do you need?"}</label>
           <select
             id={fieldId("need")}
             name="need"
@@ -353,7 +353,7 @@ function LeadFormInner({
       {show.message && (
         <div className={cx("as-field", errors.message && "is-invalid")}>
           <label htmlFor={fieldId("message")}>
-            {content?.messageLabel || "Anything else I should know?"} <span className="as-optional">(optional)</span>
+            {fields?.messageLabel || "Anything else I should know?"} <span className="as-optional">(optional)</span>
           </label>
           <textarea
             id={fieldId("message")}
@@ -408,7 +408,7 @@ function LeadFormInner({
           </>
         ) : (
           <>
-            {submitLabel || content?.submitLabel || "Get My Free Website Plan"}
+            {submitLabel || fields?.submitLabel || "Get My Free Website Plan"}
             <Icon name="arrow" size={18} className="as-arrow" />
           </>
         )}
@@ -417,8 +417,8 @@ function LeadFormInner({
         {sending ? "Sending your request" : ""}
       </p>
 
-      {content?.underButtonText && <p className="as-form-note">{content.underButtonText}</p>}
-      {content?.privacyText && <PrivacyText text={content.privacyText} />}
+      {fields?.underButtonText && <p className="as-form-note">{fields.underButtonText}</p>}
+      {fields?.privacyText && <PrivacyText text={fields.privacyText} />}
     </form>
   );
 }

@@ -8,14 +8,14 @@ import Wordmark from "./Wordmark";
 
 /**
  * Footer single type.
- * Fields: logo, description, cta { title, url }, menuHeader, footerLink[] { title, url },
- * contactHeader, contactLink[] { url (optional), text, lightIcon, darkIcon }.
+ * Fields: logo, description, cta { label, url }, linksTitle, links[] { label, url },
+ * contactTitle, contactLinks[] { label, url (optional), icon }.
  */
 export default function Footer({ data }) {
-  const { logo, description, cta, menuHeader, footerLink, contactHeader, contactLink } = data || {};
-  const links = (footerLink || []).filter((l) => l?.url && l?.title);
+  const { logo, description, cta, linksTitle, contactTitle } = data || {};
+  const links = (data?.links || []).filter((l) => l?.url && l?.label);
   // A contact item without a url renders as a plain text line (e.g. the service area).
-  const contacts = (contactLink || []).filter((c) => has(c?.text));
+  const contacts = (data?.contactLinks || []).filter((c) => has(c?.label));
 
   return (
     <footer className="as-footer">
@@ -30,12 +30,12 @@ export default function Footer({ data }) {
           </div>
 
           {links.length > 0 && (
-            <nav aria-label={menuHeader || "Footer"}>
-              {has(menuHeader) && <h2>{menuHeader}</h2>}
+            <nav aria-label={linksTitle || "Footer"}>
+              {has(linksTitle) && <h2>{linksTitle}</h2>}
               <ul>
                 {links.map((link, i) => (
                   <li key={link.id ?? i}>
-                    <SmartLink href={link.url}>{link.title}</SmartLink>
+                    <SmartLink href={link.url}>{link.label}</SmartLink>
                   </li>
                 ))}
               </ul>
@@ -44,19 +44,19 @@ export default function Footer({ data }) {
 
           {contacts.length > 0 && (
             <div>
-              {has(contactHeader) && <h2>{contactHeader}</h2>}
+              {has(contactTitle) && <h2>{contactTitle}</h2>}
               <ul>
                 {contacts.map((c, i) => (
                   <li key={c.id ?? i}>
                     {has(c.url) ? (
                       <SmartLink href={c.url}>
                         <CmsIcon media={pickIcon(c)} size={18} fallback={iconForHref(c.url)} />
-                        <span>{c.text}</span>
+                        <span>{c.label}</span>
                       </SmartLink>
                     ) : (
                       <span className="as-footer-note">
                         <CmsIcon media={pickIcon(c)} size={18} fallback="pin" />
-                        <span>{c.text}</span>
+                        <span>{c.label}</span>
                       </span>
                     )}
                   </li>

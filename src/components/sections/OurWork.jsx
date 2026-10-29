@@ -4,13 +4,13 @@ import CmsImage from "@/components/ui/CmsImage";
 import Icon from "@/components/ui/Icon";
 
 /**
- * custom.our-work: each card is ONE external link to the client's site.
+ * sections.our-work: each card is ONE external link to the client's site.
  * Fields: eyebrow, title, description,
- * portfolioCard[] { image, title, tag ("Industry · City, State"), description, result (one outcome), url, buttonText }.
+ * projects[] { title, tag ("Industry · City, State"), description, result (one outcome), image, url, buttonLabel }.
  */
 export default function OurWork({ data, anchor }) {
-  const { eyebrow, title, description, portfolioCard } = data || {};
-  const cards = (portfolioCard || []).filter((c) => has(c?.url) || has(c?.title));
+  const { eyebrow, title, description, projects } = data || {};
+  const cards = (projects || []).filter((c) => has(c?.url) || has(c?.title));
   const id = headingId("our-work", data);
 
   return (
@@ -44,7 +44,7 @@ export default function OurWork({ data, anchor }) {
                   )}
                 </div>
                 <span className="as-work-go">
-                  {card.buttonText || "Visit site"}
+                  {card.buttonLabel || "Visit site"}
                   <Icon name="ext" size={16} />
                   <span className="as-sr"> (opens in a new tab)</span>
                 </span>

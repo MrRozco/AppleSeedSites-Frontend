@@ -1,7 +1,10 @@
 /**
- * Types for the Strapi 5 content used by pricing and the lead-form system.
- * Strapi 5 REST responses are flat: fields sit directly on the object next to id/documentId.
+ * Types for the Strapi 5 content the typed parts of the site read (pricing, contact, thank-you,
+ * SEO). Strapi 5 REST responses are flat: fields sit directly on the object next to id/documentId.
  * Optional fields come back as null when empty.
+ *
+ * Component folders in Strapi: sections.* (page blocks), elements.* (items inside them),
+ * navigation.*, pricing.*, forms.*, shared.*.
  */
 
 export interface StrapiDocument {
@@ -16,96 +19,148 @@ interface StrapiComponent {
   id: number;
 }
 
-/* ---------- Rich text (Blocks) ---------- */
-
-export interface BlockText {
-  type: "text";
-  text: string;
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
-  strikethrough?: boolean;
-  code?: boolean;
-}
-export interface BlockLink {
-  type: "link";
+export interface StrapiMedia {
+  id: number;
   url: string;
-  children: BlockInline[];
+  name?: string;
+  alternativeText?: string | null;
+  width?: number;
+  height?: number;
 }
-export type BlockInline = BlockText | BlockLink;
 
-export type BlockNode =
-  | { type: "paragraph"; children: BlockInline[] }
-  | { type: "heading"; level: 1 | 2 | 3 | 4 | 5 | 6; children: BlockInline[] }
-  | { type: "list"; format: "ordered" | "unordered"; children: BlockListItem[] }
-  | { type: "quote"; children: BlockInline[] }
-  | { type: "code"; children: BlockInline[] }
-  | { type: "image"; image: { url: string; alternativeText?: string | null; width?: number; height?: number } };
-export interface BlockListItem {
-  type: "list-item";
-  children: BlockInline[];
+/* ---------- elements.* ---------- */
+
+export interface ElementsLink extends StrapiComponent {
+  label: string | null;
+  url: string | null;
 }
-export type Blocks = BlockNode[];
-
-/* ---------- shared.* components ---------- */
-
-export interface SharedFeature extends StrapiComponent {
+export interface ElementsListItem extends StrapiComponent {
   text: string;
 }
-export interface SharedFaq extends StrapiComponent {
-  question: string;
-  answer: Blocks;
-}
-export interface SharedLink extends StrapiComponent {
-  label: string | null;
-  href: string | null;
-}
-export interface SharedCta extends StrapiComponent {
-  heading: string | null;
-  body: string | null;
-  primaryLabel: string | null;
-  primaryHref: string | null;
-  secondaryLabel: string | null;
-  secondaryHref: string | null;
-}
-export interface SharedGuarantee extends StrapiComponent {
-  heading: string | null;
+export interface ElementsStep extends StrapiComponent {
+  title: string | null;
   body: string | null;
 }
+export interface ElementsFaqItem extends StrapiComponent {
+  question: string | null;
+  /** Rich text (Markdown). */
+  answer: string | null;
+}
+
+/* ---------- sections.* used outside the page renderer ---------- */
+
+export interface SectionsSteps extends StrapiComponent {
+  eyebrow: string | null;
+  title: string | null;
+  description: string | null;
+  steps?: ElementsStep[];
+  button?: ElementsLink | null;
+}
+export interface SectionsFaq extends StrapiComponent {
+  eyebrow: string | null;
+  title: string | null;
+  description: string | null;
+  items?: ElementsFaqItem[];
+  button?: ElementsLink | null;
+}
+
+/* ---------- shared.* ---------- */
+
 export interface SharedSeo extends StrapiComponent {
   metaTitle: string | null;
   metaDescription: string | null;
+  shareImage?: StrapiMedia | null;
   noIndex: boolean | null;
 }
-export interface SharedNextStep extends StrapiComponent {
+export interface SharedPageIntro extends StrapiComponent {
+  eyebrow: string | null;
   title: string | null;
-  text: string | null;
+  description: string | null;
 }
-export interface LayoutButton extends StrapiComponent {
+export interface SharedCta extends StrapiComponent {
   title: string | null;
-  url: string | null;
+  description: string | null;
+  primaryLabel: string | null;
+  primaryUrl: string | null;
+  secondaryLabel: string | null;
+  secondaryUrl: string | null;
+}
+export interface SharedGuarantee extends StrapiComponent {
+  title: string | null;
+  description: string | null;
+}
+export interface SharedChecklist extends StrapiComponent {
+  title: string | null;
+  items?: ElementsListItem[];
 }
 
-/* ---------- pricing.* components ---------- */
+/* ---------- pricing.* ---------- */
 
-export interface PricingComparisonFeature extends StrapiComponent {
-  key: string;
-  label: string;
-}
-export interface PricingComparisonValue extends StrapiComponent {
-  featureKey: string;
-  value: string;
+export interface PricingHero extends StrapiComponent {
+  eyebrow: string | null;
+  title: string | null;
+  description: string | null;
+  upfrontLabel: string | null;
+  zeroDownLabel: string | null;
+  belowCardsNote: string | null;
 }
 export interface PricingPlanMatch extends StrapiComponent {
   situation: string | null;
   planSlug: string | null;
   linkLabel: string | null;
-  linkHref: string | null;
+  linkUrl: string | null;
+}
+export interface PricingPlanFinder extends StrapiComponent {
+  title: string | null;
+  matches?: PricingPlanMatch[];
+}
+export interface PricingComparisonFeature extends StrapiComponent {
+  key: string;
+  label: string;
+}
+export interface PricingComparison extends StrapiComponent {
+  title: string | null;
+  features?: PricingComparisonFeature[];
+}
+export interface PricingComparisonValue extends StrapiComponent {
+  featureKey: string;
+  value: string;
+}
+export interface PricingAddOns extends StrapiComponent {
+  title: string | null;
+  cta?: SharedCta | null;
 }
 export interface PricingCostRow extends StrapiComponent {
   option: string | null;
   price: string | null;
   outcome: string | null;
+}
+export interface PricingCostComparison extends StrapiComponent {
+  title: string | null;
+  rows?: PricingCostRow[];
+}
+
+/* ---------- forms.* ---------- */
+
+export interface NeedOption {
+  value: LeadNeed;
+  label: string;
+}
+
+/** forms.lead-form-fields: labels for every lead form on the site. */
+export interface LeadFormFields extends StrapiComponent {
+  nameLabel: string | null;
+  contactLabel: string | null;
+  contactPlaceholder: string | null;
+  businessLabel: string | null;
+  websiteLabel: string | null;
+  websitePlaceholder: string | null;
+  needLabel: string | null;
+  needOptions: NeedOption[] | null;
+  messageLabel: string | null;
+  submitLabel: string | null;
+  underButtonText: string | null;
+  privacyText: string | null;
 }
 
 /* ---------- Collection types ---------- */
@@ -119,8 +174,8 @@ export interface Plan extends StrapiDocument {
   zeroDownMonthly: number;
   zeroDownMonths: number | null;
   includesPrevious: string | null;
-  features?: SharedFeature[];
-  teaserFeatures?: SharedFeature[];
+  features?: ElementsListItem[];
+  teaserFeatures?: ElementsListItem[];
   badge: string | null;
   isHighlighted: boolean | null;
   ctaLabel: string | null;
@@ -136,7 +191,7 @@ export interface AddOn extends StrapiDocument {
   priceSuffix: AddOnPriceSuffix | null;
   priceNote: string | null;
   description: string | null;
-  link?: SharedLink | null;
+  link?: ElementsLink | null;
   sortOrder: number | null;
 }
 
@@ -182,58 +237,29 @@ export interface Lead extends StrapiDocument {
 /* ---------- Single types ---------- */
 
 export interface PricingPage extends StrapiDocument {
-  eyebrow: string | null;
-  heading: string | null;
-  subheading: string | null;
-  toggleUpfrontLabel: string | null;
-  toggleZeroDownLabel: string | null;
-  belowCardsNote: string | null;
-  whichPlanHeading: string | null;
-  whichPlan?: PricingPlanMatch[];
-  comparisonFeatures?: PricingComparisonFeature[];
-  addOnsHeading: string | null;
-  ecommerce?: SharedCta | null;
-  costComparisonHeading: string | null;
-  costComparison?: PricingCostRow[];
+  hero?: PricingHero | null;
+  planFinder?: PricingPlanFinder | null;
+  comparison?: PricingComparison | null;
+  addOns?: PricingAddOns | null;
+  costComparison?: PricingCostComparison | null;
   guarantee?: SharedGuarantee | null;
-  faqHeading: string | null;
-  faqs?: SharedFaq[];
+  faq?: SectionsFaq | null;
   closingCta?: SharedCta | null;
   seo?: SharedSeo | null;
 }
 
-export interface NeedOption {
-  value: LeadNeed;
-  label: string;
-}
-
-export interface LeadFormContent extends StrapiDocument {
-  eyebrow: string | null;
-  heading: string | null;
-  subheading: string | null;
-  nameLabel: string | null;
-  contactLabel: string | null;
-  contactPlaceholder: string | null;
-  businessLabel: string | null;
-  websiteLabel: string | null;
-  websitePlaceholder: string | null;
-  needLabel: string | null;
-  needOptions: NeedOption[] | null;
-  messageLabel: string | null;
-  submitLabel: string | null;
-  underButtonText: string | null;
-  privacyText: string | null;
-  nextStepsHeading: string | null;
-  nextSteps?: SharedNextStep[];
+/** The lead-form single type: the /contact page plus the labels for every lead form. */
+export interface ContactPage extends StrapiDocument {
+  hero?: SharedPageIntro | null;
+  form?: LeadFormFields | null;
+  nextSteps?: SectionsSteps | null;
   seo?: SharedSeo | null;
 }
 
 export interface ThankYouPage extends StrapiDocument {
-  heading: string | null;
-  body: string | null;
+  hero?: SharedPageIntro | null;
   schedulerUrl: string | null;
-  prepareHeading: string | null;
-  prepareList?: SharedFeature[];
-  links?: SharedLink[];
+  prepare?: SharedChecklist | null;
+  links?: ElementsLink[];
   seo?: SharedSeo | null;
 }
