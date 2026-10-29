@@ -1,4 +1,4 @@
-import { cx, has, formatPrice, inlineHtml } from "@/lib/utils";
+import { cx, firstButton, has, formatPrice, inlineHtml } from "@/lib/utils";
 import { pickIcon } from "@/lib/media";
 import { Section, SectionHead, headingId } from "@/components/ui/Section";
 import { CmsButton } from "@/components/ui/Button";
@@ -7,11 +7,13 @@ import { CmsIcon } from "@/components/ui/CmsImage";
 /**
  * custom.pricing
  * Fields: eyebrow, heading, description,
- * card[] { title, description, price, priceText, setupFee, pointsIntro, bulletPoint[], cta[] }.
+ * card[] { title, description, price, priceText, setupFee, pointsIntro, bulletPoint[], cta[] },
+ * button (single, shown below the cards).
  * The CMS has no "featured" flag: the card at index floor(n / 2) (n ≥ 2) is "Most Popular".
  */
 export default function Pricing({ data, anchor }) {
   const { eyebrow, heading, description, card } = data || {};
+  const button = firstButton(data?.button);
   const cards = (card || []).filter(Boolean);
   const n = cards.length;
   const featured = n >= 2 ? Math.floor(n / 2) : -1;
@@ -88,6 +90,11 @@ export default function Pricing({ data, anchor }) {
             );
           })}
         </ul>
+      )}
+      {button && (
+        <div className="as-section-foot">
+          <CmsButton button={button} variant="ghost" arrow />
+        </div>
       )}
     </Section>
   );

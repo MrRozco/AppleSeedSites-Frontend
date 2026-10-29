@@ -100,6 +100,7 @@ export default function PageRenderer({
               eyebrow={section.eyebrow}
               heading={section.heading}
               subheading={section.description}
+              button={section.button}
               plans={plans}
               anchor={props.anchor}
             />
