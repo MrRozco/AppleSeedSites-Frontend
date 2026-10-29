@@ -27,7 +27,7 @@ export const PAGE_CONTENT_QUERY = {
           populate: { bulletPoint: icons, sliderImages: true, button: "*" },
         },
         "custom.pricing": {
-          populate: { card: { populate: { bulletPoint: icons, cta: true } } },
+          populate: { card: { populate: { bulletPoint: icons, cta: true } }, button: true },
         },
         "custom.contact-section": {
           populate: { darkIcon: true, lightIcon: true, bulletPoint: icons, link: icons },

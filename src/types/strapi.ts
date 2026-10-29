@@ -81,6 +81,10 @@ export interface SharedNextStep extends StrapiComponent {
   title: string | null;
   text: string | null;
 }
+export interface LayoutButton extends StrapiComponent {
+  title: string | null;
+  url: string | null;
+}
 
 /* ---------- pricing.* components ---------- */
 
