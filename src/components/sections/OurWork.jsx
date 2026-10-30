@@ -1,16 +1,19 @@
-import { gridCount, has } from "@/lib/utils";
+import { firstButton, gridCount, has } from "@/lib/utils";
 import { Section, SectionHead, Paragraphs, headingId } from "@/components/ui/Section";
 import CmsImage from "@/components/ui/CmsImage";
 import Icon from "@/components/ui/Icon";
+import { CmsButton } from "@/components/ui/Button";
 
 /**
  * sections.our-work: each card is ONE external link to the client's site.
  * Fields: eyebrow, title, description,
- * projects[] { title, tag ("Industry · City, State"), description, result (one outcome), image, url, buttonLabel }.
+ * projects[] { title, tag ("Industry · City, State"), description, result (one outcome), image, url, buttonLabel },
+ * button (shown below the cards).
  */
 export default function OurWork({ data, anchor }) {
   const { eyebrow, title, description, projects } = data || {};
   const cards = (projects || []).filter((c) => has(c?.url) || has(c?.title));
+  const button = firstButton(data?.button);
   const id = headingId("our-work", data);
 
   return (
@@ -52,6 +55,11 @@ export default function OurWork({ data, anchor }) {
             </li>
           ))}
         </ul>
+      )}
+      {button && (
+        <div className="as-section-foot">
+          <CmsButton button={button} variant="primary" size="lg" />
+        </div>
       )}
     </Section>
   );

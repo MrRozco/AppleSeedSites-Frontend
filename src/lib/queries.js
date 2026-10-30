@@ -19,7 +19,7 @@ export const PAGE_CONTENT_QUERY = {
         },
         "sections.text-image": { populate: { bullets: icon, image: true, button: true } },
         "sections.text-gallery": { populate: { bullets: icon, images: true, buttons: true } },
-        "sections.our-work": { populate: { projects: { populate: { image: true } } } },
+        "sections.our-work": { populate: { projects: { populate: { image: true } }, button: true } },
         "sections.performance": { populate: { bullets: icon, stats: true, image: true, button: true } },
         "sections.testimonials": { populate: { testimonials: icon, button: true } },
         "sections.pricing": {
